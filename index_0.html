@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Dreamscape</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Style_0.css">
+    <script src="https://kit.fontawesome.com/3ee290dd68.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+   <link rel="icon" href="C:\Users\hp\Downloads\Travel (1).png">
+   <style>
+
+   </style></head>
+
+  <body>
+    <main>
+      <video  id="video" autoplay="true" muted loop="2" >
+        <source src="https://videos.pexels.com/video-files/4525107/4525107-uhd_2560_1440_24fps.mp4" type="video/mp4">
+      </video>
+        <div class="Vid-Text">
+          <div class="theme">
+          <ul>
+            <li><a href="C:\Users\hp\OneDrive\Desktop\HTML\Project2\index_0.html"><img class="logo" src="Logo.png" alt="Dreamscape"></a></li>
+            <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalId"><i class="fa-solid fa-heart"></i></a></li>
+            <li><a href="C:\Users\hp\OneDrive\Desktop\HTML\Project2\Log_in.html"> <i class="fa-solid fa-user"></i> Log in </a></li>
+            <li onclick=showSidebar()><a href="#"><i class="fa-solid fa-bars"></i></a></li>
+          </ul>
+
+          
+          <div>
+              <form class="Search_Bar">
+                <label for="From"></label>
+                <input type="text" placeholder="Where do you want to go?">
+                <label for="Date"></label>
+                <input type="date" id="Date"><input type="date" id="Date">
+              </form>
+            </div></div>
+        </div>
+
+        <script>
+          function showSidebar(){
+                      const sidebar = document.querySelector('.sidebar')
+                      sidebar.style.display = 'flex'
+                  }
+          function hideSidebar(){
+                      const sidebar = document.querySelector('.sidebar')
+                      sidebar.style.display = 'none'
+                  }
+          </script>
+
+        <ul class="sidebar">
+          <li onclick=hideSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+          <li><a href="#">Home </a></li>
+          <li><a href="#">About</a></li>          
+          <li><a href="#">Login</a></li>
+      </ul>
+    </main>
+    <div class="descrpt">
+      <p>
+    <img width="25" height="24" src="https://a.hwstatic.com/raw/upload/f_auto,q_auto/wds/illustrations/sm/calendar-confirmation.svg"><b> Free Cancellation</b> & <b>Flexible Booking</b> available
+  </p></div>
+
+<br>
+
+
+
+
+  <div class="places">
+
+    <div class="row1">
+
+      <div class="card">
+        <video width="200px" height="200px" src="https://media.istockphoto.com/id/465600686/video/people-in-the-city-center-of-madrid.mp4?s=mp4-640x640-is&k=20&c=HpjT2EYQ7qP9gtskw4-OfPjlZlwF6d9-y1y8zHV4Brg=" autoplay loop muted ></video>
+        <div class="card-body">
+          <h4 class="card-title">Spain</h4>
+          <p class="card-text"><small class="text-muted">
+            Last updated 1 hr ago</small></p>
+        </div>
+      </div>
+      
+      <div class="card">
+        <video width="200px" height="200px" src="https://videos.pexels.com/video-files/3381844/3381844-hd_1920_1080_30fps.mp4" autoplay loop muted ></video>
+        <div class="card-body">
+          <h4 class="card-title">Italy</h4>
+          <p class="card-text"><small class="text-muted">
+            Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <video width="200px" height="200px" src="https://videos.pexels.com/video-files/4440816/4440816-hd_1920_1080_25fps.mp4" autoplay loop muted ></video>
+        <div class="card-body">
+          <h4 class="card-title">Goa</h4>
+          <p class="card-text"><small class="text-muted">
+            Last updated 5 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row2">
+
+      <div class="card a">
+        <video width="200px" height="200px" src="https://videos.pexels.com/video-files/13750318/13750318-sd_640_360_30fps.mp4" autoplay loop muted ></video>
+        <div class="card-body">
+          <h4 class="card-title">Kahmir</h4>
+          <p class="card-text"><small class="text-muted">
+            Last updated 8 mins ago</small></p>
+        </div>
+      </div>
+
+      <div class="head">
+      <h2> Explore the <div class="blue"> World's Best places</div></h2>
+      <h5 style="text-wrap: wrap;">Discover exceptional accommodations in</h5>
+        <h5 style="text-wrap: wrap;"> over 180 countries, with 13 million reviews to guide you.</h5>
+      </h5>
+    </div>
+
+    <div class="card a">
+      <video width="200px" height="200px" src="https://videos.pexels.com/video-files/12726493/12726493-sd_640_360_30fps.mp4" autoplay loop muted ></video>
+      <div class="card-body">
+        <h4 class="card-title">Chandigarh</h4>
+        <p class="card-text"><small class="text-muted">
+          Last updated 1 mins ago</small></p>
+      </div>
+    </div>
+
+  </div>
+  
+    <div class="row3">
+      <div class="card">
+        <video width="200px" height="200px" src="https://videos.pexels.com/video-files/5617394/5617394-sd_640_360_25fps.mp4" autoplay loop muted ></video>
+        <div class="card-body">
+          <h4 class="card-title">Assam</h4>
+          <p class="card-text"><small class="text-muted">
+            Last updated 26 mins ago</small></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <video width="200px" height="200px" src="https://videos.pexels.com/video-files/8361011/8361011-sd_640_360_24fps.mp4" autoplay loop muted ></video>
+        <div class="card-body">
+          <h4 class="card-title">Mumbai</h4>
+          <p class="card-text"><small class="text-muted">
+            Last updated 10 mins ago</small></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <video width="200px" height="200px" src="https://videos.pexels.com/video-files/3243946/3243946-sd_640_360_30fps.mp4" autoplay loop muted ></video>
+        <div class="card-body">
+          <h4 class="card-title">Delhi</h4>
+          <p class="card-text"><small class="text-muted">
+            Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<br>
+
+<div class="where">
+  <input class="Input-where"  type="button" value="Travel Planning"> 
+  <input class="Input-where" type="button" value="Hotels"> 
+  <input class="Input-where" type="button" value="Car hire"> 
+  <input class="Input-where" type="button" value="Flights">
+</div>
+
+<br>
+
+
+<div class="black" >
+  <div class="item"><h1><div class="pink">Small group tours</div>in epic places.</h1><br>
+<h4 style="text-wrap: wrap;">Explore somewhere new, with a ready-made crew! </h4><h4 style="text-wrap: nowrap;">Adventurous tours, with local guides,</h4><h4> and sociable hostels.</h4>
+<h5><input id="btn" type="button" value="Show me"></h5>
+  </div>
+  <div class="item">
+  <div class="grid_item"><img class="box-img" src="https://dailywildlifephoto.nathab.com/photography-guide/wp-content/uploads/2016/05/alaska-1-940x627.jpg">
+  <img class="box-img1" src="https://cdn.clippingpath.in/wp-content/uploads/2018/11/adult-blur-camera-368893.jpg">
+  </div>
+  <div class="grid_item1"><img class="box-img3" src="https://www.indonesia.travel/content/dam/indtravelrevamp/en/news-events/news/travel-photography-in-indonesia-a-trip-through-/228e7bc1f9a6c7cd7c6e5654a3852cdab1aa3a79-a7921.2fdc.delay">
+  <img class="box-img2" src="https://www.travelweek.ca/news/g-adventures-teams-up-with-hostelworld-for-new-roamies-trips/attachment/gadventures_12-09_15/">
+</div>
+  </div>
+</div>
+
+
+<br>
+<br>
+<section>
+  <div class="bg">
+    <div class="card-head">
+      <h2>Discover the World's Most Unforgettable Adventure Destinations</h2>
+    </div>
+    <div class="cards">
+      
+      <div class="card mb-3" style="width: 100%; max-width: 700px;">
+        <div class="row g-0">
+          <div class="col-lg-4 col-md-5 col-12">
+            <img src="https://images.pexels.com/photos/2108845/pexels-photo-2108845.jpeg?auto=compress&cs=tinysrgb&w=600" class="img-fluid rounded-start" alt="Card title"/>
+          </div>
+          <div class="col-lg-8 col-md-7 col-12">
+            <div class="card-body">
+              <h5 class="card-title">Mountains Riders</h5>
+              <p class="card-text">
+                Get ready to challenge yourself and push your limits on the world's most epic mountain trails.
+                From the rugged peaks of the Himalayas to the snow-capped ranges of the Rockies, our expert guides will lead you on an unforgettable adventure.
+                Ride or hike through lush forests, alpine meadows, and rocky terrain, and experience the thrill of reaching breathtaking summit views.
+              </p>
+              <p class="card-text">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card mb-3" style="width: 100%; max-width: 700px;">
+        <div class="row g-0">
+          <div class="col-lg-4 col-md-5 col-sm-12">
+            <img src="https://images.pexels.com/photos/14934581/pexels-photo-14934581.jpeg?auto=compress&cs=tinysrgb&w=600" class="img-fluid rounded-start" alt="Card title"/>
+          </div>
+          <div class="col-lg-8 col-md-7 col-sm-12">
+            <div class="card-body">
+              <h5 class="card-title">A Caravan Night with Us</h5>
+              <p class="card-text">
+                Embark on a luxurious desert adventure under the starry night sky.
+                Our caravan glamping experience offers a unique opportunity to relax and unwind in the middle of nowhere, surrounded by nothing but the sounds of nature.
+                Enjoy gourmet meals, comfortable accommodations, and stargazing like never before.
+                Take a break from the hustle and bustle of city life and connect with the vastness of the desert landscape.
+              </p>
+              <p class="card-text">
+                <small class="text-muted">Last updated 8 mins ago</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card mb-3" style="width: 100%; max-width: 700px;">
+        <div class="row g-0">
+          <div class="col-lg-4 col-md-5 col-sm-12">
+            <img src="https://images.pexels.com/photos/6978442/pexels-photo-6978442.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" class="img-fluid rounded-start" alt="Card title"/>
+          </div>
+          <div class="col-lg-8 col-md-7 col-sm-12">
+            <div class="card-body">
+              <h5 class="card-title">Pedal to the Metal</h5>
+              <p class="card-text">
+                Get ready to push your limits and test your endurance on the world's most iconic cycling routes.
+                From the rolling hills of the Italian countryside to the rugged terrain of the Tour de France, our guided cycling tours offer a unique opportunity to experience the thrill of competitive racing.
+                Ride alongside professional cyclists and enjoy stunning scenery, challenging climbs, and thrilling descents.
+              </p>
+              <p class="card-text">
+                <small class="text-muted">Last updated 15 mins ago</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</section>
+<br>
+
+
+
+
+
+
+<br>
+<div class="community">
+  <p><h2>
+  <i class="fa-solid fa-envelope"></i> <b>Join Our Community!</b></h2>
+  <div > Sign up to our DreamscapeWorld for Extra Offers and benefits! </div>
+</p>
+  <div class="form-for-sumbit">
+  <form>
+    <label for="Email"></label>
+    <input class="Input-box" type="email" id="Email" placeholder="Your email address"><i class="fa-solid fa-arrow-right"></i>
+  </form></div>
+  <p>
+  <div style="font-size: smaller;">Just so you know, we’ll be able to see if you receive and open our emails to help us monitor the success of our marketing campaigns. You’ll find further details in our data protection notice.</div>
+</p></div>
+
+
+ <footer>
+      <div class="container">
+      <div class="column">
+          <div><b>Follow Us On</b></div>
+          <div class="social-icons">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+            <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+          </div>
+          
+      </div>
+      <div class="column">
+        <div><a href="#"><b>Accommodation</b></a></div>
+        <div><a href="#">Hostels</a></div>
+        <div><a href="#">Hotels</a></div>
+        <div><a href="#">Bed and Breakfast</a></div>
+      </div>
+
+      <div class="column">
+        <div><a href="#"><b>Quick Links </b></a></div>
+        <div><a href="#">Blogs</a></div>
+        <div><a href="#">Tours & Experiences</a></div>
+        <div><a href="#">Student Discount</a></div>
+        <div><a href="#">Solo Travel</a></div>
+      </div>
+
+      <div class="column">
+        <div><a href="#"><b>About Us</b></a></div>
+        <div><a href="C:\Users\hp\OneDrive\Desktop\HTML\Project2\Log_in.html">Dreamscape.co.ltd</a></div>
+        <div><a href="#">Careers</a></div>
+        <div><a href="#">Press</a></div>
+    </div>
+    <div class="column">
+      <div><a href="#"><b>Customer Support</b></a></div>
+        <div><a href="#">Talk to us</a></div>
+        <div><a href="#">Help</a></div>
+        <div><a href="#">Contact</a></div>
+    </div>
+    
+    <div class="column-footer">
+    <div><a href="C:\Users\hp\OneDrive\Desktop\HTML\Project2\Log_in.html"><i class="fa-regular fa-copyright"></i> 2024 DreamscapeWorld.com</a></div>
+        <div><a href="#"> Terms & Legal</a></div>
+        <div><a href="#"> Vouchers</a></div>
+        <div><a href="#"> Coupons</a></div>  
+        <div><a href="#"> Site Map</a></div>
+        <div><a href="#"> Cookie Preferences</a></div>
+      </div>
+
+      </div>
+    </footer>
+    <!-- Login Content -->
+    <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-title" id="modalTitleId">
+              <h5 style="font-weight: 700;">Welcome back</h5>
+              <p style="font-size: 14px;">Log in to your account</p>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="btn-align">
+            <button class="AppleButton" ><svg width="24" height="24" class="AppleIcon" viewBox="0 0 32 32"><g><path d="M24.7144072,17.0005942 C24.7592781,21.8432073 28.9535333,23.4547068 29,23.4752756 C28.9645356,23.5889274 28.329828,25.7718203 26.7902671,28.0265927 C25.4593845,29.9759577 24.0781038,31.9181819 21.9021786,31.958407 C19.7641146,31.9978876 19.0766076,30.6878004 16.6321951,30.6878004 C14.1885209,30.6878004 13.4246694,31.9181786 11.4007536,31.9978876 C9.30043382,32.0775382 7.70106235,29.8899075 6.35911955,27.9476835 C3.61702196,23.9747986 1.52149203,16.7212443 4.33525905,11.8249768 C5.73307847,9.39347049 8.23108744,7.85373917 10.9424528,7.81425563 C13.0049132,7.77482929 14.9516306,9.20479679 16.2124388,9.20479679 C17.4724475,9.20479679 19.8381236,7.48513556 22.3250715,7.73768955 C23.3661928,7.78111528 26.2886376,8.15914887 28.1652197,10.9118903 C28.0140135,11.0058285 24.6781449,12.9519924 24.7144072,17.0005988 M20.6961629,5.10927958 C21.8112367,3.75662176 22.5617457,1.87359699 22.3569988,0 C20.7497036,0.0647378959 18.8061225,1.07336227 17.6532454,2.4252759 C16.6200462,3.62245837 15.7151959,5.53862529 15.9593402,7.37513973 C17.7508594,7.51404551 19.5810341,6.4627976 20.6961629,5.10928178"></path></g></svg></button>
+            <button class="FacebookButton"><svg width="30" height="30" class="FacebookIcon" viewBox="0 0 50 50"><g><path d="M25,3C12.85,3,3,12.85,3,25c0,11.03,8.125,20.137,18.712,21.728V30.831h-5.443v-5.783h5.443v-3.848 c0-6.371,3.104-9.168,8.399-9.168c2.536,0,3.877,0.188,4.512,0.274v5.048h-3.612c-2.248,0-3.033,2.131-3.033,4.533v3.161h6.588 l-0.894,5.783h-5.694v15.944C38.716,45.318,47,36.137,47,25C47,12.85,37.15,3,25,3z"></path></g></svg></button>
+            <button class="GoogleButton"  ><svg class="_Icon" width="24" height="24" viewBox="0 0 40 40"><g><path d="M39.609375,16.082031 L38,16.082031 L38,16 L20,16 L20,24 L31.304688,24 C29.652344,28.65625 25.222656,32 20,32 C13.371094,32 8,26.628906 8,20 C8,13.371094 13.371094,8 20,8 C23.058594,8 25.84375,9.152344 27.960938,11.039063 L33.617188,5.382813 C30.046875,2.054688 25.269531,0 20,0 C8.953125,0 0,8.953125 0,20 C0,31.046875 8.953125,40 20,40 C31.046875,40 40,31.046875 40,20 C40,18.660156 39.863281,17.351563 39.609375,16.082031 Z" fill="#FFC107"></path><path d="M2.304688,10.691406 L8.878906,15.511719 C10.65625,11.109375 14.960938,8 20,8 C23.058594,8 25.84375,9.152344 27.960938,11.039063 L33.617188,5.382813 C30.046875,2.054688 25.269531,0 20,0 C12.316406,0 5.65625,4.335938 2.304688,10.691406 Z" fill="#FF3D00"></path><path d="M20,40 C25.164063,40 29.859375,38.023438 33.410156,34.808594 L27.21875,29.570313 C25.210938,31.089844 22.714844,32 20,32 C14.796875,32 10.382813,28.683594 8.71875,24.054688 L2.195313,29.078125 C5.503906,35.554688 12.226563,40 20,40 Z" fill="#4CAF50"></path><path d="M39.609375,16.082031 L38,16.082031 L38,16 L20,16 L20,24 L31.304688,24 C30.511719,26.238281 29.070313,28.164063 27.214844,29.570313 C27.21875,29.570313 27.21875,29.570313 27.21875,29.570313 L33.410156,34.808594 C32.972656,35.203125 40,30 40,20 C40,18.660156 39.863281,17.351563 39.609375,16.082031 Z" fill="#1976D2"></path></g></svg></button> 
+            </div>
+            <div class="or">
+            <hr style="width: 120px;"> or <hr style="width: 120px;"></div>
+            <p style="font-weight: 500; font-size: 14px;">Log in with your email address</p>
+            <label for=""></label>
+            <input type="email" class="mail" name="email" id="email" placeholder="Email" required>
+            <br>
+            <label for=""></label>
+            <input type="password" class="mail" name="" id="" placeholder="Password">
+            <br>
+            <a href="#" style="text-decoration: none; color: #8b174e; font-weight: 500;align-self: self-start ;">Forgot your password?</a>
+            <br>
+
+            <button type="submit" style="width: 100%;" class="btn btn-primary" onclick="showToast()">Log In</button>
+            <p style="font-size: 14px;">No account? <a href="C:\Users\hp\OneDrive\Desktop\HTML\Project2\Log_in.html" style="text-decoration:none"> Sign up</a></p>
+            <div id="toast" class="toast">You have been successfully logined!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function showToast() {
+        var toast = document.getElementById("toast");
+        toast.className = "toast show";
+        setTimeout(function() {
+            toast.className = toast.className.replace("show", "");
+        }, 3000); // Toast stays visible for 3 seconds
+      }
+      </script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

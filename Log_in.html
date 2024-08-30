@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamscape</title>
+</head>
+<style>
+    .close{
+        text-align: end;
+    }
+    .flex{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .img-container{
+        object-fit:contain;
+    }
+    .sideimg{
+        margin: 40px;
+        height: auto;
+        width: auto;
+        border-radius: 48px;
+    }
+    @media  (Max-width:880px) {
+        .sideimg{
+            display: none;
+        }
+        .text{
+            margin: 5%;
+            padding: 5%;
+            height: 100vh;
+        }
+    }
+    .text{
+        width: 380px;
+        margin: 40px;
+    }
+    .login-icon{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        justify-content: space-between;
+        text-align: center;
+    }
+    .logo{
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 16px;
+        gap: 0.5rem;
+        height: 52px;
+    }
+    .logo a{
+        color: black;
+        text-decoration: none;
+    }
+</style>
+<body style="background-color: aliceblue;">
+    <div class="close">
+        <a href="C:\Users\hp\OneDrive\Desktop\HTML\Project2\index_0.html">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+    </a></div>
+
+    <div class="flex">
+        <div class="text">
+    <h2>Welcome traveller!</h2>
+    <p> See who else is staying in your hostel/hotel and let others know you are staying too.
+        Get to know the names and ages of your fellow travellers and message to say hello before you go.
+    </p>
+    <p>
+        Sign up to agree to the use of your information. To learn more, visit our social terms of service and privacy policy pages.
+    </p>
+    <div class="login-icon">
+        <div class="logo"><a href="https://accounts.google.co.in/"><img src="https://a.hwstatic.com/image/upload/hw/auth0/google.svg">  <b>Continue with Google</b></a>  </div>
+        <div class="logo"><a href="#"><img src="https://a.hwstatic.com/image/upload/hw/auth0/facebook.svg">  <b>Continue with Facebook</b></a> </div>
+        <div class="logo"><a href="#"><img src="https://a.hwstatic.com/image/upload/hw/auth0/apple.svg">  <b>Continue with Apple</b></a> </div>
+</div>
+       <p>If you do not want to participate in social features continue as a guest and do not sign in above. 
+        You can always turn off social features in your settings.</p>
+    </div>
+    <div class="img-container">
+        <img class="sideimg" src="https://media.istockphoto.com/id/528474010/photo/making-memories.jpg?s=612x612&w=0&k=20&c=5aqG6Qk4kmwZykSufGKX5ffnnV1Op8JOSb_yrzuGDLU=">
+    </div>
+</div>
+    
+</body>
+</html>
