@@ -25,16 +25,25 @@ img.logo {
     max-height: 150px; 
 }
 
-.Search_Bar{
-    background-color: white;
+.TransSearch{
+    margin: 60px 300px;
     border-radius: 20px;
-    height: 50px;
-    color: black;
-    overflow: hidden;
-    width: fit-content;
+    width: 60%;
+    height: 10vh;
+    padding: 30px 30px;
+    background-image: linear-gradient(rgba(34, 40, 73, 0.9),rgba(45, 59, 137, 0.9)),url(back.png);
+    background-position: center;
+    background-size: cover;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 }
-.Search_Bar >input{
-    margin: 5px;
+.Search_Bar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#From{
+    width: fit-content;
 }
 
 /*-----------------------------------*\
