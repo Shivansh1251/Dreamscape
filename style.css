@@ -30,7 +30,7 @@ img.logo {
     border-radius: 20px;
     width: 60%;
     height: 10vh;
-    padding: 30px 30px;
+    padding: 20px 30px;  
     background-image: linear-gradient(rgba(34, 40, 73, 0.9),rgba(45, 59, 137, 0.9)),url(back.png);
     background-position: center;
     background-size: cover;
@@ -44,8 +44,28 @@ img.logo {
 }
 #From{
     width: fit-content;
+    height: 38px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
-
+#Date {
+    width: fit-content;
+    height: 38px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+} 
+#guest {
+    width: fit-content;
+    height: 38px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+#sceery{
+    width: fit-content;
+    height: 38px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 /*-----------------------------------*\
   # Vid-Text
 \*-----------------------------------*/
