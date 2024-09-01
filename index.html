@@ -28,14 +28,32 @@
           </ul>
 
           
-          <div>
-              <form class="Search_Bar">
-                <label for="From"></label>
-                <input type="text" placeholder="Where do you want to go?">
-                <label for="Date"></label>
-                <input type="date" id="Date"><input type="date" id="Date">
+          <div class="TransSearch">
+              <form class="Search_Bar" action="">
+                <!-- <label for="From"></label> -->
+                <!-- <input type="text" id="From" placeholder="Where do you want to go?" autocomplete="off"> -->
+                <select id="From">
+                  <optgroup label="Cities">
+                    <option value="New York">New York</option>
+                    <option value="Los Angeles">Los Angeles</option>
+                    <option value="Chicago">Chicago</option>
+                    <!-- ... -->
+                  </optgroup>
+                  <optgroup label="Countries">
+                    <option value="USA">United States of America</option>
+                    <option value="Canada">Canada</option>
+                    <!-- ... -->
+                  </optgroup>
+                </select>
+                <!-- <label for="Date"></label> -->
+                <input type="date" id="Date">
+                <input type="date" id="Date">
+                <!-- <label for="guest"></label> -->
+                <input type="number" name="" id="" placeholder="Guests">
+                <a href="#"><button type="submit"> Search<i class="fa-solid fa-magnifying-glass"></i></button></a>
               </form>
-            </div></div>
+            </div>
+          </div>
         </div>
 
         <script>
