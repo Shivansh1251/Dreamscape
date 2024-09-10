@@ -14,7 +14,7 @@
 
   <body>
     <main>
-      <video  id="video" autoplay="true" muted loop="" >
+      <video  id="video" autoplay="true" muted loop>
         <source src="https://videos.pexels.com/video-files/4525107/4525107-uhd_2560_1440_24fps.mp4" type="video/mp4">
       </video>
         <div class="Vid-Text">
@@ -49,7 +49,12 @@
                 <input type="date" id="Date">
                 <!-- <label for="guest"></label> -->
                 <input type="number" name="" id="guest" placeholder="Guests">
-                <a href="#"><button type="submit" id="sceery"> Search<i class="fa-solid fa-magnifying-glass"></i></button></a>
+                <a href="#" id="searchLink">
+                  <button type="submit" id="sceery"> 
+                      Search <i class="fas fa-magnifying-glass"></i>
+                  </button>
+              </a>
+              <div class="loader" id="loader"></div>
               </form>
             </div>
           </div>
@@ -80,9 +85,6 @@
   </p></div>
 
 <br>
-
-
-
 
   <div class="places">
 
@@ -191,7 +193,7 @@
 <div class="black" id="Roamie" >
   <div class="item"><h1><div class="pink">Small group tours</div>in epic places.</h1><br>
 <h4 style="text-wrap: wrap;">Explore somewhere new, with a ready-made crew! </h4><h4 style="text-wrap: nowrap;">Adventurous tours, with local guides,</h4><h4> and sociable hostels.</h4>
-<h5><input id="btn" type="button" value="Show me"></h5>
+<a href="Roamies.html"><button id="btn" >Show me</button></a>
   </div>
   <div class="item">
   <div class="grid_item"><img class="box-img" src="https://dailywildlifephoto.nathab.com/photography-guide/wp-content/uploads/2016/05/alaska-1-940x627.jpg">
@@ -400,7 +402,24 @@
         }, 3000); // Toast stays visible for 3 seconds
       }
       </script>
-    <!-- Bootstrap JavaScript Libraries -->
+  
+
+    <script>document.getElementById('searchLink').addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default action (if you want to keep on the same page)
+      
+      // Show the loader
+      document.getElementById('loader').style.display = 'inline-block';
+      
+      // Simulate a delay (like searching or loading something)
+      setTimeout(function() {
+          // Hide the loader after 2 seconds
+          document.getElementById('loader').style.display = 'none';
+          
+          // Perform the search action (redirect, form submission, etc.)
+          window.location.href = "Roamies.html"; // Example: redirect after loader
+      }, 2000);
+  });</script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
