@@ -381,18 +381,44 @@
             <input type="email" class="mail" name="email" id="email" placeholder="Email" required>
             <br>
             <label for=""></label>
-            <input type="password" class="mail" name="" id="" placeholder="Password">
+            <input type="password" class="mail" name="" id="password" placeholder="Password" required>
             <br>
             <a href="#" style="text-decoration: none; color: #8b174e; font-weight: 500;align-self: self-start ;">Forgot your password?</a>
             <br>
 
-            <button type="submit" style="width: 100%;" class="btn btn-primary" onclick="showToast()">Log In</button>
-            <p style="font-size: 14px;">No account? <a href="Log_in.html" style="text-decoration:none"> Sign up</a></p>
+            <button type="submit" style="width: 100%;" class="btn btn-primary"  onclick="login()">Log In</button>
+            <p style="font-size: 14px;">No account? <a style="text-decoration:none; color: #1d5aef; font-weight: 600; cursor: pointer; " data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"> Sign up</a></p>
             <div id="toast" class="toast">You have been successfully logined!</div>
           </div>
         </div>
       </div>
     </div>
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 style="font-weight: 700;">Register Now</h5>
+            𝕯𝖗𝖊𝖆𝖒𝖘𝖈𝖆𝖕𝖊
+              <!-- <p style="font-size: 14px;">Log in to your account</p> -->
+        </div>
+        <div class="modal-body">
+          <p style="font-weight: 500; font-size: 14px;">Register with your email address</p>
+          <label for=""></label>
+          <input type="email" class="mail" name="email" id="email" placeholder="Email" required>
+          <br>
+          <label for=""></label>
+          <input type="password" class="mail" name="" id="password" placeholder="Password" required>
+          <br>
+          <label for="confirm-password"></label>
+                <input type="password" class="mail" id="confirm-password" placeholder="Confirm your password" required>
+          <br>
+
+          <button type="submit" style="width: 100%;" class="btn btn-primary"  onclick="register()">Register</button>
+        </div>
+        </div>
+    </div>
+  </div>
     <script>
       function showToast() {
         var toast = document.getElementById("toast");
@@ -419,7 +445,7 @@
           window.location.href = "Roamies.html"; // Example: redirect after loader
       }, 2000);
   });</script>
-
+  <script src="script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
