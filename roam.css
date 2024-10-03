@@ -1,0 +1,231 @@
+
+    .downImg {
+        background-image: url(Imgaes/dive.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        filter: brightness(0.7);
+    }
+
+    .upImg {
+        position: relative;
+        z-index: 2;
+        margin-top: 100px;
+    }
+    .Logopart{
+        text-align: center;
+        color: white;
+        font-size: 18px;
+        font-family: 'Poppins', Arial, Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 1.5rem;
+    }
+    .scrollp{
+        clip-path: polygon(0.09rem 100%, 100% 0, 100% 100%, 0 100%);
+        background-color: #c4ff4c;
+        color: #c4ff4c;
+        padding: 0 200px 0 20px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        
+    }
+    .scroll {
+        clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
+        background-color: #5350F1;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        margin: 1rem 0;
+        padding: 80px;
+    }
+    .lesgo{
+        height: 42px;
+        width: 120px;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        border: none;
+        filter: drop-shadow(0px 2px 16px rgba(83, 80, 241, 0.3));
+        color: white;
+        background-color: #E0008E;
+    }
+    #lesggo{
+        margin: 0 0 1rem 0;
+    padding: 0.85em 1em;
+    }
+    .allelse{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        color: white;
+    }
+    .row1{
+        margin-top: 30px;
+        margin-left: 8%;
+        margin-right: 8%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    @media (max-width:1050px){
+        .row1{
+            flex-direction: column;
+        }
+    }
+    .col1{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .col2{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .col{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 4px;
+    }
+    .row2{
+        margin-top: 40px;
+        margin-left: 8%;
+        margin-right: 8%;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 10px;
+    }
+    @media (max-width:1050px){
+        .row2{
+            flex-direction: column;
+        }
+    }
+    @media (max-width:1050px){
+        .sqim{
+            width: 500px;
+        }
+    }
+    .sqim{
+        border-radius: 20px;
+        height: 250px;
+        width: 350px;
+    }
+    .gopart{
+        padding: 100px 12% 10px 12%;
+        padding-bottom: 50px;
+        color: white;
+        background-color: black;
+        clip-path: polygon(0 3.5rem, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
+        width: 100%;
+        position: relative;
+        top: 1000px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 3;
+    }
+    .endblue{
+        clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
+        background-color: #5350F1;
+        width: 100%;
+        padding-top: 50px;
+        position: relative;
+        top: 940px;
+        left: 0;
+        right: 0;
+        z-index: 3;
+    }
+    @media (max-width:1050px){
+        .gopart{
+            top: 1880px;
+        }
+    }
+    @media (max-width:425px){
+        .gopart{
+            padding: 100px 3% 10px 3%;
+        }
+    }
+    .locate ul{
+        list-style: none;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .locate ul li{
+        width: 200px;
+        border-radius: 1.5rem;
+        border: 1px solid white;
+    }
+    .locate ul li:hover{
+        color: #5350F1;
+        border: 1px solid #5350F1;
+        cursor: pointer;
+    }
+    .locate_where {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cont1, .cont2, .cont3, .cont4 {
+        position: relative;
+        margin-bottom: 20px;
+        overflow: hidden; /* Ensure the image doesn't overflow when scaled */
+        border-radius: 2rem;
+    }
+    
+    .cont1 img, .cont2 img, .cont3 img, .cont4 img {
+        width: 100%;
+        height: auto;
+        max-height: 600px;
+        border-radius: 2rem;
+        transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    }
+    
+    .cont1:hover img, .cont2:hover img, .cont3:hover img, .cont4:hover img {
+        transform: scale(1.1); /* Scale up the image slightly on hover */
+    }
+    
+    .spa2, .spa3, .spa4, .spa5 {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-weight: bold;
+        border-radius: 1.5rem;
+        z-index: 1;
+        transition: background-color 0.3s ease; /* Smooth transition for text background */
+    }
+    
+    .cont1:hover .spa2, .cont2:hover .spa3, .cont3:hover .spa4, .cont4:hover .spa5 {
+        background-color: rgba(0, 0, 0, 0.8); /* Darken the background of the text on hover */
+    }
+    
+    .cont-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1150px;
+    }
+    .cont-row > div {
+        flex-basis: 30%;
+    }
+    

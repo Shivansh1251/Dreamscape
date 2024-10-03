@@ -7,100 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+        <link rel="stylesheet" href="roam.css">
 </head>
-<style>
-    .downImg {
-        background-image: url(Imgaes/dive.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1;
-    }
-
-    .upImg {
-        position: relative;
-        z-index: 2;
-        margin-top: 100px;
-    }
-    .Logopart{
-        text-align: center;
-        color: white;
-        font-size: 18px;
-        font-family: 'Poppins', Arial, Helvetica, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        gap: 1.5rem;
-    }
-    .scrollp{
-        clip-path: polygon(0.09rem 100%, 100% 0, 100% 100%, 0 100%);
-        background-color: #c4ff4c;
-        color: #c4ff4c;
-        padding: 0 200px 0 20px;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        right: 0;
-        z-index: 1;
-        
-    }
-    .scroll {
-        clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
-        background-color: #5350F1;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        right: 0;
-        z-index: 2;
-    }
-    .lesgo{
-        height: 42px;
-        width: 120px;
-        border-radius: 0.5rem;
-        font-weight: bold;
-        border: none;
-        filter: drop-shadow(0px 2px 16px rgba(83, 80, 241, 0.3));
-        color: white;
-        background-color: #E0008E;
-    }
-    #lesggo{
-        margin: 0 0 1rem 0;
-    padding: 0.85em 1em;
-    }
-    #lesgo{
-        margin: 1rem 0;
-        padding: 80px;
-    }
-    .allelse{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        color: white;
-    }
-    .row1{
-        margin-top: 30px;
-        margin-left: 8%;
-        margin-right: 8%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-    }
-    .col1{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
-    .col2{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
-</style>
 
 <body>
     <div class="downImg"></div>
@@ -117,7 +25,7 @@
     Quasi beatae cupiditate distinctio tempore laborum rerum voluptates eius saepe aliquam dolor sint repellat ab suscipit nostrum, 
     sapiente eos itaque optio recusandae sequi ad! Error sint atque officiis nulla iure excepturi nostrum non nam dolor incidunt, repellat dolorem adipisci facere.
      Obcaecati omnis rem qui tenetur nobis mollitia placeat nesciunt explicabo consectetur, </div>
-    <div class="scroll" id="lesgo">
+    <div class="scroll">
         <div class="allelse">
             <div class="row1">
                 <div class="col1">
@@ -127,17 +35,75 @@
                 They’re small-group tours filled with adventurous people just like you! Travel to places you’ve only dreamt of exploring while staying in some of the world’s best hostels.
                 Local guides will make sure you’re as immersed in local life as can be, plus you’ll have the flexibility of doing your own thing too.
                 Expect plenty of memorable experiences and we guarantee you won’t return home until you’re full of stories!
-            </p>
-            </div>
+                </p>
+                </div>
                 <div class="col2">
                 <h1 style="font-weight:700; font-size:60px;">Roamies travel – Is it for you</h1>
                 <p>On these tours, we travel to the most talked-about places and the lesser-known local spots, with the flexibility to do your own thing. 
                     It’s the legit backpacking experience, staying in sociable hostels and getting to the heart of everywhere we travel. Maybe you’re a regular roamer or it could be your step into solo travel.
-                    <br>
+                <br>
                     G Adventures know a thing or two about locally guided small group travel, and we like to think hostelling is in our DNA. So, if you’re curious, friendly and feel like adventure is calling, pick your dream destination and join us.</p>
+                </div>
+            </div>
+            <div class="row2">
+                <div class="col">
+                    <img src="https://images.pexels.com/photos/757435/pexels-photo-757435.jpeg?auto=compress&cs=tinysrgb&w=600" class="sqim">
+                    <h3>Local Guides</h3>
+                    <p>It’s like travelling with a knowledgeable friend, who happens to be a local expert, and takes care of of the planning, the transport, and the hostels – what a pal!</p>
+                </div>
+                <div class="col">
+                    <img src="https://images.pexels.com/photos/696214/pexels-photo-696214.jpeg?auto=compress&cs=tinysrgb&w=600" class="sqim">
+                    <h3>Sociable hostels</h3>
+                    <p>If staying in hostels is new for you, let us show you how welcoming, sociable, and travel game-changing they can be.</p>
+                </div>
+                <div class="col">
+                    <img src="https://images.pexels.com/photos/5137967/pexels-photo-5137967.jpeg?auto=compress&cs=tinysrgb&w=600" class="sqim">
+                    <h3>Budget friendly</h3>
+                    <p>We wish travel was free too! Why can’t everything be free? We’ve kept costs as low as they can go, while paying people fairly. This is a life investment.</p>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="gopart" id="lesgo">
+        <center>
+        <h1 style="font-weight:700; font-size:60px;">Where's your adventure?</h1>
+        <p >Maybe you know where you want to go, or maybe it’s put a pin in the map time. Have a scroll through these handcrafted trips and remember there is no wrong option; adventure is guaranteed.</p>
+        <div class="locate">
+            <ul>
+                <li><i class="fa-solid fa-earth-asia" style="font-size: 2rem;float: left; margin: 10px;"></i> Asia            <br>12 Tours Available</li>
+                <li><i class="fa-solid fa-earth-europe" style="font-size: 2rem;float: left; margin: 10px;"></i> Europe          <br>13 Tours Available</li>
+                <li><i class="fa-solid fa-earth-americas" style="font-size: 2rem;float: left; margin: 10px;"></i> South America   <br>4 Tours Available</li>
+                <li><i class="fa-solid fa-earth-americas" style="font-size: 2rem;float: left; margin: 10px;"></i> Central America <br>8 Tours Available</li>
+            </ul>
         </div>
+    </center>
+    <div class="locate_where">
+        <div class="cont1">
+            <span class="spa2" style="font-family:lucida calligraphy; font-size:22px;">Halloween Time</span>
+            <img src="https://cdn1.parksmedia.wdprapps.disney.com/resize/mwImage/1/3840/2160/75/vision-dam/digital/parks-platform/parks-global-assets/disneyland/events/halloween/disneyland-halloween-16x9-16x9.jpg?2022-06-03T16:17:48+00:00">
+        </div>
+    
+        <div class="cont-row">
+            <div class="cont2">
+                <span class="spa3" style="font-family:lucida calligraphy; font-size:18px;">Beautiful Sunset</span>
+                <img src="https://images.pexels.com/photos/441379/pexels-photo-441379.jpeg?auto=compress&cs=tinysrgb&w=600">
+            </div>
+            <div class="cont3">
+                <span class="spa4" style="font-family:lucida calligraphy; font-size:18px;">Nature's Bliss</span>
+                <img src="https://images.pexels.com/photos/1435537/pexels-photo-1435537.jpeg?auto=compress&cs=tinysrgb&w=600">
+            </div>
+            <div class="cont4">
+                <span class="spa5" style="font-family:lucida calligraphy; font-size:18px;">Urban Life</span>
+                <img src="https://cdn1.parksmedia.wdprapps.disney.com/resize/mwImage/1/706/706/75/media/testopt/homepage-uplift/u6/dlr-story-destination-4.jpg?r=12408u6">
+            </div>
+        </div>
+    </div>
+    
+        
+    </div>
+    <div class="endblue"></div>
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe iste corrupti est laboriosam ad minima impedit vitae inventore quam provident ratione repellendus fugiat repellat mollitia odit veniam cupiditate perspiciatis.
+
     </div>
 
 
@@ -149,7 +115,7 @@
 
 
 
-    
+        <script src="https://kit.fontawesome.com/3ee290dd68.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
