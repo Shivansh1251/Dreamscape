@@ -1,5 +1,5 @@
-    let lusername = localStorage.getItem('usernames');
-    let lpassword = localStorage.getItem('password');
+    let lusername = localStorage.getItem('user');
+    let lpassword = localStorage.getItem('passw');
     
     lusername = lusername ? lusername.split(",") : []
     lpassword = lpassword ? lpassword.split(",") : []
@@ -7,7 +7,7 @@
     
     function login() {
         let counter = 0;
-        let username = document.querySelector('#email').value;
+        let username = document.querySelector('#Memail').value;
         let pass = document.querySelector('#password').value;
         if (!username || !pass) {
             alert("Please Enter username and password");
@@ -22,6 +22,9 @@
         if (counter == 1) {
             alert("Login successful!");
             document.querySelector('#modalId').style.display='none';
+
+            document.querySelector('#modal-overlay').style.display = 'none';  // If you have an overlay
+        document.querySelector('body').focus();
         } else {
             alert("Login Failed! Incorrect Password");
         }
@@ -38,8 +41,8 @@
         if (pass === cpass) {
             lusername.push(username);
             lpassword.push(pass);
-            localStorage.setItem('usernames', lusername);
-            localStorage.setItem('password', lpassword);
+            localStorage.setItem('user', lusername);
+            localStorage.setItem('passw', lpassword);
             alert("User Saved !!!!!!!");
         } else {
             alert("Passwords do not match. Retry.");
