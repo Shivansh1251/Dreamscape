@@ -20,4 +20,3 @@ SouthAmericaBtn.addEventListener('click', function () {
     SouthAmericaImages.classList.toggle('visible');
 });
 
-const Accomodation=document.getElementById('')
