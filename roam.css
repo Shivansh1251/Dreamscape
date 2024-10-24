@@ -140,15 +140,15 @@
         z-index: 3;
     }
     .endblue{
-        clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
+        clip-path: polygon(1 3.5rem, 100% 0, 100% 100%, 0 100%);
         background-color: #5350F1;
         width: 100%;
         padding-top: 50px;
         position: relative;
-        top: 940px;
+        top: 945px;
         left: 0;
         right: 0;
-        z-index: 3;
+        z-index: 2;
     }
     @media (max-width:1050px){
         .gopart{
@@ -176,6 +176,7 @@
         color: #5350F1;
         border: 1px solid #5350F1;
         cursor: pointer;
+        transform: scale(1.05); 
     }
     .locate_where {
         display: flex;
@@ -229,3 +230,67 @@
         flex-basis: 30%;
     }
     
+    .hidden-content {
+        display: none; /* Initially hide the content */
+    }
+    .visible {
+        display: block; /* Show content when toggled */
+    }
+
+/*-----------------------------------*\
+  # White Part
+\*-----------------------------------*/
+.endwhite{
+    clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
+    background-color: white;
+    z-index: 1;
+    position: relative;
+    top: 848px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+.pop{
+    margin: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 80%;
+}
+.pop li{
+    list-style: none;
+    color: black;
+    border: 1px solid black;
+    padding: 15px 30px;
+    border-radius: 1.5rem;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    text-align: center;
+}
+.pop li:hover {
+    background-color: #5350f1; 
+    color: white; 
+    border-color: #5350f1;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); 
+    transform: scale(1.05); 
+}
+.pop a{
+    text-decoration: none;
+}
+
+.sec{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

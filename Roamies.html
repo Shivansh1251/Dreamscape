@@ -70,26 +70,26 @@
         <p >Maybe you know where you want to go, or maybe it’s put a pin in the map time. Have a scroll through these handcrafted trips and remember there is no wrong option; adventure is guaranteed.</p>
         <div class="locate">
             <ul>
-                <li><i class="fa-solid fa-earth-asia" style="font-size: 2rem;float: left; margin: 10px;"></i> Asia            <br>12 Tours Available</li>
-                <li><i class="fa-solid fa-earth-europe" style="font-size: 2rem;float: left; margin: 10px;"></i> Europe          <br>13 Tours Available</li>
-                <li><i class="fa-solid fa-earth-americas" style="font-size: 2rem;float: left; margin: 10px;"></i> South America   <br>4 Tours Available</li>
-                <li><i class="fa-solid fa-earth-americas" style="font-size: 2rem;float: left; margin: 10px;"></i> Central America <br>8 Tours Available</li>
+                <li id="AsiaBtn"><i class="fa-solid fa-earth-asia" style="font-size: 2rem;float: left; margin: 10px;"></i> Asia            <br>12 Tours Available</li>
+                <li id="europeBtn"><i class="fa-solid fa-earth-europe" style="font-size: 2rem;float: left; margin: 10px;"></i> Europe          <br>13 Tours Available</li>
+                <li id="SouthAmericaBtn"><i class="fa-solid fa-earth-americas" style="font-size: 2rem;float: left; margin: 10px;"></i> South America   <br>4 Tours Available</li>
+                <li id="CentralBtn"><i class="fa-solid fa-earth-americas" style="font-size: 2rem;float: left; margin: 10px;"></i> Central America <br>8 Tours Available</li>
             </ul>
         </div>
     </center>
-    <div class="locate_where">
+    <div class="locate_where hidden-content"  id="AsiaImages">
         <div class="cont1">
-            <span class="spa2" style="font-family:lucida calligraphy; font-size:22px;">Halloween Time</span>
+            <span class="spa2" style="font-family:lucida calligraphy; font-size:22px;">DisneyLand</span>
             <img src="https://cdn1.parksmedia.wdprapps.disney.com/resize/mwImage/1/3840/2160/75/vision-dam/digital/parks-platform/parks-global-assets/disneyland/events/halloween/disneyland-halloween-16x9-16x9.jpg?2022-06-03T16:17:48+00:00">
         </div>
     
         <div class="cont-row">
-            <div class="cont2">
-                <span class="spa3" style="font-family:lucida calligraphy; font-size:18px;">Beautiful Sunset</span>
+            <div class="cont2" >
+                <span class="spa3" style="font-family:lucida calligraphy; font-size:18px;">Beautiful Park</span>
                 <img src="https://images.pexels.com/photos/441379/pexels-photo-441379.jpeg?auto=compress&cs=tinysrgb&w=600">
             </div>
             <div class="cont3">
-                <span class="spa4" style="font-family:lucida calligraphy; font-size:18px;">Nature's Bliss</span>
+                <span class="spa4" style="font-family:lucida calligraphy; font-size:18px;">Sports</span>
                 <img src="https://images.pexels.com/photos/1435537/pexels-photo-1435537.jpeg?auto=compress&cs=tinysrgb&w=600">
             </div>
             <div class="cont4">
@@ -98,14 +98,83 @@
             </div>
         </div>
     </div>
+
+    <div class="locate_where hidden-content"  id="europeImages">
+        <div class="cont1">
+            <span class="spa2" style="font-family:lucida calligraphy; font-size:22px;">Europe</span>
+            <img src="https://static.toiimg.com/photo/msid-87137761,width-96,height-65.cms">
+        </div>
     
-        
+        <div class="cont-row">
+            <div class="cont2" >
+                <span class="spa3" style="font-family:lucida calligraphy; font-size:18px;">Lakes</span>
+                <img src="https://images.travelandleisureasia.com/wp-content/uploads/sites/2/2023/11/20122038/ljublianica.jpeg">
+            </div>
+            <div class="cont3">
+                <span class="spa4" style="font-family:lucida calligraphy; font-size:18px;">Nature's Bliss</span>
+                <img src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/itiU.jJleW1I/v4/-1x-1.webp">
+            </div>
+            <div class="cont4">
+                <span class="spa5" style="font-family:lucida calligraphy; font-size:18px;">Artifacts</span>
+                <img src="https://i.gocollette.com/img/destination-page/europe/europe-continent/europe-ms2.jpg?h=720&w=1280&la=en-CA">
+            </div>
+        </div>
+    </div>
+
+    <div class="locate_where hidden-content"  id="SouthAmericaImages">
+        <div class="cont1">
+            <span class="spa2" style="font-family:lucida calligraphy; font-size:22px;">America</span>
+            <img src="https://www.nicolelabarge.com/wp-content/uploads/2020/07/south-america-landmarks-6.jpg">
+        </div>
+    
+        <div class="cont-row">
+            <div class="cont2" >
+                <span class="spa3" style="font-family:lucida calligraphy; font-size:18px;">LandMarks</span>
+                <img src="https://images.pexels.com/photos/20850019/pexels-photo-20850019/free-photo-of-destination-sign-in-a-forest.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+            </div>
+            <div class="cont3">
+                <span class="spa4" style="font-family:lucida calligraphy; font-size:18px;">Streets</span>
+                <img src="https://www.veryhungrynomads.com/wp-content/uploads/2023/08/The-best-places-to-visit-in-South-America.png">
+            </div>
+            <div class="cont4">
+                <span class="spa5" style="font-family:lucida calligraphy; font-size:18px;">Market</span>
+                <img src="https://images.pexels.com/photos/15286713/pexels-photo-15286713/free-photo-of-motorcycles-parked-on-a-street.jpeg?auto=compress&cs=tinysrgb&w=600">
+            </div>
+        </div>
+    </div>
+    
+        <script src="roamies.js"></script>
     </div>
     <div class="endblue"></div>
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe iste corrupti est laboriosam ad minima impedit vitae inventore quam provident ratione repellendus fugiat repellat mollitia odit veniam cupiditate perspiciatis.
 
     </div>
 
+    <div class="endwhite">
+        <h1 style="font-weight:700; font-size:60px;">Included in all tours</h1>
+        <ul class="pop" >
+            <a href="#"><li>Accomodation</li></a>
+            <a href="#"><li>Unique Experiences</li></a>
+            <a href="#"><li>Best of both Worlds</li></a>
+            <a href="#"><li>People</li></a>
+            <a href="#"><li>Value</li></a>
+        </ul>
+        <div class="sec" id="Accommodation">
+            <div class="text">
+                <h4>Best selection of hostels around the world</h4>
+                <p>You can relax knowing you're staying at incredible places</p>
+                <h4>Hostel activities</h4>
+                <p>Hang out with other travellers at party nights, games evenings, film viewings etc</p>
+                <!-- <i class="fa-solid fa-utensils"></i> --><h4>Hostel facilities</h4>
+                <p>Communal kitchens for affordable meal times, washing machines and budget laundry services.are often available</p>
+                <h4>Room options</h4>
+                <p>Freedom to choose the type of room that works best for you</p>
+            </div>
+            <div class="sideimg">
+            <img src="https://cdn.pixabay.com/photo/2023/01/29/00/16/drums-7751985_1280.jpg" height="320px" style="border-radius: 20px;">
+            </div>
+        </div>
+    </div>
 
     
     <!-- <video autoplay muted loop>

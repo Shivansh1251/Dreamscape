@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+#logo{
+    height: 100px;
+    width: 100px;
+    position: relative;
+    right: 670px;
+    bottom: 80px;
+}
+#logo:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+#nav{
+    position: relative;
+    bottom: 56px;
+}
+body {
+    color: #333;
+    line-height: 1.6;
+}
+a {
+    text-decoration: none;
+}
+
+
+
+header video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 125%;
+    object-fit: cover; /* Ensures the video covers the entire header area */
+    z-index: -1; /* Puts the video behind the content */
+}
+
+.animate-header {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.TransSearch {
+    position: relative;
+    z-index: 2;
+    /* Your existing styles */
+}
+
+/* Additional styling for mobile responsiveness */
+@media screen and (max-width: 768px) {
+    header video {
+        object-fit: contain; /* Adjust video behavior on smaller screens */
+    }
+}
+
+/* Header Section */
+.header {
+    /* background :linear-gradient(0deg,#912328,#231e01,#2d0607) ; Correct background color */
+    position: relative;
+    /* Full viewport height */
+    width: 100%;
+    overflow: hidden;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    /* position: sticky; */
+    top: 0;
+    z-index: 1000;
+}
+
+
+.header h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    animation: slide-down 2s ease-in-out;
+    background:-webkit-linear-gradient(90deg,#AD1519,#AD1519,#FABD00,#AD1519,#AD1519);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header nav ul {
+    list-style: none;
+}
+
+.header nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.header nav ul li a {
+    color: white;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.header nav ul li a:hover {
+    color: #de8d88;
+}
+
+/* Search Bar Section */
+.TransSearch {
+    margin: 1px auto;
+    border-radius: 20px;
+    width: 70%;
+    padding: 15px;
+    background-image: linear-gradient(rgba(34, 40, 73, 0.9), rgba(45, 59, 137, 0.9)), url('Images/back.png');
+    background-position: center;
+    background-size: cover;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.Search_Bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+#From, #fromDate, #toDate, #Guests, #search {
+    height: 38px;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+#search {
+    background-color: #217caa; /* Button background color */
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+#search:hover {
+    background-color: #f9d5d3; /* Button hover effect */
+}
+
+/* Intro Section */
+.intro {
+    text-align: center;
+    padding: 50px;
+    background-image: url('https://travel.usnews.com/dims4/USNEWS/d14f91c/2147483647/resize/445x280%5E%3E/crop/445x280/quality/85/?url=https%3A%2F%2Ftravel.usnews.com%2Fimages%2FParc_Guell_Gatsi_Getty_BLYJIGo.jpg');
+    background-size: cover;
+    background-position: center;
+    color: black;
+    animation: fade-in 2s ease-in-out;
+}
+
+.intro h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    animation: zoom-in 1.5s ease-in;
+}
+
+.intro p {
+    font-size: 1.2em;
+    animation: zoom-in 1.5s ease-in;
+}
+
+/* Animations */
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes zoom-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.locations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.location {
+    background-color: rgb(255, 255, 255);
+    margin-top: 45px;
+    width: 350px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(0, 0, 0,0.7);
+    transition: transform 0.3s ease;
+    text-align: center;
+    border: 2px solid black;
+    z-index: 1;
+}
+
+.location img {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+}
+
+.location h3 {
+    padding: 15px;
+    font-size: 1.5em;
+}
+
+.location p {
+    padding: 15px;
+    font-size: 1em;
+}
+
+.location:hover {
+    transform: translateY(-10px);
+    background-color: #f1f1f1;
+}
+
+.activites {
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.activity {
+    background-color: white;
+    margin-top: 45px;
+    width: 250px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    /* transition: transform 0.3s ease; */
+    text-align: center;
+}
+
+#bck{
+    height: 150vh;
+    width: 100%;
+    position: absolute;
+    background-repeat: no-repeat;  
+    background-size: cover;     
+    background-position: center; 
+    opacity: 0.3;
+    z-index: -1;
+    filter: blur(2px);
+}
+::-webkit-scrollbar{
+    width: 11px;
+
+}
+
+::-webkit-scrollbar-track{
+    background-color: #fff1dd;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(0deg,#AD1519,#FABD00,#AD1519);
+    border-radius: 1px;
+}
