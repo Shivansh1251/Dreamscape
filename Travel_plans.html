@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #attractions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .attraction {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            width: 250px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .attraction img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .attraction h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .attraction p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Travel Attractions</h1>
+    <div id="attractions"></div>
+
+    <script>
+        const data = null;
+
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener('readystatechange', function () {
+            if (this.readyState === this.DONE) {
+                try {
+                    const response = JSON.parse(this.responseText);
+                    console.log(response); // Log the response to inspect the data
+
+                    if (response.data && response.data.products && response.data.products.length > 0) {
+                        displayAttractions(response.data.products); // Pass the products array to display
+                    } else {
+                        console.error('No attractions found in the response');
+                        document.getElementById('attractions').innerHTML = '<p>No attractions available at the moment.</p>';
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    document.getElementById('attractions').innerHTML = '<p>Failed to load attractions.</p>';
+                }
+            }
+        });
+
+        xhr.open('GET', 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchAttractions?id=eyJ1ZmkiOi0yMDkyMTc0fQ%3D%3D&sortBy=trending&page=1&currency_code=INR&languagecode=en-us');
+        xhr.setRequestHeader('x-rapidapi-key', 'c593c61ed8msha5a2ac10bd22761p102524jsnf40e70d095d7');
+        xhr.setRequestHeader('x-rapidapi-host', 'booking-com15.p.rapidapi.com');
+
+        xhr.send(data);
+
+        // Function to display the attractions in HTML
+        function displayAttractions(attractionsData) {
+            const attractionsDiv = document.getElementById('attractions');
+            attractionsData.forEach(attraction => {
+                // Create a card for each attraction
+                const attractionCard = document.createElement('div');
+                attractionCard.className = 'attraction';
+                
+                // Attraction name
+                const attractionName = document.createElement('h3');
+                attractionName.textContent = attraction.name ? attraction.name : 'Unknown Attraction';
+                
+                // Attraction image
+                const attractionImg = document.createElement('img');
+                const imgUrl = attraction.image_url ? attraction.image_url : 'https://via.placeholder.com/250'; // Use 'image_url' for real image
+                attractionImg.src = imgUrl;
+                attractionImg.alt = attraction.name;
+                
+                // Attraction description
+                const attractionDescription = document.createElement('p');
+                attractionDescription.textContent = attraction.description ? attraction.description : 'No description available';
+                
+                // Append to the card
+                attractionCard.appendChild(attractionImg);
+                attractionCard.appendChild(attractionName);
+                attractionCard.appendChild(attractionDescription);
+                
+                // Append the card to the attractionsDiv
+                attractionsDiv.appendChild(attractionCard);
+            });
+        }
+    </script>
+
+</body>
+</html>

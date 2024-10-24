@@ -24,7 +24,7 @@
             document.querySelector('#modalId').style.display='none';
 
             document.querySelector('#modal-overlay').style.display = 'none';  // If you have an overlay
-        document.querySelector('body').focus();
+            document.body.style.overflow = 'auto'; 
         } else {
             alert("Login Failed! Incorrect Password");
         }
@@ -44,6 +44,9 @@
             localStorage.setItem('user', lusername);
             localStorage.setItem('passw', lpassword);
             alert("User Saved !!!!!!!");
+            document.querySelector('#exampleModalToggle2').style.display = 'none';
+            document.querySelector('#modal-overlay').style.display = 'none'; // If you have an overlay
+            document.body.style.overflow = 'auto'; 
         } else {
             alert("Passwords do not match. Retry.");
             document.querySelector('#username').value = "";
