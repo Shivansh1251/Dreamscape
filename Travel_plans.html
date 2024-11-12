@@ -3,109 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Planning</title>
+    <title>Airport and Flight Info</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
         }
         h1 {
             text-align: center;
+            color: #333;
         }
-        #attractions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-        .attraction {
-            border: 1px solid #ccc;
+        #airport-info {
+            max-width: 400px;
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
             border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #airport-info h3 {
+            color: #007bff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        #airport-info p {
+            color: #555;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        #flights-info {
+            margin-top: 20px;
+            background-color: #e9f5ff;
             padding: 10px;
-            width: 250px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .attraction img {
-            width: 100%;
             border-radius: 8px;
+            text-align: left;
         }
-        .attraction h3 {
-            margin: 10px 0;
+        .flight {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .flight:last-child {
+            border-bottom: none;
+        }
+        .flight h4 {
             font-size: 18px;
+            margin: 5px 0;
+            color: #333;
         }
-        .attraction p {
+        .flight p {
             font-size: 14px;
+            margin: 3px 0;
+            color: #555;
         }
     </style>
 </head>
 <body>
+    <div>
+        <h1>Airport and Flight Info</h1>
+        <div id="airport-info">Loading airport information...</div>
+        <div id="flights-info">
+            <h3>Flight Information</h3>
+            <div id="flights">Loading flights...</div>
+        </div>
+    </div>
 
-    <h1>Travel Attractions</h1>
-    <div id="attractions"></div>
+    <!-- Include Axios Library -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-        const data = null;
-
-        const xhr = new XMLHttpRequest();
-        xhr.withCredentials = true;
-
-        xhr.addEventListener('readystatechange', function () {
-            if (this.readyState === this.DONE) {
-                try {
-                    const response = JSON.parse(this.responseText);
-                    console.log(response); // Log the response to inspect the data
-
-                    if (response.data && response.data.products && response.data.products.length > 0) {
-                        displayAttractions(response.data.products); // Pass the products array to display
-                    } else {
-                        console.error('No attractions found in the response');
-                        document.getElementById('attractions').innerHTML = '<p>No attractions available at the moment.</p>';
+        async function fetchAirportInfo() {
+            try {
+                const options = {
+                    method: 'GET',
+                    url: 'https://airport-info.p.rapidapi.com/airport',
+                    params: { iata: 'JFK' }, // Use a known IATA code
+                    headers: {
+                        'x-rapidapi-key': 'c593c61ed8msha5a2ac10bd22761p102524jsnf40e70d095d7',
+                        'x-rapidapi-host': 'airport-info.p.rapidapi.com'
                     }
-                } catch (error) {
-                    console.error('Error parsing JSON:', error);
-                    document.getElementById('attractions').innerHTML = '<p>Failed to load attractions.</p>';
-                }
+                };
+
+                const response = await axios.request(options);
+                console.log("Airport Data:", response.data);
+                displayAirportInfo(response.data);
+                fetchFlightInfo(); // Call flight info after airport info is loaded
+            } catch (error) {
+                console.error("Error fetching airport info:", error);
+                document.getElementById('airport-info').textContent = "Failed to load airport information.";
             }
-        });
+        }
 
-        xhr.open('GET', 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchAttractions?id=eyJ1ZmkiOi0yMDkyMTc0fQ%3D%3D&sortBy=trending&page=1&currency_code=INR&languagecode=en-us');
-        xhr.setRequestHeader('x-rapidapi-key', 'c593c61ed8msha5a2ac10bd22761p102524jsnf40e70d095d7');
-        xhr.setRequestHeader('x-rapidapi-host', 'booking-com15.p.rapidapi.com');
+        function displayAirportInfo(airportData) {
+            const airportDiv = document.getElementById('airport-info');
+            airportDiv.innerHTML = ''; // Clear previous content if any
 
-        xhr.send(data);
+            const airportName = document.createElement('h3');
+            airportName.textContent = airportData.name || 'Unknown Airport';
 
-        // Function to display the attractions in HTML
-        function displayAttractions(attractionsData) {
-            const attractionsDiv = document.getElementById('attractions');
-            attractionsData.forEach(attraction => {
-                // Create a card for each attraction
-                const attractionCard = document.createElement('div');
-                attractionCard.className = 'attraction';
-                
-                // Attraction name
-                const attractionName = document.createElement('h3');
-                attractionName.textContent = attraction.name ? attraction.name : 'Unknown Attraction';
-                
-                // Attraction image
-                const attractionImg = document.createElement('img');
-                const imgUrl = attraction.image_url ? attraction.image_url : 'https://via.placeholder.com/250'; // Use 'image_url' for real image
-                attractionImg.src = imgUrl;
-                attractionImg.alt = attraction.name;
-                
-                // Attraction description
-                const attractionDescription = document.createElement('p');
-                attractionDescription.textContent = attraction.description ? attraction.description : 'No description available';
-                
-                // Append to the card
-                attractionCard.appendChild(attractionImg);
-                attractionCard.appendChild(attractionName);
-                attractionCard.appendChild(attractionDescription);
-                
-                // Append the card to the attractionsDiv
-                attractionsDiv.appendChild(attractionCard);
+            const airportLocation = document.createElement('p');
+            airportLocation.textContent = `Location: ${airportData.city}, ${airportData.country}`;
+
+            const airportIata = document.createElement('p');
+            airportIata.textContent = `IATA Code: ${airportData.iata}`;
+
+            airportDiv.appendChild(airportName);
+            airportDiv.appendChild(airportLocation);
+            airportDiv.appendChild(airportIata);
+        }
+
+        // Fetch sample flight data (this would be replaced with real data from a flight API)
+        function fetchFlightInfo() {
+            // Simulated flight data - replace this with a call to a flight data API
+            const flightsData = [
+                { flightNumber: "AA101", departure: "10:00 AM", arrival: "2:00 PM", status: "On Time" },
+                { flightNumber: "DL203", departure: "11:30 AM", arrival: "3:30 PM", status: "Delayed" },
+                { flightNumber: "UA305", departure: "12:45 PM", arrival: "4:45 PM", status: "Cancelled" }
+            ];
+            displayFlights(flightsData);
+        }
+
+        function displayFlights(flightsData) {
+            const flightsDiv = document.getElementById('flights');
+            flightsDiv.innerHTML = ''; // Clear previous content
+
+            flightsData.forEach(flight => {
+                const flightDiv = document.createElement('div');
+                flightDiv.className = 'flight';
+
+                const flightTitle = document.createElement('h4');
+                flightTitle.textContent = `Flight ${flight.flightNumber}`;
+
+                const flightDeparture = document.createElement('p');
+                flightDeparture.textContent = `Departure: ${flight.departure}`;
+
+                const flightArrival = document.createElement('p');
+                flightArrival.textContent = `Arrival: ${flight.arrival}`;
+
+                const flightStatus = document.createElement('p');
+                flightStatus.textContent = `Status: ${flight.status}`;
+
+                flightDiv.appendChild(flightTitle);
+                flightDiv.appendChild(flightDeparture);
+                flightDiv.appendChild(flightArrival);
+                flightDiv.appendChild(flightStatus);
+
+                flightsDiv.appendChild(flightDiv);
             });
         }
-    </script>
 
+        // Call the function to fetch and display airport info
+        fetchAirportInfo();
+    </script>
 </body>
 </html>

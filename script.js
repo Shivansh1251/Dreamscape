@@ -21,10 +21,7 @@
         }
         if (counter == 1) {
             alert("Login successful!");
-            document.querySelector('#modalId').style.display='none';
-
-            document.querySelector('#modal-overlay').style.display = 'none';  // If you have an overlay
-            document.body.style.overflow = 'auto'; 
+            window.location.href = 'Dashboard.html'; 
         } else {
             alert("Login Failed! Incorrect Password");
         }
@@ -44,9 +41,7 @@
             localStorage.setItem('user', lusername);
             localStorage.setItem('passw', lpassword);
             alert("User Saved !!!!!!!");
-            document.querySelector('#exampleModalToggle2').style.display = 'none';
-            document.querySelector('#modal-overlay').style.display = 'none'; // If you have an overlay
-            document.body.style.overflow = 'auto'; 
+            window.location.href = 'Dashboard.html'; 
         } else {
             alert("Passwords do not match. Retry.");
             document.querySelector('#username').value = "";
