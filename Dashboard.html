@@ -6,7 +6,6 @@
     <title>Dashboard_dreamscape</title>
 </head>
 <style>
-    /* Reset CSS */
     * {
         margin: 0;
         padding: 0;
@@ -249,13 +248,15 @@
             <ul>
                 <br>
                 <li onclick="showHome()"><i class="fa-solid fa-house"></i>  Home</li>
-                <li onclick="showReviews()"><img src="https://cdn-icons-png.flaticon.com/128/11213/11213138.png" height="24px" width="24px" alt="">  Customer Reviews</li>
+                <!-- <li onclick="showReviews()">  Customer Reviews</li> -->
                 <li onclick="showSettings()"><i class="fa-solid fa-gear"></i>  Settings</li>
                 <li onclick="showProfile()"><i class="fa-solid fa-user"></i>  Profile</li>
-                <li onclick="showLogs()"><img src="https://www.svgrepo.com/show/445215/list-check-solid.svg"  height="24px" width="24px" fill="white">  Account Logs</li>
+                <li onclick="showLogs()">  Account Logs</li>
                 <li onclick="showLogout()"><i class="fa-solid fa-right-from-bracket"></i>  Logout</li>
             </ul>
         </nav>
+        <!-- <img src="https://cdn-icons-png.flaticon.com/128/11213/11213138.png" height="24px" width="24px" alt=""> -->
+        <!-- <img src="https://www.svgrepo.com/show/445215/list-check-solid.svg"  height="24px" width="24px" fill="white"> -->
     </div>
     
     <!-- Main Dashboard Content -->
@@ -330,29 +331,145 @@
       `;
     }
     
-    function showReviews() {
-      document.getElementById('page-title').innerText = 'Customer Reviews';
-      document.getElementById('content-container').innerHTML = `
-        <div class="card">
-            <h3>Total Reviews</h3>
-            <p>1,230</p>
-        </div>
-        <div class="card">
-            <h3>Recent Feedback</h3>
-            <p>"Excellent experience! Will travel again."</p>
-        </div>
-      `;
-    }
+    // function showReviews() {
+    //   document.getElementById('page-title').innerText = 'Customer Reviews';
+    //   document.getElementById('content-container').innerHTML = `
+    //     <div class="card">
+    //         <h3>Total Reviews</h3>
+    //         <p>1,230</p>
+    //     </div>
+    //     <div class="card">
+    //         <h3>Recent Feedback</h3>
+    //         <p>"Excellent experience! Will travel again."</p>
+    //     </div>
+    //   `;
+    // }
     
     function showSettings() {
-      document.getElementById('page-title').innerText = 'Settings';
-      document.getElementById('content-container').innerHTML = `
+    document.getElementById('page-title').innerText = 'Settings';
+    document.getElementById('content-container').innerHTML = `
+        <style>
+            /* Card Header */
+            .card-header {
+                background-color: #f4f6f9;
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 15px;
+            }
+
+            .card-header h3 {
+                margin: 0;
+                color: #2c3e50;
+            }
+
+            .subheading {
+                font-size: 16px;
+                color: #7f8c8d;
+            }
+
+            /* Settings Item */
+            .setting-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+            }
+
+            .setting-item label {
+                font-weight: bold;
+                color: #2c3e50;
+            }
+
+            .action-btn, .delete-btn {
+                padding: 8px 15px;
+                border-radius: 5px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .action-btn {
+                background-color: #3498db;
+                color: white;
+                border: none;
+            }
+
+            .action-btn:hover {
+                background-color: #2980b9;
+            }
+
+            .delete-btn {
+                background-color: #e74c3c;
+                color: white;
+                border: none;
+            }
+
+            .delete-btn:hover {
+                background-color: #c0392b;
+            }
+
+            /* Card Styling */
+            .card {
+                background-color: #ffffff;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        </style>
         <div class="card">
-            <h3>Account Settings</h3>
-            <p>Change your password, preferences, and more.</p>
+            <div class="card-header">
+                <h3>Account Settings</h3>
+                <p class="subheading">Change your password, preferences, and more.</p>
+            </div>
+            <div class="card-content">
+                <div class="setting-item">
+                    <label for="change-password">Change Password</label>
+                    <button class="action-btn" onclick="openChangePassword()">Change</button>
+                </div>
+                <div class="setting-item">
+                    <label for="notification-settings">Notification Preferences</label>
+                    <button class="action-btn" onclick="openNotificationSettings()">Edit</button>
+                </div>
+                <div class="setting-item">
+                    <label for="privacy-settings">Privacy Settings</label>
+                    <button class="action-btn" onclick="openPrivacySettings()">Edit</button>
+                </div>
+                <div class="setting-item">
+                    <label for="theme-settings">Theme Settings</label>
+                    <button class="action-btn" onclick="openThemeSettings()">Edit</button>
+                </div>
+                <div class="setting-item">
+                    <label for="delete-account">Delete Account</label>
+                    <button class="delete-btn" onclick="confirmDeleteAccount()">Delete</button>
+                </div>
+            </div>
         </div>
-      `;
+    `;
+}
+
+// Placeholder functions for opening the settings options
+function openChangePassword() {
+    alert("Change password functionality here.");
+}
+
+function openNotificationSettings() {
+    alert("Notification settings functionality here.");
+}
+
+function openPrivacySettings() {
+    alert("Privacy settings functionality here.");
+}
+
+function openThemeSettings() {
+    alert("Theme settings functionality here.");
+}
+
+function confirmDeleteAccount() {
+    if (confirm("Are you sure you want to delete your account? This action is irreversible.")) {
+        alert("Account deleted.");
     }
+}
+
 
     function showProfile() {
     // Dynamically add CSS styles
@@ -663,7 +780,7 @@ function showLogout() {
             <div class="spinner"></div> <!-- Loader spinner -->
         </div>
     `;
-    logActivity("User logged out");
+    logActivity("logged out");
     setTimeout(function() {
         window.location.href = 'Log_in.html'; // Replace 'Log_in.html' with your desired page URL
     }, 2000);
