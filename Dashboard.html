@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard_dreamscape</title>
+</head>
+<style>
+    /* Reset CSS */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        min-height: 100vh;
+        background-color: #f4f6f8;
+    }
+
+    /* Sidebar styling */
+    .sidebar {
+        width: 220px;
+        background-color: #2c3e50;
+        color: #f4f6f8;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .sidebar h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .sidebar nav ul {
+        list-style: none;
+    }
+
+    .sidebar nav ul li {
+        margin-bottom: 15px;
+    }
+
+    .sidebar nav ul li a {
+        color: #f4f6f8;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .sidebar nav ul li a:hover {
+        text-decoration: underline;
+    }
+
+    .sidebar nav ul li {
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .sidebar nav ul li:hover {
+        background-color: #34495e;
+        border-radius: 5px;
+    }
+
+    /* Main content styling */
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        background-color: #eaf2f8;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        color: #2c3e50;
+        font-size: 24px;
+    }
+
+    header button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #2980b9;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    header button:hover {
+        background-color: #21618c;
+    }
+
+    /* Card container styling */
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .card {
+        flex: 1;
+        min-width: 200px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card h3 {
+        font-size: 18px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .card p {
+        font-size: 24px;
+        color: #3498db;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Media Queries for Responsiveness */
+    @media screen and (max-width: 768px) {
+        .sidebar {
+            width: 180px;
+        }
+
+        .main-content {
+            padding: 15px;
+        }
+
+        .card-container {
+            gap: 15px;
+        }
+
+        .card {
+            min-width: 150px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+            padding: 15px;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+        }
+
+        .sidebar nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sidebar nav ul li {
+            font-size: 16px;
+            margin-bottom: 0;
+        }
+
+        .card-container {
+            flex-direction: column;
+        }
+
+        .card {
+            min-width: 100%;
+        }
+    }
+    .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #2c3e50;
+            font-size: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .card-header h3 {
+            margin: 0;
+        }
+        .card-content p {
+            font-size: 16px;
+            color: #34495e;
+        }
+
+        /* Edit Button Styling */
+        .edit-btn {
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Profile Picture Styling */
+        .profile-picture {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+
+        .profile-details p {
+            margin: 5px 0;
+        }
+
+        .profile-details strong {
+            color: #2980b9;
+        }
+</style>
+<body>
+    <div class="sidebar">
+        <h2>Dreamscape</h2>
+        <nav>
+            <ul>
+                <br>
+                <li onclick="showHome()"><i class="fa-solid fa-house"></i>  Home</li>
+                <li onclick="showReviews()"><img src="https://cdn-icons-png.flaticon.com/128/11213/11213138.png" height="24px" width="24px" alt="">  Customer Reviews</li>
+                <li onclick="showSettings()"><i class="fa-solid fa-gear"></i>  Settings</li>
+                <li onclick="showProfile()"><i class="fa-solid fa-user"></i>  Profile</li>
+                <li onclick="showLogs()"><img src="https://www.svgrepo.com/show/445215/list-check-solid.svg"  height="24px" width="24px" fill="white">  Account Logs</li>
+                <li onclick="showLogout()"><i class="fa-solid fa-right-from-bracket"></i>  Logout</li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Main Dashboard Content -->
+    <div class="main-content">
+        <header>
+            <h1 id="page-title">Welcome Shivansh Garg!</h1>
+            <button onclick="showAlert()">Explore Destinations</button>
+        </header>
+    
+        <div class="card-container" id="content-container">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Personal Information</h3>
+                    <button class="edit-btn" onclick="editSection('personal-info')">Edit</button>
+                </div>
+                <div class="card-content" id="personal-info">
+                    <div class="profile-picture">
+                        <img src="https://via.placeholder.com/80" alt="Profile Picture">
+                        <p>Shivansh Garg</p><br>
+                        <span>shivanshgarg2005@gmail.com</span>
+                    </div>
+                    <div class="profile-details">
+                        <p><strong>First Name:</strong> Shivansh</p>
+                        <p><strong>Last Name:</strong> Garg</p>
+                        <p><strong>Email:</strong> shivanshgarg2005@gmail.com</p>
+                        <p><strong>Phone:</strong> N/A</p>
+                        <p><strong>Gender:</strong> N/A</p>
+                        <p><strong>Bio:</strong> N/A</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Address</h3>
+                    <button class="edit-btn" onclick="editSection('address-info')">Edit</button>
+                </div>
+                <div class="card-content" id="address-info">
+                    <p><strong>Country:</strong> Not Specified</p>
+                    <p><strong>City / State:</strong> -</p>
+                </div>
+            </div>
+    </div>
+    
+    <script>
+    // JavaScript functions for each li element
+    
+    function showAlert() {
+        window.location.href = 'index.html';
+    //   alert('Explore our top destinations and plan your next trip!');
+    }
+    
+    function showHome() {
+      document.getElementById('page-title').innerText = 'Welcome to Dreamscape, Your Travel Dashboard';
+      document.getElementById('content-container').innerHTML = `
+        <div class="card">
+            <h3>Total Bookings</h3>
+            <p>4,567</p>
+        </div>
+        <div class="card">
+            <h3>Top Destination</h3>
+            <p>Bali</p>
+        </div>
+        <div class="card">
+            <h3>Customer Reviews</h3>
+            <p>1,230</p>
+        </div>
+        <div class="card">
+            <h3>Upcoming Trips</h3>
+            <p>432</p>
+        </div>
+      `;
+    }
+    
+    function showReviews() {
+      document.getElementById('page-title').innerText = 'Customer Reviews';
+      document.getElementById('content-container').innerHTML = `
+        <div class="card">
+            <h3>Total Reviews</h3>
+            <p>1,230</p>
+        </div>
+        <div class="card">
+            <h3>Recent Feedback</h3>
+            <p>"Excellent experience! Will travel again."</p>
+        </div>
+      `;
+    }
+    
+    function showSettings() {
+      document.getElementById('page-title').innerText = 'Settings';
+      document.getElementById('content-container').innerHTML = `
+        <div class="card">
+            <h3>Account Settings</h3>
+            <p>Change your password, preferences, and more.</p>
+        </div>
+      `;
+    }
+
+    function showProfile() {
+    // Dynamically add CSS styles
+    var style = document.createElement('style');
+    style.innerHTML = `
+        /* Card Styling */
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #2c3e50;
+            font-size: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .card-header h3 {
+            margin: 0;
+        }
+        .card-content p {
+            font-size: 16px;
+            color: #34495e;
+        }
+
+        /* Edit Button Styling */
+        .edit-btn {
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Profile Picture Styling */
+        .profile-picture {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+
+        .profile-details p, .editable {
+            margin: 5px 0;
+        }
+
+        .profile-details strong {
+            color: #2980b9;
+        }
+
+        /* Input Styling for Editing */
+        .editable input {
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .profile-picture input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+
+        .upload-btn {
+            cursor: pointer;
+            color: #3498db;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+    `;
+    document.head.appendChild(style); // Append the styles to the head
+
+    // Set the content of the profile page
+    document.getElementById('page-title').innerText = 'Your Profile';
+    document.getElementById('content-container').innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h3>Personal Information</h3>
+                <button class="edit-btn" onclick="editSection('personal-info')">Edit</button>
+            </div>
+            <div class="card-content" id="personal-info">
+                <div class="profile-picture">
+                    <img id="profile-img" src="https://via.placeholder.com/80" alt="Profile Picture">
+                    <label class="upload-btn" onclick="document.getElementById('profile-pic-input').click()">Change Picture</label>
+                    <input type="file" id="profile-pic-input" accept="image/*" onchange="updateProfileImage(event)">
+                </div>
+                <div class="profile-details">
+                    <p><strong>First Name:</strong> <span class="editable">Shivansh</span></p>
+                    <p><strong>Last Name:</strong> <span class="editable">Garg</span></p>
+                    <p><strong>Email:</strong> <span class="editable">shivanshgarg2005@gmail.com</span></p>
+                    <p><strong>Phone:</strong> <span class="editable">N/A</span></p>
+                    <p><strong>Gender:</strong> <span class="editable">N/A</span></p>
+                    <p><strong>Bio:</strong> <span class="editable">N/A</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Address</h3>
+                <button class="edit-btn" onclick="editSection('address-info')">Edit</button>
+            </div>
+            <div class="card-content" id="address-info">
+                <p><strong>Country:</strong> <span class="editable">Not Specified</span></p>
+                <p><strong>City / State:</strong> <span class="editable">-</span></p>
+            </div>
+        </div>
+    `;
+}
+
+// Function to handle the profile picture upload
+function updateProfileImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profile-img').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+// Function to edit sections
+function editSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const editButton = section.previousElementSibling.querySelector(".edit-btn");
+    
+    // Check if in edit mode
+    const inEditMode = editButton.innerText === "Save";
+
+    if (inEditMode) {
+        // Save mode: convert inputs to text and save values
+        section.querySelectorAll("input").forEach(input => {
+            const span = document.createElement("span");
+            span.classList.add("editable");
+            span.innerText = input.value;
+            input.replaceWith(span);
+        });
+        editButton.innerText = "Edit";
+    } else {
+        // Edit mode: convert text spans to inputs
+        section.querySelectorAll(".editable").forEach(span => {
+            const input = document.createElement("input");
+            input.value = span.innerText;
+            span.replaceWith(input);
+        });
+        editButton.innerText = "Save";
+    }
+}
+
+
+
+
+
+function showLogs() {
+    // Update the page title
+    document.getElementById('page-title').innerText = 'Account Logs';
+
+    // Retrieve activity logs from localStorage and parse them as an array
+    const activityLogs = JSON.parse(localStorage.getItem('activityLogs')) || [];
+
+    // Construct the HTML table
+    let logTableHTML = `
+        <style>
+            .card {
+                background-color: #ffffff;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: left;
+            }
+            th {
+                background-color: #3498db;
+                color: white;
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            tr:hover {
+                background-color: #d1e7fd;
+            }
+        </style>
+        <div class="card">
+            <h3>Recent Activity</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Activity Type</th>
+                        <th>Device Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    // Add each log entry as a row in the table, with checks for undefined properties
+    activityLogs.forEach(log => {
+        const timestamp = log.timestamp || 'N/A';
+        const activity = log.activity || 'N/A';
+        const browser = log.deviceInfo?.browser || 'Unknown';
+        const operatingSystem = log.deviceInfo?.operatingSystem || 'Unknown';
+
+        logTableHTML += `
+            <tr>
+                <td>${timestamp}</td>
+                <td>${activity}</td>
+                <td>
+                    <strong>Browser:</strong> ${browser}<br>
+                    <strong>OS:</strong> ${operatingSystem}
+                </td>
+            </tr>
+        `;
+    });
+
+    logTableHTML += `
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    // Display the table in the content container
+    document.getElementById('content-container').innerHTML = logTableHTML;
+}
+
+
+
+function logActivity(activity) {
+    const activityLogs = JSON.parse(localStorage.getItem('activityLogs')) || [];
+    const timestamp = new Date().toLocaleString();
+    
+    // Capture device information
+    const deviceInfo = {
+        browser: navigator.userAgent,
+        operatingSystem: navigator.platform
+    };
+
+    activityLogs.push({
+        timestamp,
+        activity,
+        deviceInfo
+    });
+    localStorage.setItem('activityLogs', JSON.stringify(activityLogs));
+}
+// Example: Log user login activity
+logActivity("User logged in");
+
+
+
+
+
+function showLogout() {
+    document.getElementById('page-title').innerText = 'Logout';
+    document.getElementById('content-container').innerHTML = `
+        <style>
+            .spinner {
+                border: 4px solid rgba(0, 0, 0, 0.1);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border-left-color: #3498db;
+                animation: spin 1s ease infinite;
+                margin: 20px auto;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            .card {
+                padding: 20px;
+                margin-top: 20px;
+                background-color: #fff;
+                text-align: center;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+        
+        <div class="card">
+            <h3>You have been logged out.</h3>
+            <p>Thank you for using Dreamscape!</p>
+            <div class="spinner"></div> <!-- Loader spinner -->
+        </div>
+    `;
+    logActivity("User logged out");
+    setTimeout(function() {
+        window.location.href = 'Log_in.html'; // Replace 'Log_in.html' with your desired page URL
+    }, 2000);
+    
+}
+    </script>
+    <script src="https://kit.fontawesome.com/3ee290dd68.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
