@@ -284,19 +284,29 @@ header video {
     background: linear-gradient(0deg,#AD1519,#FABD00,#AD1519);
     border-radius: 1px;
 }
-
-.card-button {
-    background-color: #217caa;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px 0;
+/* Add styles for the budget section */
+.budget {
+    background-color: #f8f8f8;
+    padding: 15px;
     border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    text-align: left;
+    font-size: 14px;
 }
 
-.card-button:hover {
-    background-color: #f9d5d3;
+.budget h4 {
+    color: #2980b9;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.budget p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.budget strong {
+    color: #e74c3c;
+    font-size: 16px;
 }
