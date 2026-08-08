@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Travel Copilot — Dreamscapes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #0d0f1a;
+            --surface: #141726;
+            --card: #1c2038;
+            --border: rgba(255, 255, 255, 0.06);
+            --accent: #6c63ff;
+            --accent2: #ff6584;
+            --accent3: #43e97b;
+            --text: #e8eaf6;
+            --muted: #8a93b2;
+            --success: #43e97b;
+            --warning: #f9ca24;
+            --error: #ff6b6b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── Layout ── */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 280px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar-brand {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-brand h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .sidebar-brand p {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .sidebar-status {
+            margin: 0 24px 0;
+            padding: 10px 14px;
+            background: rgba(67, 233, 123, 0.09);
+            border: 1px solid rgba(67, 233, 123, 0.2);
+            border-radius: 8px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--success);
+            margin-top: 16px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .4
+            }
+        }
+
+        .sidebar-nav {
+            padding: 16px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 12px 12px 6px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 10px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            text-align: left;
+            transition: all .2s;
+            margin-bottom: 2px;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: rgba(108, 99, 255, .15);
+            color: var(--accent);
+        }
+
+        .nav-btn i {
+            width: 18px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .nav-btn .nav-badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        /* ── Main ── */
+        .main {
+            flex: 1;
+            overflow-x: hidden;
+        }
+
+        .main-header {
+            padding: 28px 40px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .main-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .main-header p {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        .panels {
+            padding: 32px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* ── Cards ── */
+        .ai-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: box-shadow .3s;
+        }
+
+        .ai-card:hover {
+            box-shadow: 0 8px 32px rgba(108, 99, 255, .12);
+        }
+
+        .card-head {
+            padding: 22px 28px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .card-head-text h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-head-text p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .card-body {
+            padding: 24px 28px;
+        }
+
+        /* ── Forms ── */
+        .form-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            padding: 10px 14px;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .form-group select option {
+            background: var(--card);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #574fd6;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background: #3d3a5c;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, .12);
+        }
+
+        .btn-sm {
+            padding: 7px 14px;
+            font-size: 13px;
+        }
+
+        /* ── Results ── */
+        .result-box {
+            margin-top: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .result-header {
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-header.success {
+            background: rgba(67, 233, 123, .08);
+            color: var(--success);
+            border-color: rgba(67, 233, 123, .2);
+        }
+
+        .result-header.error {
+            background: rgba(255, 107, 107, .08);
+            color: var(--error);
+            border-color: rgba(255, 107, 107, .2);
+        }
+
+        .result-header.loading {
+            background: rgba(108, 99, 255, .08);
+            color: var(--accent);
+            border-color: rgba(108, 99, 255, .2);
+        }
+
+        .result-content {
+            padding: 18px;
+            background: rgba(0, 0, 0, .2);
+        }
+
+        .result-content pre {
+            font-size: 12.5px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: #b0b8d4;
+            font-family: 'Courier New', monospace;
+        }
+
+        .result-cards {
+            display: grid;
+            gap: 12px;
+        }
+
+        .result-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(108, 99, 255, .12);
+            color: var(--accent);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 3px;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .2);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Color presets for icons ── */
+        .icon-purple {
+            background: rgba(108, 99, 255, .16);
+            color: var(--accent);
+        }
+
+        .icon-green {
+            background: rgba(67, 233, 123, .14);
+            color: var(--accent3);
+        }
+
+        .icon-red {
+            background: rgba(255, 101, 132, .14);
+            color: var(--accent2);
+        }
+
+        .icon-yellow {
+            background: rgba(249, 202, 36, .14);
+            color: var(--warning);
+        }
+
+        .icon-blue {
+            background: rgba(52, 152, 219, .14);
+            color: #3498db;
+        }
+
+        .icon-teal {
+            background: rgba(0, 206, 201, .14);
+            color: #00cec9;
+        }
+
+        .icon-orange {
+            background: rgba(230, 126, 34, .14);
+            color: #e67e22;
+        }
+
+        .icon-pink {
+            background: rgba(232, 67, 147, .14);
+            color: #e84393;
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+
+        .stat-card .val {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .stat-card .lbl {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* Tags for itinerary */
+        .tag {
+            display: inline-block;
+            background: rgba(108, 99, 255, .12);
+            color: var(--accent);
+            border-radius: 6px;
+            padding: 2px 9px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none;
+            }
+
+            .panels {
+                padding: 20px 16px;
+            }
+
+            .main-header {
+                padding: 18px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-brand">
+                <h1>✈ Dreamscapes</h1>
+                <p>AI Travel Copilot Dashboard</p>
+            </div>
+            <div class="sidebar-status" id="server-status">
+                <div class="dot"></div>
+                <span id="status-text">Checking backend…</span>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">AI Features</div>
+                <button class="nav-btn active" onclick="scrollTo('itinerary')"><i class="fa-solid fa-map"></i> Itinerary
+                    Generator <span class="nav-badge">AI</span></button>
+                <button class="nav-btn" onclick="scrollTo('weather')"><i class="fa-solid fa-cloud-sun"></i> Weather
+                    Modifications</button>
+                <button class="nav-btn" onclick="scrollTo('crowd')"><i class="fa-solid fa-people-group"></i> Crowd
+                    Prediction</button>
+                <button class="nav-btn" onclick="scrollTo('packing')"><i class="fa-solid fa-bag-shopping"></i> Packing
+                    Checklist</button>
+                <button class="nav-btn" onclick="scrollTo('visa')"><i class="fa-solid fa-passport"></i> Visa
+                    Summary</button>
+                <button class="nav-btn" onclick="scrollTo('expense')"><i class="fa-solid fa-receipt"></i> Expense
+                    Splitter</button>
+                <button class="nav-btn" onclick="scrollTo('food')"><i class="fa-solid fa-utensils"></i> Food
+                    Recommendations</button>
+                <button class="nav-btn" onclick="scrollTo('safety')"><i class="fa-solid fa-shield-halved"></i> Safety
+                    Alerts</button>
+                <button class="nav-btn" onclick="scrollTo('hotel')"><i class="fa-solid fa-hotel"></i> Hotel
+                    Comparison</button>
+                <div class="nav-section">More</div>
+                <a href="Dashboard.html" style="text-decoration:none">
+                    <button class="nav-btn"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</button>
+                </a>
+                <a href="index.html" style="text-decoration:none">
+                    <button class="nav-btn"><i class="fa-solid fa-house"></i> Home</button>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main">
+            <div class="main-header">
+                <div>
+                    <h2><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--accent)"></i> AI Travel Copilot
+                    </h2>
+                    <p>Powered by OpenAI GPT-4o-mini · 13 AI features live-connected to your backend</p>
+                </div>
+                <a href="Dashboard.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+            </div>
+
+            <div class="panels">
+
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="val" style="color:var(--accent)">13</div>
+                        <div class="lbl">AI Features</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="val" style="color:var(--accent3)" id="stat-status">—</div>
+                        <div class="lbl">Backend Status</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="val" style="color:var(--warning)">Mock</div>
+                        <div class="lbl">Data Mode</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="val" style="color:var(--accent2)">REST</div>
+                        <div class="lbl">API Type</div>
+                    </div>
+                </div>
+
+                <!-- 1. Itinerary Generator -->
+                <div class="ai-card" id="itinerary">
+                    <div class="card-head">
+                        <div class="card-icon icon-purple"><i class="fa-solid fa-map"></i></div>
+                        <div class="card-head-text">
+                            <h3>AI Itinerary Generator</h3>
+                            <p>Full day-by-day plan with budget breakdown, hidden gems & meal suggestions</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label>Destination</label><input id="itin-dest" type="text"
+                                    placeholder="e.g. Goa, Bali, Spain" value="Goa" /></div>
+                            <div class="form-group"><label>Days</label><input id="itin-days" type="number"
+                                    placeholder="5" value="3" min="1" max="30" /></div>
+                            <div class="form-group"><label>Budget</label><input id="itin-budget" type="text"
+                                    placeholder="₹50,000" value="₹50,000" /></div>
+                            <div class="form-group"><label>Travelers</label><input id="itin-travelers" type="number"
+                                    placeholder="2" value="2" min="1" /></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Interests (comma-separated)</label><input id="itin-interests"
+                                    type="text" placeholder="beaches, food, history"
+                                    value="beaches, hidden gems, food" /></div>
+                            <div class="form-group"><label>Style</label>
+                                <select id="itin-style">
+                                    <option value="budget">Budget</option>
+                                    <option value="mid-range" selected>Mid-Range</option>
+                                    <option value="luxury">Luxury</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="justify-content:flex-end">
+                                <button class="btn btn-primary" onclick="genItinerary()" id="itin-btn">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Plan
+                                </button>
+                            </div>
+                        </div>
+                        <div id="itin-result"></div>
+                    </div>
+                </div>
+
+                <!-- 2. Weather Modifications -->
+                <div class="ai-card" id="weather">
+                    <div class="card-head">
+                        <div class="card-icon icon-blue"><i class="fa-solid fa-cloud-sun"></i></div>
+                        <div class="card-head-text">
+                            <h3>Weather-Aware Trip Modifications</h3>
+                            <p>Real-time weather data combined with AI to adapt your itinerary</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label>City / Destination</label><input id="wx-dest" type="text"
+                                    placeholder="e.g. Mumbai, London" value="Goa" /></div>
+                            <div class="form-group" style="justify-content:flex-end">
+                                <button class="btn btn-primary" onclick="checkWeatherAI()"><i
+                                        class="fa-solid fa-cloud-sun-rain"></i> Analyse Weather</button>
+                            </div>
+                        </div>
+                        <div id="wx-result"></div>
+                    </div>
+                </div>
+
+                <!-- 3. Crowd Prediction -->
+                <div class="ai-card" id="crowd">
+                    <div class="card-head">
+                        <div class="card-icon icon-orange"><i class="fa-solid fa-people-group"></i></div>
+                        <div class="card-head-text">
+                            <h3>Crowd Prediction</h3>
+                            <p>"Visit at 7 AM instead of 2 PM" — AI optimal timing & photo opportunities</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label>Destination</label><input id="crowd-dest" type="text"
+                                    value="Agra, India" /></div>
+                            <div class="form-group"><label>Attractions (comma-separated)</label><input id="crowd-places"
+                                    type="text" value="Taj Mahal, Agra Fort" /></div>
+                            <div class="form-group" style="justify-content:flex-end">
+                                <button class="btn btn-primary" onclick="predictCrowds()"><i
+                                        class="fa-solid fa-chart-bar"></i> Predict Crowds</button>
+                            </div>
+                        </div>
+                        <div id="crowd-result"></div>
+                    </div>
+                </div>
+
+                <!-- 4. Packing Checklist -->
+                <div class="ai-card" id="packing">
+                    <div class="card-head">
+                        <div class="card-icon icon-teal"><i class="fa-solid fa-bag-shopping"></i></div>
+                        <div class="card-head-text">
+                            <h3>AI Packing Checklist</h3>
+                            <p>Smart, personalized packing list based on destination, weather & activities</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label>Destination</label><input id="pack-dest" type="text"
+                                    value="Manali" /></div>
+                            <div class="form-group"><label>Days</label><input id="pack-days" type="number" value="5" />
+                            </div>
+                            <div class="form-group"><label>Season</label><input id="pack-season" type="text"
+                                    value="winter" /></div>
+                            <div class="form-group"><label>Activities</label><input id="pack-activities" type="text"
+                                    value="trekking, skiing" /></div>
+                            <div class="form-group" style="justify-content:flex-end">
+                                <button class="btn btn-primary" onclick="getPackingList()"><i
+                                        class="fa-solid fa-list-check"></i> Get Checklist</button>
+                            </div>
+                        </div>
+                        <div id="pack-result"></div>
+                    </div>
+                </div>
+
+                <!-- 5. Visa Summary -->
+                <div class="ai-card" id="visa">
+                    <div class="card-head">
+                        <div class="card-icon icon-yellow"><i class="fa-solid fa-passport"></i></div>
+                        <div class="card-head-text">
+                            <h3>AI Visa Requirement Summary</h3>
+                            <p>Quick summary of visa rules, process steps, and costs for any country pair</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label>Your Nationality</label><input id="visa-nat" type="text"
+                                    value="Indian" /></div>
+                            <div class="form-group"><label>Destination Country</label><input id="visa-dest" type="text"
+                                    value="Japan" /></div>
+                            <div class="form-group"><label>Purpose</label><input id="visa-purpose" type="text"
+                                    value="tourism" /></div>
+                            <div class="form-group" style="justify-content:flex-end">
+                                <button class="btn btn-primary" onclick="getVisaInfo()"><i
+                                        class="fa-solid fa-stamp"></i> Check Visa</button>
+                            </div>
+                        </div>
+                        <div id="visa-result"></div>
+                    </div>
+                </div>
+
+                <!-- 6. Expense Splitter -->
+                <div class="ai-card" id="expense">
+                    <div class="card-head">
+                        <div class="card-icon icon-green"><i class="fa-solid fa-receipt"></i></div>
+                        <div class="card-head-text">
+                            <h3>AI Group Expense Splitter</h3>
+                            <p>Minimizes transactions to settle group trip expenses fairly</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Demo: 3-person trip (Alice,
+                            Bob, Charlie). Alice paid ₹600 Hotel; Bob paid ₹400 Dinner.</p>
+                        <button class="btn btn-primary" onclick="splitExpensesDemo()"><i
+                                class="fa-solid fa-calculator"></i> Calculate Splits</button>
+                        <div id="expense-result"></div>
+                    </div>
+                </div>
+
+                <!-- 7. Food Recommendations -->
+                <div class="ai-card" id="food">
+                    <div class="card-head">
+                        <div class="card-icon icon-red"><i class="fa-solid fa-utensils"></i></div>
+                        <div class="card-head-text">
+                            <h3>AI Local Food Recommendations</h3>
+                            <p>Must-try dishes, authentic eateries, and insider food tips</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label>Destination</label><input id="food-dest" type="text"
+                                    value="Bangkok" /></div>
+                            <div class="form-group"><label>Preferences</label><input id="food-pref" type="text"
+                                    placeholder="vegetarian, street food…" value="street food" /></div>
+                            <div class="form-group"><label>Budget</label>
+                                <select id="food-budget">
+                                    <option value="cheap">Cheap</option>
+                                    <option value="moderate" selected>Moderate</option>
+                                    <option value="expensive">Expensive</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="justify-content:flex-end">
+                                <button class="btn btn-primary" onclick="getFoodRecs()"><i
+                                        class="fa-solid fa-bowl-food"></i> Recommend</button>
+                            </div>
+                        </div>
+                        <div id="food-result"></div>
+                    </div>
+                </div>
+
+                <!-- 8. Safety Alerts -->
+                <div class="ai-card" id="safety">
+                    <div class="card-head">
+                        <div class="card-icon icon-red"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="card-head-text">
+                            <h3>AI Safety Alerts</h3>
+                            <p>Risk assessment, emergency numbers, areas to avoid & traveler-specific advice</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label>Destination</label><input id="safe-dest" type="text"
+                                    value="Istanbul, Turkey" /></div>
+                            <div class="form-group"><label>Traveler Profile</label><input id="safe-profile" type="text"
+                                    value="solo female traveler" /></div>
+                            <div class="form-group" style="justify-content:flex-end">
+                                <button class="btn btn-primary" onclick="getSafetyAlerts()"><i
+                                        class="fa-solid fa-triangle-exclamation"></i> Assess Safety</button>
+                            </div>
+                        </div>
+                        <div id="safe-result"></div>
+                    </div>
+                </div>
+
+                <!-- 9. Hotel Comparison -->
+                <div class="ai-card" id="hotel">
+                    <div class="card-head">
+                        <div class="card-icon icon-pink"><i class="fa-solid fa-hotel"></i></div>
+                        <div class="card-head-text">
+                            <h3>AI Hotel Comparison</h3>
+                            <p>AI explains pros, cons, and picks the best hotel for your priorities</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Demo: Comparing 2 hotels in
+                            Goa with priorities: location, pool.</p>
+                        <button class="btn btn-primary" onclick="compareHotels()"><i
+                                class="fa-solid fa-scale-balanced"></i> Compare Hotels</button>
+                        <div id="hotel-result"></div>
+                    </div>
+                </div>
+
+            </div><!-- /panels -->
+        </div><!-- /main -->
+    </div><!-- /layout -->
+
+    <script>
+        const API = "http://localhost:3000/api/ai";
+
+        // ── Helpers ──────────────────────────────────────────────
+        function setResult(id, state, content) {
+            const box = document.getElementById(id);
+            const icons = { loading: '<div class="spinner"></div>', success: '<i class="fa-solid fa-check-circle"></i>', error: '<i class="fa-solid fa-circle-xmark"></i>' };
+            const labels = { loading: 'Thinking…', success: 'AI Response', error: 'Error' };
+            box.innerHTML = `
+    <div class="result-box">
+      <div class="result-header ${state}">
+        ${icons[state]} ${labels[state]}
+      </div>
+      <div class="result-content">${content}</div>
+    </div>`;
+        }
+
+        function renderJSON(data) {
+            return `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+
+        function renderItinerary(d) {
+            let html = `<div style="margin-bottom:12px"><strong>${d.destination}</strong> — ${d.summary}</div>`;
+            if (d.budgetBreakdown) {
+                const bb = d.budgetBreakdown;
+                html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+      ${Object.entries(bb).map(([k, v]) => `<span class="result-chip"><i class="fa-solid fa-indian-rupee-sign"></i> ${k}: ${v}</span>`).join('')}
+    </div>`;
+            }
+            if (d.days) {
+                d.days.forEach(day => {
+                    html += `<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="font-weight:700;margin-bottom:8px;">Day ${day.day} — ${day.title}</div>
+        <div style="display:grid;gap:6px;font-size:13px;color:#b0b8d4">
+          <div>🌅 <b>Morning:</b> ${day.morning?.activity} @ ${day.morning?.location} <em style="color:#6c63ff">Tip: ${day.morning?.tip}</em></div>
+          <div>☀️ <b>Afternoon:</b> ${day.afternoon?.activity} @ ${day.afternoon?.location}</div>
+          <div>🌙 <b>Evening:</b> ${day.evening?.activity} @ ${day.evening?.location}</div>
+          <div>🍽️ Dinner: ${day.meals?.dinner}</div>
+          <div style="margin-top:4px">💰 Day cost: <span style="color:#43e97b">${day.estimatedDayCost}</span></div>
+        </div>
+      </div>`;
+                });
+            }
+            if (d.generalTips) {
+                html += `<div style="margin-top:12px"><b>General Tips:</b> ${d.generalTips.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+            }
+            return html;
+        }
+
+        function renderExpense(d) {
+            let html = `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+    <span class="result-chip">Total Spent: ₹${d.totalSpent}</span>
+    <span class="result-chip">Per Person: ₹${d.perPersonAverage?.toFixed(2)}</span>
+  </div>`;
+            if (d.settlementTransactions?.length) {
+                html += `<b>Settlements:</b><div style="margin-top:8px;display:flex;flex-direction:column;gap:6px">`;
+                d.settlementTransactions.forEach(t => {
+                    html += `<div style="background:rgba(108,99,255,.1);border-radius:8px;padding:10px 14px;font-size:13px;">
+        <span style="color:#ff6584">${t.from}</span> → <span style="color:#43e97b">${t.to}</span>  pays  <strong>₹${t.amount}</strong>
+      </div>`;
+                });
+                html += `</div><div style="margin-top:12px;color:#8a93b2;font-size:13px">${d.summary}</div>`;
+            }
+            return html;
+        }
+
+        function renderSafety(d) {
+            let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+    <div style="font-size:32px;font-weight:800;color:${d.overallSafetyScore >= 7 ? '#43e97b' : '#f9ca24'}">${d.overallSafetyScore}/10</div>
+    <div><div style="font-weight:600">${d.destination}</div><div style="font-size:13px;color:#8a93b2">Safety Score</div></div>
+  </div>`;
+            if (d.keyRisks?.length) {
+                html += `<b>Key Risks:</b><div style="margin-top:8px;display:flex;flex-direction:column;gap:6px">`;
+                d.keyRisks.forEach(r => {
+                    html += `<div style="background:rgba(255,107,107,.06);border-left:3px solid #ff6b6b;padding:10px 14px;border-radius:6px;font-size:13px">
+        <div><b>${r.riskType}</b>: ${r.description}</div>
+        <div style="color:#43e97b;margin-top:4px">✅ ${r.mitigation}</div>
+      </div>`;
+                });
+                html += `</div>`;
+            }
+            if (d.areasToAvoid?.length) html += `<div style="margin-top:12px"><b>Areas to Avoid:</b> ${d.areasToAvoid.map(a => `<span class="tag">${a}</span>`).join('')}</div>`;
+            if (d.emergencyNumbers) {
+                const e = d.emergencyNumbers;
+                html += `<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><span class="result-chip">🚔 Police: ${e.police}</span><span class="result-chip">🏥 Medical: ${e.medical}</span><span class="result-chip">🔥 Fire: ${e.fire}</span></div>`;
+            }
+            if (d.profileSpecificAdvice) html += `<div style="margin-top:12px;color:#8a93b2;font-size:13px;font-style:italic">${d.profileSpecificAdvice}</div>`;
+            return html;
+        }
+
+        function renderHotel(d) {
+            let html = ``;
+            d.comparison?.forEach(h => {
+                html += `<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:10px">
+      <div style="font-weight:700;margin-bottom:8px">${h.hotel}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">
+        <div><b style="color:#43e97b">✅ Pros</b><br>${h.pros?.map(p => `• ${p}`).join('<br>')}</div>
+        <div><b style="color:#ff6b6b">❌ Cons</b><br>${h.cons?.map(c => `• ${c}`).join('<br>')}</div>
+      </div>
+    </div>`;
+            });
+            if (d.winner) {
+                html += `<div style="background:rgba(67,233,123,.08);border:1px solid rgba(67,233,123,.2);border-radius:10px;padding:14px;margin-top:8px">
+      <div style="font-weight:700;color:#43e97b">🏆 Winner: ${d.winner}</div>
+      <div style="font-size:13px;margin-top:6px;color:#b0b8d4">${d.winnerJustification}</div>
+    </div>`;
+            }
+            return html;
+        }
+
+        // ── API Calls ─────────────────────────────────────────────
+        async function apiCall(endpoint, body, resultId) {
+            setResult(resultId, 'loading', '<div style="padding:8px">Please wait while AI thinks…</div>');
+            try {
+                const res = await fetch(`${API}/${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const json = await res.json();
+                return json;
+            } catch (e) {
+                setResult(resultId, 'error', `<pre>Could not reach backend at ${API}\n\nMake sure you run: npm run dev\nin the /backend folder.\n\n${e.message}</pre>`);
+                return null;
+            }
+        }
+
+        async function genItinerary() {
+            const interests = document.getElementById('itin-interests').value.split(',').map(s => s.trim()).filter(Boolean);
+            const data = await apiCall('itinerary', {
+                destination: document.getElementById('itin-dest').value,
+                days: parseInt(document.getElementById('itin-days').value),
+                budget: document.getElementById('itin-budget').value,
+                travelers: parseInt(document.getElementById('itin-travelers').value),
+                interests,
+                travelStyle: document.getElementById('itin-style').value
+            }, 'itin-result');
+            if (data?.success) setResult('itin-result', 'success', renderItinerary(data.data));
+            else if (data) setResult('itin-result', 'error', renderJSON(data));
+        }
+
+        async function checkWeatherAI() {
+            const data = await apiCall('weather-trip', { destination: document.getElementById('wx-dest').value }, 'wx-result');
+            if (data?.success) setResult('wx-result', 'success', renderJSON(data.data));
+            else if (data) setResult('wx-result', 'error', renderJSON(data));
+        }
+
+        async function predictCrowds() {
+            const attractions = document.getElementById('crowd-places').value.split(',').map(s => s.trim()).filter(Boolean);
+            const data = await apiCall('crowd-prediction', {
+                destination: document.getElementById('crowd-dest').value,
+                attractions
+            }, 'crowd-result');
+            if (data?.success) setResult('crowd-result', 'success', renderJSON(data.data));
+            else if (data) setResult('crowd-result', 'error', renderJSON(data));
+        }
+
+        async function getPackingList() {
+            const activities = document.getElementById('pack-activities').value.split(',').map(s => s.trim()).filter(Boolean);
+            const data = await apiCall('packing-checklist', {
+                destination: document.getElementById('pack-dest').value,
+                days: parseInt(document.getElementById('pack-days').value),
+                season: document.getElementById('pack-season').value,
+                activities
+            }, 'pack-result');
+            if (data?.success) setResult('pack-result', 'success', renderJSON(data.data));
+            else if (data) setResult('pack-result', 'error', renderJSON(data));
+        }
+
+        async function getVisaInfo() {
+            const data = await apiCall('visa-summary', {
+                nationality: document.getElementById('visa-nat').value,
+                destination: document.getElementById('visa-dest').value,
+                purposeOfVisit: document.getElementById('visa-purpose').value
+            }, 'visa-result');
+            if (data?.success) setResult('visa-result', 'success', renderJSON(data.data));
+            else if (data) setResult('visa-result', 'error', renderJSON(data));
+        }
+
+        async function splitExpensesDemo() {
+            const data = await apiCall('expense-splitter', {
+                totalAmount: 1000, currency: "INR",
+                people: ["Alice", "Bob", "Charlie"],
+                expenses: [
+                    { description: "Hotel", amount: 600, paidBy: "Alice" },
+                    { description: "Dinner", amount: 400, paidBy: "Bob" }
+                ]
+            }, 'expense-result');
+            if (data?.success) setResult('expense-result', 'success', renderExpense(data.data));
+            else if (data) setResult('expense-result', 'error', renderJSON(data));
+        }
+
+        async function getFoodRecs() {
+            const preferences = document.getElementById('food-pref').value.split(',').map(s => s.trim()).filter(Boolean);
+            const data = await apiCall('food-recommendations', {
+                destination: document.getElementById('food-dest').value,
+                preferences,
+                budget: document.getElementById('food-budget').value
+            }, 'food-result');
+            if (data?.success) setResult('food-result', 'success', renderJSON(data.data));
+            else if (data) setResult('food-result', 'error', renderJSON(data));
+        }
+
+        async function getSafetyAlerts() {
+            const data = await apiCall('safety-alerts', {
+                destination: document.getElementById('safe-dest').value,
+                travelerProfile: document.getElementById('safe-profile').value
+            }, 'safe-result');
+            if (data?.success) setResult('safe-result', 'success', renderSafety(data.data));
+            else if (data) setResult('safe-result', 'error', renderJSON(data));
+        }
+
+        async function compareHotels() {
+            const data = await apiCall('hotel-compare', {
+                destination: "Goa",
+                hotels: [
+                    { name: "The Leela Goa", price: "₹15,000/night", amenities: ["pool", "beach access", "spa"] },
+                    { name: "Zostel Goa", price: "₹800/night", amenities: ["wifi", "community dining", "city center"] }
+                ],
+                priorities: ["location", "pool", "budget"]
+            }, 'hotel-result');
+            if (data?.success) setResult('hotel-result', 'success', renderHotel(data.data));
+            else if (data) setResult('hotel-result', 'error', renderJSON(data));
+        }
+
+        // ── Sidebar scroll ────────────────────────────────────────
+        function scrollTo(id) {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // ── Health check on load ──────────────────────────────────
+        async function checkHealth() {
+            try {
+                const res = await fetch('http://localhost:3000/health');
+                const j = await res.json();
+                if (j.status === 'ok') {
+                    document.getElementById('status-text').innerText = 'Backend connected ✓';
+                    document.getElementById('server-status').style.background = 'rgba(67,233,123,.09)';
+                    document.getElementById('stat-status').innerText = 'Online';
+                }
+            } catch {
+                document.getElementById('status-text').innerText = 'Backend offline — run npm run dev';
+                document.getElementById('server-status').style.background = 'rgba(255,107,107,.09)';
+                document.getElementById('server-status').style.borderColor = 'rgba(255,107,107,.3)';
+                document.getElementById('server-status').style.color = '#ff6b6b';
+                document.querySelector('.dot').style.background = '#ff6b6b';
+                document.getElementById('stat-status').innerText = 'Offline';
+                document.getElementById('stat-status').style.color = '#ff6b6b';
+            }
+        }
+        checkHealth();
+    </script>
+</body>
+
+</html>

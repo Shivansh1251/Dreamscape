@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -180,92 +181,98 @@
             min-width: 100%;
         }
     }
+
     .card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #2c3e50;
-            font-size: 20px;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        .card-header h3 {
-            margin: 0;
-        }
-        .card-content p {
-            font-size: 16px;
-            color: #34495e;
-        }
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        /* Edit Button Styling */
-        .edit-btn {
-            padding: 5px 10px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #2c3e50;
+        font-size: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
 
-        .edit-btn:hover {
-            background-color: #2980b9;
-        }
+    .card-header h3 {
+        margin: 0;
+    }
 
-        /* Profile Picture Styling */
-        .profile-picture {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    .card-content p {
+        font-size: 16px;
+        color: #34495e;
+    }
 
-        .profile-picture img {
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            margin-right: 20px;
-        }
+    /* Edit Button Styling */
+    .edit-btn {
+        padding: 5px 10px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-        .profile-details p {
-            margin: 5px 0;
-        }
+    .edit-btn:hover {
+        background-color: #2980b9;
+    }
 
-        .profile-details strong {
-            color: #2980b9;
-        }
+    /* Profile Picture Styling */
+    .profile-picture {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-picture img {
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        margin-right: 20px;
+    }
+
+    .profile-details p {
+        margin: 5px 0;
+    }
+
+    .profile-details strong {
+        color: #2980b9;
+    }
 </style>
+
 <body>
     <div class="sidebar">
         <h2>Dreamscape</h2>
         <nav>
             <ul>
                 <br>
-                <li onclick="showHome()"><i class="fa-solid fa-house"></i>  Home</li>
+                <li onclick="showHome()"><i class="fa-solid fa-house"></i> Home</li>
                 <!-- <li onclick="showReviews()">  Customer Reviews</li> -->
-                <li onclick="showSettings()"><i class="fa-solid fa-gear"></i>  Settings</li>
-                <li onclick="showProfile()"><i class="fa-solid fa-user"></i>  Profile</li>
-                <li onclick="showLogs()">  Account Logs</li>
-                <li onclick="showLogout()"><i class="fa-solid fa-right-from-bracket"></i>  Logout</li>
+                <li onclick="showAIFeatures()"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Copilot</li>
+                <li onclick="showSettings()"><i class="fa-solid fa-gear"></i> Settings</li>
+                <li onclick="showProfile()"><i class="fa-solid fa-user"></i> Profile</li>
+                <li onclick="showLogs()"> Account Logs</li>
+                <li onclick="showLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</li>
             </ul>
         </nav>
         <!-- <img src="https://cdn-icons-png.flaticon.com/128/11213/11213138.png" height="24px" width="24px" alt=""> -->
         <!-- <img src="https://www.svgrepo.com/show/445215/list-check-solid.svg"  height="24px" width="24px" fill="white"> -->
     </div>
-    
+
     <!-- Main Dashboard Content -->
     <div class="main-content">
         <header>
             <h1 id="page-title">Welcome Shivansh Garg!</h1>
             <button onclick="showAlert()">Explore Destinations</button>
         </header>
-    
+
         <div class="card-container" id="content-container">
             <div class="card">
                 <div class="card-header">
@@ -288,7 +295,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <h3>Address</h3>
@@ -299,19 +306,19 @@
                     <p><strong>City / State:</strong> -</p>
                 </div>
             </div>
-    </div>
-    
-    <script>
-    // JavaScript functions for each li element
-    
-    function showAlert() {
-        window.location.href = 'index.html';
-    //   alert('Explore our top destinations and plan your next trip!');
-    }
-    
-    function showHome() {
-      document.getElementById('page-title').innerText = 'Welcome to Dreamscape, Your Travel Dashboard';
-      document.getElementById('content-container').innerHTML = `
+        </div>
+
+        <script>
+            // JavaScript functions for each li element
+
+            function showAlert() {
+                window.location.href = 'index.html';
+                //   alert('Explore our top destinations and plan your next trip!');
+            }
+
+            function showHome() {
+                document.getElementById('page-title').innerText = 'Welcome to Dreamscape, Your Travel Dashboard';
+                document.getElementById('content-container').innerHTML = `
         <div class="card">
             <h3>Total Bookings</h3>
             <p>4,567</p>
@@ -329,25 +336,150 @@
             <p>432</p>
         </div>
       `;
-    }
-    
-    // function showReviews() {
-    //   document.getElementById('page-title').innerText = 'Customer Reviews';
-    //   document.getElementById('content-container').innerHTML = `
-    //     <div class="card">
-    //         <h3>Total Reviews</h3>
-    //         <p>1,230</p>
-    //     </div>
-    //     <div class="card">
-    //         <h3>Recent Feedback</h3>
-    //         <p>"Excellent experience! Will travel again."</p>
-    //     </div>
-    //   `;
-    // }
-    
-    function showSettings() {
-    document.getElementById('page-title').innerText = 'Settings';
-    document.getElementById('content-container').innerHTML = `
+            }
+
+            function showAIFeatures() {
+                document.getElementById('page-title').innerText = 'AI Travel Copilot';
+                document.getElementById('content-container').innerHTML = `
+        <div class="card" style="width: 100%;">
+            <h3>AI Itinerary Generator</h3>
+            <p style="font-size: 14px; margin-bottom: 10px; color: #555;">Enter destination and let AI plan everything.</p>
+            <input type="text" id="ai-dest" placeholder="E.g. Goa" style="padding:8px; width:200px;" />
+            <input type="number" id="ai-days" placeholder="Days e.g. 5" style="padding:8px; width:100px;" />
+            <input type="text" id="ai-budget" placeholder="Budget e.g. ₹50k" style="padding:8px; width:150px;" />
+            <button class="edit-btn" onclick="generateItinerary()" style="padding:8px 15px;">Generate</button>
+            <div id="ai-itinerary-result" style="margin-top: 15px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 5px; display: none;"></div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+            <h3>Weather-Aware Modifications</h3>
+            <input type="text" id="ai-weather-dest" placeholder="City to check" style="padding:8px; width:200px;" />
+            <button class="edit-btn" onclick="checkWeather()" style="padding:8px 15px;">Check Weather</button>
+            <div id="ai-weather-result" style="margin-top: 15px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 5px; display: none;"></div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+            <h3>AI Expense Splitter</h3>
+            <button class="edit-btn" onclick="splitExpenses()" style="padding:8px 15px;">Calculate Mock Expenses</button>
+            <div id="ai-expense-result" style="margin-top: 15px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 5px; display: none;"></div>
+        </div>
+        `;
+            }
+
+            async function generateItinerary() {
+                const dest = document.getElementById("ai-dest").value || "Goa";
+                const days = parseInt(document.getElementById("ai-days").value || "3");
+                const budget = document.getElementById("ai-budget").value || "₹50k";
+                const resBox = document.getElementById("ai-itinerary-result");
+                resBox.style.display = "block";
+                resBox.innerHTML = "Generating AI Itinerary... please wait.";
+
+                try {
+                    const response = await fetch("http://localhost:3000/api/ai/itinerary", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            destination: dest,
+                            days: days,
+                            budget: budget,
+                            travelers: 2,
+                            interests: ["beaches", "hidden gems"],
+                            travelStyle: "mid-range"
+                        })
+                    });
+                    const db = await response.json();
+                    if (db.success) {
+                        const pre = document.createElement("pre");
+                        pre.style.whiteSpace = "pre-wrap";
+                        pre.innerText = JSON.stringify(db.data, null, 2);
+                        resBox.innerHTML = "<b>Success! Here's your personalized timeline:</b><br>";
+                        resBox.appendChild(pre);
+                    } else {
+                        resBox.innerHTML = "<b style='color:red;'>Error details:</b><br>" + JSON.stringify(db.error);
+                    }
+                } catch (e) {
+                    resBox.innerHTML = "<b style='color:red;'>Error connecting to backend</b><br>" + e.message;
+                }
+            }
+
+            async function checkWeather() {
+                const dest = document.getElementById("ai-weather-dest").value || "Goa";
+                const resBox = document.getElementById("ai-weather-result");
+                resBox.style.display = "block";
+                resBox.innerHTML = "Consulting AI & Weather Map...";
+
+                try {
+                    const response = await fetch("http://localhost:3000/api/ai/weather-trip", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ destination: dest })
+                    });
+                    const db = await response.json();
+                    if (db.success) {
+                        const pre = document.createElement("pre");
+                        pre.style.whiteSpace = "pre-wrap";
+                        pre.innerText = JSON.stringify(db.data, null, 2);
+                        resBox.innerHTML = "<b>Modifications based on weather:</b><br>";
+                        resBox.appendChild(pre);
+                    } else {
+                        resBox.innerHTML = "<b style='color:red;'>Error details:</b><br>" + JSON.stringify(db.error);
+                    }
+                } catch (e) {
+                    resBox.innerHTML = "<b style='color:red;'>Error connecting to backend</b><br>" + e.message;
+                }
+            }
+
+            async function splitExpenses() {
+                const resBox = document.getElementById("ai-expense-result");
+                resBox.style.display = "block";
+                resBox.innerHTML = "Calculating splits...";
+
+                try {
+                    const response = await fetch("http://localhost:3000/api/ai/expense-splitter", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            totalAmount: 1000,
+                            currency: "INR",
+                            people: ["Alice", "Bob", "Charlie"],
+                            expenses: [
+                                { description: "Hotel", amount: 600, paidBy: "Alice" },
+                                { description: "Dinner", amount: 400, paidBy: "Bob" }
+                            ]
+                        })
+                    });
+                    const db = await response.json();
+                    if (db.success) {
+                        const pre = document.createElement("pre");
+                        pre.style.whiteSpace = "pre-wrap";
+                        pre.innerText = JSON.stringify(db.data, null, 2);
+                        resBox.innerHTML = "<b>Expense Settlement Details:</b><br>";
+                        resBox.appendChild(pre);
+                    } else {
+                        resBox.innerHTML = "<b style='color:red;'>Error details:</b><br>" + JSON.stringify(db.error);
+                    }
+                } catch (e) {
+                    resBox.innerHTML = "<b style='color:red;'>Error connecting to backend</b><br>" + e.message;
+                }
+            }
+
+            // function showReviews() {
+            //   document.getElementById('page-title').innerText = 'Customer Reviews';
+            //   document.getElementById('content-container').innerHTML = `
+            //     <div class="card">
+            //         <h3>Total Reviews</h3>
+            //         <p>1,230</p>
+            //     </div>
+            //     <div class="card">
+            //         <h3>Recent Feedback</h3>
+            //         <p>"Excellent experience! Will travel again."</p>
+            //     </div>
+            //   `;
+            // }
+
+            function showSettings() {
+                document.getElementById('page-title').innerText = 'Settings';
+                document.getElementById('content-container').innerHTML = `
         <style>
             /* Card Header */
             .card-header {
@@ -445,36 +577,36 @@
             </div>
         </div>
     `;
-}
+            }
 
-// Placeholder functions for opening the settings options
-function openChangePassword() {
-    alert("Change password functionality here.");
-}
+            // Placeholder functions for opening the settings options
+            function openChangePassword() {
+                alert("Change password functionality here.");
+            }
 
-function openNotificationSettings() {
-    alert("Notification settings functionality here.");
-}
+            function openNotificationSettings() {
+                alert("Notification settings functionality here.");
+            }
 
-function openPrivacySettings() {
-    alert("Privacy settings functionality here.");
-}
+            function openPrivacySettings() {
+                alert("Privacy settings functionality here.");
+            }
 
-function openThemeSettings() {
-    alert("Theme settings functionality here.");
-}
+            function openThemeSettings() {
+                alert("Theme settings functionality here.");
+            }
 
-function confirmDeleteAccount() {
-    if (confirm("Are you sure you want to delete your account? This action is irreversible.")) {
-        alert("Account deleted.");
-    }
-}
+            function confirmDeleteAccount() {
+                if (confirm("Are you sure you want to delete your account? This action is irreversible.")) {
+                    alert("Account deleted.");
+                }
+            }
 
 
-    function showProfile() {
-    // Dynamically add CSS styles
-    var style = document.createElement('style');
-    style.innerHTML = `
+            function showProfile() {
+                // Dynamically add CSS styles
+                var style = document.createElement('style');
+                style.innerHTML = `
         /* Card Styling */
         .card {
             background-color: #ffffff;
@@ -556,11 +688,11 @@ function confirmDeleteAccount() {
             text-decoration: underline;
         }
     `;
-    document.head.appendChild(style); // Append the styles to the head
+                document.head.appendChild(style); // Append the styles to the head
 
-    // Set the content of the profile page
-    document.getElementById('page-title').innerText = 'Your Profile';
-    document.getElementById('content-container').innerHTML = `
+                // Set the content of the profile page
+                document.getElementById('page-title').innerText = 'Your Profile';
+                document.getElementById('content-container').innerHTML = `
         <div class="card">
             <div class="card-header">
                 <h3>Personal Information</h3>
@@ -594,61 +726,61 @@ function confirmDeleteAccount() {
             </div>
         </div>
     `;
-}
+            }
 
-// Function to handle the profile picture upload
-function updateProfileImage(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('profile-img').src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-}
+            // Function to handle the profile picture upload
+            function updateProfileImage(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('profile-img').src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
 
-// Function to edit sections
-function editSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    const editButton = section.previousElementSibling.querySelector(".edit-btn");
-    
-    // Check if in edit mode
-    const inEditMode = editButton.innerText === "Save";
+            // Function to edit sections
+            function editSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                const editButton = section.previousElementSibling.querySelector(".edit-btn");
 
-    if (inEditMode) {
-        // Save mode: convert inputs to text and save values
-        section.querySelectorAll("input").forEach(input => {
-            const span = document.createElement("span");
-            span.classList.add("editable");
-            span.innerText = input.value;
-            input.replaceWith(span);
-        });
-        editButton.innerText = "Edit";
-    } else {
-        // Edit mode: convert text spans to inputs
-        section.querySelectorAll(".editable").forEach(span => {
-            const input = document.createElement("input");
-            input.value = span.innerText;
-            span.replaceWith(input);
-        });
-        editButton.innerText = "Save";
-    }
-}
+                // Check if in edit mode
+                const inEditMode = editButton.innerText === "Save";
 
-
+                if (inEditMode) {
+                    // Save mode: convert inputs to text and save values
+                    section.querySelectorAll("input").forEach(input => {
+                        const span = document.createElement("span");
+                        span.classList.add("editable");
+                        span.innerText = input.value;
+                        input.replaceWith(span);
+                    });
+                    editButton.innerText = "Edit";
+                } else {
+                    // Edit mode: convert text spans to inputs
+                    section.querySelectorAll(".editable").forEach(span => {
+                        const input = document.createElement("input");
+                        input.value = span.innerText;
+                        span.replaceWith(input);
+                    });
+                    editButton.innerText = "Save";
+                }
+            }
 
 
 
-function showLogs() {
-    // Update the page title
-    document.getElementById('page-title').innerText = 'Account Logs';
 
-    // Retrieve activity logs from localStorage and parse them as an array
-    const activityLogs = JSON.parse(localStorage.getItem('activityLogs')) || [];
 
-    // Construct the HTML table
-    let logTableHTML = `
+            function showLogs() {
+                // Update the page title
+                document.getElementById('page-title').innerText = 'Account Logs';
+
+                // Retrieve activity logs from localStorage and parse them as an array
+                const activityLogs = JSON.parse(localStorage.getItem('activityLogs')) || [];
+
+                // Construct the HTML table
+                let logTableHTML = `
         <style>
             .card {
                 background-color: #ffffff;
@@ -690,14 +822,14 @@ function showLogs() {
                 <tbody>
     `;
 
-    // Add each log entry as a row in the table, with checks for undefined properties
-    activityLogs.forEach(log => {
-        const timestamp = log.timestamp || 'N/A';
-        const activity = log.activity || 'N/A';
-        const browser = log.deviceInfo?.browser || 'Unknown';
-        const operatingSystem = log.deviceInfo?.operatingSystem || 'Unknown';
+                // Add each log entry as a row in the table, with checks for undefined properties
+                activityLogs.forEach(log => {
+                    const timestamp = log.timestamp || 'N/A';
+                    const activity = log.activity || 'N/A';
+                    const browser = log.deviceInfo?.browser || 'Unknown';
+                    const operatingSystem = log.deviceInfo?.operatingSystem || 'Unknown';
 
-        logTableHTML += `
+                    logTableHTML += `
             <tr>
                 <td>${timestamp}</td>
                 <td>${activity}</td>
@@ -707,47 +839,47 @@ function showLogs() {
                 </td>
             </tr>
         `;
-    });
+                });
 
-    logTableHTML += `
+                logTableHTML += `
                 </tbody>
             </table>
         </div>
     `;
 
-    // Display the table in the content container
-    document.getElementById('content-container').innerHTML = logTableHTML;
-}
+                // Display the table in the content container
+                document.getElementById('content-container').innerHTML = logTableHTML;
+            }
 
 
 
-function logActivity(activity) {
-    const activityLogs = JSON.parse(localStorage.getItem('activityLogs')) || [];
-    const timestamp = new Date().toLocaleString();
-    
-    // Capture device information
-    const deviceInfo = {
-        browser: navigator.userAgent,
-        operatingSystem: navigator.platform
-    };
+            function logActivity(activity) {
+                const activityLogs = JSON.parse(localStorage.getItem('activityLogs')) || [];
+                const timestamp = new Date().toLocaleString();
 
-    activityLogs.push({
-        timestamp,
-        activity,
-        deviceInfo
-    });
-    localStorage.setItem('activityLogs', JSON.stringify(activityLogs));
-}
-// Example: Log user login activity
-logActivity("User logged in");
+                // Capture device information
+                const deviceInfo = {
+                    browser: navigator.userAgent,
+                    operatingSystem: navigator.platform
+                };
 
-
+                activityLogs.push({
+                    timestamp,
+                    activity,
+                    deviceInfo
+                });
+                localStorage.setItem('activityLogs', JSON.stringify(activityLogs));
+            }
+            // Example: Log user login activity
+            logActivity("User logged in");
 
 
 
-function showLogout() {
-    document.getElementById('page-title').innerText = 'Logout';
-    document.getElementById('content-container').innerHTML = `
+
+
+            function showLogout() {
+                document.getElementById('page-title').innerText = 'Logout';
+                document.getElementById('content-container').innerHTML = `
         <style>
             .spinner {
                 border: 4px solid rgba(0, 0, 0, 0.1);
@@ -780,14 +912,59 @@ function showLogout() {
             <div class="spinner"></div> <!-- Loader spinner -->
         </div>
     `;
-    logActivity("logged out");
-    setTimeout(function() {
-        window.location.href = 'Log_in.html'; // Replace 'Log_in.html' with your desired page URL
-    }, 2000);
-    
-}
-    </script>
-    <script src="https://kit.fontawesome.com/3ee290dd68.js" crossorigin="anonymous"></script>
+                logActivity("logged out");
+                setTimeout(async function () {
+                    try {
+                        await fetch('/api/auth/logout');
+                        window.location.href = '/Log_in.html';
+                    } catch (e) {
+                        window.location.href = '/Log_in.html';
+                    }
+                }, 2000);
+            }
+
+            // Check Authentication and load profile
+            async function checkAuth() {
+                try {
+                    const response = await fetch('/api/auth/me');
+                    const data = await response.json();
+
+                    if (data.success && data.user) {
+                        // Replace hardcoded names with user data
+                        document.getElementById('page-title').innerText = `Welcome ${data.user.firstName}!`;
+
+                        // Optionally update profile sections
+                        const pInfo = document.getElementById('personal-info');
+                        if (pInfo) {
+                            const imgStr = data.user.profilePicture ? `<img src="${data.user.profilePicture}" alt="Profile Picture" id="profile-img">` : '<img src="https://via.placeholder.com/80" alt="Profile Picture" id="profile-img">';
+                            pInfo.innerHTML = `
+                    <div class="profile-picture">
+                        ${imgStr}
+                        <p>${data.user.firstName} ${data.user.lastName}</p><br>
+                        <span>${data.user.email}</span>
+                    </div>
+                    <div class="profile-details">
+                        <p><strong>First Name:</strong> ${data.user.firstName}</p>
+                        <p><strong>Last Name:</strong> ${data.user.lastName}</p>
+                        <p><strong>Email:</strong> ${data.user.email}</p>
+                    </div>
+                `;
+                        }
+                    } else {
+                        // Uncomment to force login
+                        // window.location.href = '/Log_in.html';
+                    }
+                } catch (err) {
+                    console.warn("Auth check failed, user might be running without backend running.", err);
+                }
+            }
+
+            // Run auth check on load
+            window.addEventListener('DOMContentLoaded', checkAuth);
+
+        </script>
+        <script src="https://kit.fontawesome.com/3ee290dd68.js" crossorigin="anonymous"></script>
 
 </body>
+
 </html>
