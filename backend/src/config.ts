@@ -29,6 +29,10 @@ export const config = {
         baseUrl: "https://api.unsplash.com",
     },
 
+    pexels: {
+        apiKey: process.env.pexels_api_key || "",
+    },
+
     cors: {
         origins: (process.env.CORS_ORIGINS || "*").split(",").map((o) => o.trim()),
     },

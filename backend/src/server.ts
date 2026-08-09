@@ -12,6 +12,7 @@ import routes from "./routes";
 import { connectDB } from "./config/db";
 import passport from "./config/passport";
 import authRoutes from "./routes/auth.route";
+import mediaRoute from "./routes/media.route";
 
 // Connect to MongoDB
 connectDB();
@@ -80,6 +81,7 @@ app.get("/health", (req, res) => {
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", routes);
+app.use("/api/media", mediaRoute);
 
 // 404 Handler
 app.use((req, res) => {

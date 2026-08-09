@@ -1,10 +1,13 @@
 # Dependencies
 node_modules/
 backend/node_modules/
-
+frontend/node_modules/
+dist/
 # Environment Variables (SECRETS)
 .env
 backend/.env
+frontend/.env
+frontend/dist/
 
 # Build Output
 dist/
