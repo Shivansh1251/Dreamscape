@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useLayoutEffect } from 'react';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
@@ -8,9 +9,16 @@ import { Roamies } from './pages/Roamies';
 import { TravelPlans } from './pages/TravelPlans';
 import { Destination } from './pages/Destination';
 
+function ScrollToTop() {
+    const { pathname } = useLocation();
+    useLayoutEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+    return null;
+}
+
 export function App() {
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <Routes>
                 {/* Note: Universal Layout wrapping and Navbar are handled internally by the pages (via <PageLayout>) */}
                 <Route path="/" element={<Home />} />

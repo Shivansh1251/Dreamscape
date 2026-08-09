@@ -8,9 +8,10 @@ interface PageLayoutProps {
     videoOverlayText?: ReactNode;
     headerContent?: ReactNode;
     showFooter?: boolean;
+    connectedFooter?: boolean;
 }
 
-export function PageLayout({ children, videoSrc, videoOverlayText, headerContent, showFooter = true }: PageLayoutProps) {
+export function PageLayout({ children, videoSrc, videoOverlayText, headerContent, showFooter = true, connectedFooter = false }: PageLayoutProps) {
     return (
         <div className="relative min-h-screen font-sans">
             {/* ── Dynamic Hero Header ── */}
@@ -19,9 +20,7 @@ export function PageLayout({ children, videoSrc, videoOverlayText, headerContent
 
                 {/* Background Video */}
                 {videoSrc && (
-                    <video className="absolute top-0 left-0 w-full h-[125%] object-cover z-0" autoPlay muted loop>
-                        <source src={videoSrc} type="video/mp4" />
-                    </video>
+                    <video key={videoSrc} src={videoSrc} className="absolute top-0 left-0 z-0 h-[125%] w-full object-cover" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
                 )}
 
                 {/* Navbar */}
@@ -50,7 +49,7 @@ export function PageLayout({ children, videoSrc, videoOverlayText, headerContent
             </main>
 
             {/* ── Universal Footer ── */}
-            {showFooter && <Footer />}
+            {showFooter && <Footer connected={connectedFooter} />}
         </div>
     );
 }

@@ -11,10 +11,11 @@ export function Roamies() {
                 <div className="fixed inset-0 z-0 bg-[url('/Imgaes/dive.jpg')] bg-cover bg-center brightness-[0.6] select-none" />
 
                 {/* ── Hero Section ── */}
-                <div className="relative z-10 mx-auto text-center mt-[-30px] pt-[80px] text-white flex flex-col gap-6 w-full px-4 min-h-[500px]">
-                    <h1 className="font-black text-6xl drop-shadow-xl">Dreamscape</h1>
-                    <p className="font-black text-5xl md:text-6xl drop-shadow-xl">Are you ready for an adventure?</p>
-                    <span className="font-medium text-3xl drop-shadow-lg">Explore epic places with new faces!</span>
+                <div className="relative z-10 mx-auto flex min-h-[560px] w-full max-w-5xl flex-col items-center justify-center gap-6 px-5 pb-16 pt-28 text-center text-white sm:px-8">
+                    <p className="rounded-full bg-white/15 px-4 py-2 text-sm font-bold uppercase tracking-[0.2em] backdrop-blur-md">Small-group adventures</p>
+                    <h1 className="font-black text-5xl drop-shadow-xl sm:text-6xl">Dreamscape Roamies</h1>
+                    <p className="max-w-3xl font-black text-4xl leading-tight drop-shadow-xl md:text-6xl">Are you ready for an adventure?</p>
+                    <span className="max-w-xl text-xl font-medium drop-shadow-lg sm:text-2xl">Explore epic places with new faces, local guides, and a ready-made crew.</span>
                     <a href="#lesgo" className="mt-4 inline-block mx-auto">
                         <button className="h-[46px] px-8 rounded-xl font-bold border-none text-white bg-[#E0008E] hover:bg-[#c3007b] hover:scale-105 transition shadow-[0_2px_16px_rgba(83,80,241,0.5)]">
                             Let's go!
@@ -24,16 +25,16 @@ export function Roamies() {
 
                 {/* ── Content ── */}
                 <div className="relative z-10 w-full pt-10">
-                    <div className="absolute left-0 right-0 z-10 w-full py-16 px-10 text-[#2b4c06] bg-[#c4ff4c] hidden md:block font-bold text-center text-lg"
+                    <div className="absolute left-0 right-0 z-10 hidden w-full bg-[#c4ff4c] px-10 py-14 text-center text-lg font-bold text-[#2b4c06] md:block"
                         style={{ clipPath: 'polygon(0.09rem 100%, 100% 0, 100% 100%, 0 100%)' }}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi beatae cupiditate distinctio tempore laborum rerum voluptates.
+                        Travel with a friendly crew, stay in sociable hostels, and make every stop feel like a story worth sharing.
                     </div>
 
-                    <div className="relative z-20 w-full bg-[#5350F1] p-10 md:p-[80px]"
+                    <div className="relative z-20 w-full bg-[#5350F1] px-5 py-12 sm:px-8 md:p-20"
                         style={{ clipPath: 'polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%)' }}>
                         <div className="flex flex-col text-white my-10 max-w-7xl mx-auto">
 
-                            <div className="flex flex-col md:flex-row justify-around gap-12 mx-4 md:mx-10 mt-[30px]">
+                            <div className="mx-auto mt-8 grid max-w-6xl gap-10 md:grid-cols-2 md:gap-16">
                                 <div className="flex flex-col flex-1 gap-6">
                                     <h1 className="font-black text-4xl md:text-5xl leading-tight">Wait, what is Roamies?</h1>
                                     <p className="text-lg leading-relaxed font-medium">
@@ -52,15 +53,15 @@ export function Roamies() {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col md:flex-row justify-around gap-12 mx-4 md:mx-10 mt-20 mb-10">
+                            <div className="mx-auto mt-20 grid max-w-6xl gap-10 md:grid-cols-3">
                                 {[
                                     { img: 'https://images.pexels.com/photos/757435/pexels-photo-757435.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Local Guides', p: 'It’s like travelling with a knowledgeable friend...' },
                                     { img: 'https://images.pexels.com/photos/696214/pexels-photo-696214.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Sociable hostels', p: 'If staying in hostels is new for you, let us show you how welcoming they can be.' },
                                     { img: 'https://images.pexels.com/photos/5137967/pexels-photo-5137967.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Budget friendly', p: 'We’ve kept costs as low as they can go, while paying people fairly.' }
                                 ].map(feat => (
                                     <div key={feat.title} className="flex flex-col gap-4 flex-1 items-center text-center">
-                                        <div className="w-full h-[250px] overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,0.3)]">
-                                            <img src={feat.img} className="h-full w-full object-cover hover:scale-110 transition duration-500" alt={feat.title} />
+                                        <div className="h-[220px] w-full overflow-hidden rounded-3xl shadow-[0_10px_20px_rgba(0,0,0,0.3)] sm:h-[260px]">
+                                            <img src={feat.img} loading="lazy" className="h-full w-full object-cover hover:scale-110 transition duration-500" alt={feat.title} />
                                         </div>
                                         <h3 className="text-3xl font-black mt-2">{feat.title}</h3>
                                         <p className="font-medium text-lg text-white/90">{feat.p}</p>
@@ -77,7 +78,7 @@ export function Roamies() {
                             <h1 className="font-black text-5xl md:text-6xl mb-6">Where's your adventure?</h1>
                             <p className="text-xl font-medium text-gray-300">Maybe you know where you want to go, or maybe it’s put a pin in the map time. Have a scroll through these handcrafted trips and remember there is no wrong option; adventure is guaranteed.</p>
 
-                            <ul className="flex flex-col md:flex-row justify-around gap-4 mt-12">
+                            <ul className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                                 {[
                                     { id: 'asia', icon: 'fa-earth-asia', title: 'Asia', tours: '12 Tours' },
                                     { id: 'europe', icon: 'fa-earth-europe', title: 'Europe', tours: '13 Tours' },
@@ -86,7 +87,7 @@ export function Roamies() {
                                 ].map(tab => (
                                     <li key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`w-full md:w-[200px] border-2 rounded-2xl p-5 cursor-pointer transition-all duration-300 ${activeTab === tab.id ? 'border-[#5350F1] text-[#5350F1] scale-105 shadow-xl bg-white' : 'border-white/20 bg-white/5 hover:border-[#5350F1] hover:bg-white/10 text-white hover:text-white hover:scale-105'}`}>
+                                        className={`w-full border-2 rounded-2xl p-5 cursor-pointer transition-all duration-300 ${activeTab === tab.id ? 'border-[#5350F1] text-[#5350F1] scale-[1.03] shadow-xl bg-white' : 'border-white/20 bg-white/5 hover:border-[#5350F1] hover:bg-white/10 text-white hover:text-white hover:scale-[1.03]'}`}>
                                         <div className="font-black text-xl mb-1">{tab.title}</div>
                                         <div className="text-sm font-medium opacity-80">{tab.tours} Available</div>
                                     </li>

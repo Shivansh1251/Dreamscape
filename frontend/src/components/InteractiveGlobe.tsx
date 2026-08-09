@@ -1,66 +1,57 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 import { useNavigate } from 'react-router-dom';
+import { MapPin, Sparkles } from 'lucide-react';
+
+type Country = { properties: { ADMIN: string } };
 
 export function InteractiveGlobe() {
-    const [countries, setCountries] = useState({ features: [] });
-    const [hoverD, setHoverD] = useState<any>(null);
+    const [countries, setCountries] = useState<{ features: Country[] }>({ features: [] });
+    const [hoveredCountry, setHoveredCountry] = useState<Country | null>(null);
     const globeRef = useRef<any>();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch country polygon data
         fetch('https://raw.githubusercontent.com/vasturiano/react-globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
-            .then(res => res.json())
-            .then(data => {
-                setCountries(data);
-            });
+            .then((response) => response.json())
+            .then((data) => setCountries(data))
+            .catch(() => setCountries({ features: [] }));
     }, []);
 
     useEffect(() => {
-        // Auto-rotate the globe slowly
         if (globeRef.current) {
             globeRef.current.controls().autoRotate = true;
             globeRef.current.controls().autoRotateSpeed = 0.5;
         }
-    }, [globeRef.current]);
+    }, []);
 
-    const handlePolygonClick = (polygon: any) => {
-        if (!polygon) return;
-        const countryName = polygon.properties.ADMIN;
-
-        // Smooth transition camera to the country
-        // Let's jump to the Spain page if they click Spain, or just travel-plans for others
-        if (countryName.toLowerCase() === 'spain') {
-            navigate('/spain');
-        } else {
-            // General redirect for all other clicked countries
-            navigate('/travel-plans');
-        }
+    const openCountry = (country: Country | null) => {
+        if (!country) return;
+        const countryName = country.properties.ADMIN;
+        navigate(countryName.toLowerCase() === 'spain' ? '/spain' : `/destination/${encodeURIComponent(countryName)}`);
     };
 
     return (
-        <div className="w-full flex flex-col items-center justify-center bg-[#05203c] py-20 overflow-hidden relative">
-            <div className="absolute top-10 text-center z-10 pointer-events-none px-4">
-                <h2 className="text-4xl md:text-5xl font-black text-white drop-shadow-2xl">
-                    Spin the <span className="text-cyan-400">Globe</span>
-                </h2>
-                <p className="mt-4 text-gray-300 text-lg font-medium">Click on any country to discover your next adventure!</p>
-                <p className="mt-2 text-sm text-cyan-200">(Try clicking Spain)</p>
+        <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#edf7fa] py-20">
+            <div className="relative z-10 px-4 text-center">
+                <p className="mb-3 flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-cyan-700"><Sparkles size={16} /> Explore by feeling</p>
+                <h2 className="text-4xl font-black text-slate-900 md:text-5xl">Spin the <span className="text-cyan-700">Globe</span></h2>
+                <p className="mt-4 text-lg font-medium text-slate-600">Click any country for its own travel guide, photos, food, and events.</p>
+                <div className="mx-auto mt-6 flex max-w-3xl flex-wrap justify-center gap-3">{['Street food', 'Live music', 'Beach days', 'Hidden cafés'].map((idea) => <span key={idea} className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-slate-200">{idea}</span>)}</div>
             </div>
 
-            <div className="cursor-pointer hover:scale-105 transition duration-1000 mt-[50px]">
+            <div className="mt-4 cursor-pointer transition duration-1000 hover:scale-105">
                 <Globe
                     ref={globeRef}
                     globeImageUrl="https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
                     bumpImageUrl="https://unpkg.com/three-globe/example/img/earth-topology.png"
                     polygonsData={countries.features}
-                    polygonAltitude={(d: any) => (d === hoverD ? 0.12 : 0.04)}
-                    polygonCapColor={(d: any) => (d === hoverD ? 'rgba(0, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.1)')}
-                    polygonSideColor={() => 'rgba(0, 100, 255, 0.15)'}
-                    polygonStrokeColor={() => '#111'}
-                    onPolygonHover={setHoverD}
-                    onPolygonClick={handlePolygonClick}
+                    polygonAltitude={(country: object) => country === hoveredCountry ? 0.12 : 0.04}
+                    polygonCapColor={(country: object) => country === hoveredCountry ? 'rgba(6, 182, 212, 0.7)' : 'rgba(15, 23, 42, 0.17)'}
+                    polygonSideColor={() => 'rgba(8, 145, 178, 0.22)'}
+                    polygonStrokeColor={() => 'rgba(15, 23, 42, 0.45)'}
+                    onPolygonHover={(country) => setHoveredCountry(country as Country | null)}
+                    onPolygonClick={(country) => openCountry(country as Country)}
                     polygonsTransitionDuration={300}
                     width={window.innerWidth > 768 ? 800 : window.innerWidth - 20}
                     height={600}
@@ -68,11 +59,7 @@ export function InteractiveGlobe() {
                 />
             </div>
 
-            {hoverD && (
-                <div className="absolute bottom-10 bg-black/60 backdrop-blur-md px-6 py-3 rounded-full text-white font-bold text-xl pointer-events-none shadow-2xl border border-white/20">
-                    📍 {hoverD.properties.ADMIN}
-                </div>
-            )}
-        </div>
+            {hoveredCountry && <div className="pointer-events-none absolute bottom-8 rounded-2xl border border-cyan-100 bg-white/95 px-5 py-3 text-lg font-bold text-slate-900 shadow-xl backdrop-blur-md"><span className="flex items-center gap-2"><MapPin size={19} className="text-cyan-700" /> Discover {hoveredCountry.properties.ADMIN}</span></div>}
+        </section>
     );
 }

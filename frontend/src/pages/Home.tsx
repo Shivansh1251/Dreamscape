@@ -1,34 +1,48 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import { useState } from 'react';
+import { LoaderCircle, Search } from 'lucide-react';
 import { PageLayout } from '../components/PageLayout';
-import { InteractiveGlobe } from '../components/InteractiveGlobe';
+import { DeferredGlobe } from '../components/DeferredGlobe';
+import { TravelJournal } from '../components/TravelJournal';
 
 export function Home() {
     const navigate = useNavigate();
+    const [location, setLocation] = useState('Spain');
+    const [isSearching, setIsSearching] = useState(false);
+
+    const openDestination = () => {
+        const destination = location.trim();
+        if (!destination || isSearching) return;
+        setIsSearching(true);
+        window.setTimeout(() => {
+            navigate(destination.toLowerCase() === 'spain' ? '/spain' : `/destination/${encodeURIComponent(destination)}`);
+        }, 700);
+    };
 
     // Search Bar to inject into PageLayout
     const SearchForm = (
         <div className="TransSearch mb-[60px] mx-auto w-full max-w-4xl p-5 shadow-2xl border border-white/10 rounded-[20px]"
             style={{ backgroundImage: "linear-gradient(rgba(34, 40, 73, 0.9), rgba(45, 59, 137, 0.9))" }}>
             <form className="Search_Bar flex flex-col sm:flex-row items-center justify-evenly w-full gap-4"
-                onSubmit={e => { e.preventDefault(); navigate('/spain'); }}>
-                <select id="From" className="h-[42px] rounded border border-gray-300 text-black px-3 w-full sm:w-auto font-medium shadow-sm outline-none">
-                    <optgroup label="Cities">
-                        <option value="Spain">Spain</option>
-                        <option value="New York">New York</option>
-                        <option value="Los Angeles">Los Angeles</option>
-                        <option value="Chicago">Chicago</option>
-                    </optgroup>
-                    <optgroup label="Countries">
-                        <option value="USA">United States of America</option>
-                        <option value="Canada">Canada</option>
-                    </optgroup>
-                </select>
+                onSubmit={e => { e.preventDefault(); openDestination(); }}>
+                <input
+                    id="location"
+                    list="destinations"
+                    value={location}
+                    onChange={e => setLocation(e.target.value)}
+                    placeholder="Where do you want to go?"
+                    className="h-[42px] rounded border border-gray-300 px-3 text-black shadow-sm outline-none w-full sm:w-[220px]"
+                />
+                <datalist id="destinations">
+                    {['Spain', 'Italy', 'Goa', 'Kashmir', 'Chandigarh', 'Assam', 'Mumbai', 'Delhi', 'New York', 'Los Angeles', 'Chicago', 'Canada'].map(destination => (
+                        <option key={destination} value={destination} />
+                    ))}
+                </datalist>
                 <input type="date" id="Date" className="h-[42px] rounded border border-gray-300 text-black px-3 w-full sm:w-auto font-medium shadow-sm outline-none" />
                 <input type="date" id="Date2" className="h-[42px] rounded border border-gray-300 text-black px-3 w-full sm:w-auto font-medium shadow-sm outline-none" />
                 <input type="number" id="guest" placeholder="Guests" className="h-[42px] rounded border border-gray-300 text-black px-3 w-full sm:w-28 font-medium shadow-sm outline-none" />
-                <button type="submit" className="bg-[#217caa] text-white rounded px-6 py-[10px] hover:bg-[#f9d5d3] transition flex items-center justify-center gap-2 font-bold w-full sm:w-auto shadow-md">
-                    Search <Search size={18} />
+                <button type="submit" disabled={isSearching} className="bg-[#217caa] text-white rounded px-6 py-[10px] hover:bg-[#f9d5d3] transition flex items-center justify-center gap-2 font-bold w-full sm:w-auto shadow-md disabled:cursor-wait disabled:opacity-80">
+                    {isSearching ? <><LoaderCircle size={18} className="animate-spin" /> Searching...</> : <>Search <Search size={18} /></>}
                 </button>
             </form>
         </div>
@@ -38,8 +52,9 @@ export function Home() {
         <PageLayout
             videoSrc="https://videos.pexels.com/video-files/4525107/4525107-uhd_2560_1440_24fps.mp4"
             headerContent={SearchForm}
+            connectedFooter
         >
-            <div className="bg-gray-50 text-gray-900 pb-10">
+            <div className="bg-gray-50 text-gray-900 pb-0">
 
                 {/* ── Perks ── */}
                 <div className="flex flex-row gap-2 justify-center items-center py-6 bg-white border-b border-gray-200">
@@ -52,22 +67,22 @@ export function Home() {
                     <div className="flex flex-row justify-around gap-6 flex-wrap items-center">
                         <Link to="/spain" className="no-underline group">
                             <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center hover:-translate-y-2 transition duration-300">
-                                <video width="200" height="200" src="https://media.istockphoto.com/id/465600686/video/people-in-the-city-center-of-madrid.mp4?s=mp4-640x640-is&k=20&c=HpjT2EYQ7qP9gtskw4-OfPjlZlwF6d9-y1y8zHV4Brg=" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                                <video width="200" height="200" src="https://media.istockphoto.com/id/465600686/video/people-in-the-city-center-of-madrid.mp4?s=mp4-640x640-is&k=20&c=HpjT2EYQ7qP9gtskw4-OfPjlZlwF6d9-y1y8zHV4Brg=" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                                 <div className="mt-4">
                                     <h4 className="font-bold text-black text-2xl">Spain</h4>
                                     <p className="text-gray-500 text-sm mt-1">Last updated 1 hr ago</p>
                                 </div>
                             </div>
                         </Link>
-                        <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
-                            <video width="200" height="200" src="https://videos.pexels.com/video-files/3381844/3381844-hd_1920_1080_30fps.mp4" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                        <div onClick={() => navigate('/destination/italy')} role="link" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && navigate('/destination/italy')} className="w-[260px] cursor-pointer bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
+                            <video width="200" height="200" src="https://videos.pexels.com/video-files/3381844/3381844-hd_1920_1080_30fps.mp4" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                             <div className="mt-4">
                                 <h4 className="font-bold text-black text-2xl">Italy</h4>
                                 <p className="text-gray-500 text-sm mt-1">Last updated 3 mins ago</p>
                             </div>
                         </div>
-                        <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
-                            <video width="200" height="200" src="https://videos.pexels.com/video-files/4440816/4440816-hd_1920_1080_25fps.mp4" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                        <div onClick={() => navigate('/destination/goa')} role="link" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && navigate('/destination/goa')} className="w-[260px] cursor-pointer bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
+                            <video width="200" height="200" src="https://videos.pexels.com/video-files/4440816/4440816-hd_1920_1080_25fps.mp4" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                             <div className="mt-4">
                                 <h4 className="font-bold text-black text-2xl">Goa</h4>
                                 <p className="text-gray-500 text-sm mt-1">Last updated 5 mins ago</p>
@@ -76,8 +91,8 @@ export function Home() {
                     </div>
 
                     <div className="flex flex-row justify-around gap-6 flex-wrap items-center my-14">
-                        <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center hidden md:block group">
-                            <video width="200" height="200" src="https://videos.pexels.com/video-files/13750318/13750318-sd_640_360_30fps.mp4" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                        <div onClick={() => navigate('/destination/kashmir')} role="link" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && navigate('/destination/kashmir')} className="w-[260px] cursor-pointer bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center hidden md:block group">
+                            <video width="200" height="200" src="https://videos.pexels.com/video-files/13750318/13750318-sd_640_360_30fps.mp4" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                             <div className="mt-4">
                                 <h4 className="font-bold text-black text-2xl">Kashmir</h4>
                                 <p className="text-gray-500 text-sm mt-1">Last updated 8 mins ago</p>
@@ -87,8 +102,8 @@ export function Home() {
                             <h2 className="text-4xl font-black mb-4 text-black leading-tight">Explore the <span className="text-blue-600 block">World's Best places</span></h2>
                             <h5 className="text-lg font-medium text-gray-600">Discover exceptional accommodations in over 180 countries, with 13 million reviews to guide you.</h5>
                         </div>
-                        <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center hidden md:block group">
-                            <video width="200" height="200" src="https://videos.pexels.com/video-files/12726493/12726493-sd_640_360_30fps.mp4" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                        <div onClick={() => navigate('/destination/chandigarh')} role="link" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && navigate('/destination/chandigarh')} className="w-[260px] cursor-pointer bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center hidden md:block group">
+                            <video width="200" height="200" src="https://videos.pexels.com/video-files/12726493/12726493-sd_640_360_30fps.mp4" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                             <div className="mt-4">
                                 <h4 className="font-bold text-black text-2xl">Chandigarh</h4>
                                 <p className="text-gray-500 text-sm mt-1">Last updated 1 mins ago</p>
@@ -97,22 +112,22 @@ export function Home() {
                     </div>
 
                     <div className="flex flex-row justify-around gap-6 flex-wrap items-center">
-                        <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
-                            <video width="200" height="200" src="https://videos.pexels.com/video-files/5617394/5617394-sd_640_360_25fps.mp4" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                        <div onClick={() => navigate('/destination/assam')} role="link" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && navigate('/destination/assam')} className="w-[260px] cursor-pointer bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
+                            <video width="200" height="200" src="https://videos.pexels.com/video-files/5617394/5617394-sd_640_360_25fps.mp4" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                             <div className="mt-4">
                                 <h4 className="font-bold text-black text-2xl">Assam</h4>
                                 <p className="text-gray-500 text-sm mt-1">Last updated 26 mins ago</p>
                             </div>
                         </div>
-                        <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
-                            <video width="200" height="200" src="https://videos.pexels.com/video-files/8361011/8361011-sd_640_360_24fps.mp4" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                        <div onClick={() => navigate('/destination/mumbai')} role="link" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && navigate('/destination/mumbai')} className="w-[260px] cursor-pointer bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
+                            <video width="200" height="200" src="https://videos.pexels.com/video-files/8361011/8361011-sd_640_360_24fps.mp4" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                             <div className="mt-4">
                                 <h4 className="font-bold text-black text-2xl">Mumbai</h4>
                                 <p className="text-gray-500 text-sm mt-1">Last updated 10 mins ago</p>
                             </div>
                         </div>
-                        <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
-                            <video width="200" height="200" src="https://videos.pexels.com/video-files/3243946/3243946-sd_640_360_30fps.mp4" autoPlay loop muted className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
+                        <div onClick={() => navigate('/destination/delhi')} role="link" tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && navigate('/destination/delhi')} className="w-[260px] cursor-pointer bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center group">
+                            <video width="200" height="200" src="https://videos.pexels.com/video-files/3243946/3243946-sd_640_360_30fps.mp4" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                             <div className="mt-4">
                                 <h4 className="font-bold text-black text-2xl">Delhi</h4>
                                 <p className="text-gray-500 text-sm mt-1">Last updated 3 mins ago</p>
@@ -151,43 +166,13 @@ export function Home() {
                 </div>
 
                 {/* ── Interactive Globe ── */}
-                <InteractiveGlobe />
+                <DeferredGlobe />
 
                 {/* ── Blogs ── */}
-                <section id="Blogs" className="bg-[#1d3037] p-10 flex flex-col items-center text-white py-20 min-h-screen justify-center">
-                    <div className="text-center w-full mb-14 max-w-4xl mx-auto">
-                        <h2 className="text-4xl md:text-5xl font-bold leading-tight">Discover the World's Most <span className="text-cyan-400">Unforgettable</span> Adventure Destinations</h2>
-                    </div>
-                    <div className="flex flex-col xl:flex-row flex-wrap justify-center gap-10 max-w-7xl">
-
-                        <div className="w-full xl:w-[800px] flex flex-col md:flex-row bg-[#1c2038] text-white rounded-2xl shadow-2xl overflow-hidden hover:scale-[1.02] transition">
-                            <img src="https://images.pexels.com/photos/2108845/pexels-photo-2108845.jpeg?auto=compress&cs=tinysrgb&w=600" className="w-full md:w-[45%] h-[250px] md:h-auto object-cover" alt="Mountains" />
-                            <div className="p-8 flex flex-col justify-center text-left flex-1">
-                                <h5 className="text-3xl font-black text-white mb-4">Mountains Riders</h5>
-                                <p className="text-base text-gray-300 leading-relaxed">
-                                    Get ready to challenge yourself and push your limits on the world's most epic mountain trails.
-                                    From the rugged peaks of the Himalayas to the snow-capped ranges of the Rockies...
-                                </p>
-                                <p className="mt-6"><small className="text-blue-400 font-bold bg-blue-900/40 px-3 py-1 rounded-full">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-
-                        <div className="w-full xl:w-[800px] flex flex-col md:flex-row bg-[#1c2038] text-white rounded-2xl shadow-2xl overflow-hidden hover:scale-[1.02] transition">
-                            <img src="https://images.pexels.com/photos/14934581/pexels-photo-14934581.jpeg?auto=compress&cs=tinysrgb&w=600" className="w-full md:w-[45%] h-[250px] md:h-auto object-cover" alt="Caravan" />
-                            <div className="p-8 flex flex-col justify-center text-left flex-1">
-                                <h5 className="text-3xl font-black text-white mb-4">A Caravan Night with Us</h5>
-                                <p className="text-base text-gray-300 leading-relaxed">
-                                    Embark on a luxurious desert adventure under the starry night sky. Our caravan glamping experience offers unparalleled serenity among the dunes...
-                                </p>
-                                <p className="mt-6"><small className="text-blue-400 font-bold bg-blue-900/40 px-3 py-1 rounded-full">Last updated 8 mins ago</small></p>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
+                <TravelJournal />
 
                 {/* ── Community ── */}
-                <div className="bg-[#528295] py-20 px-10 text-center text-white" id="Aboutus" style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 3.5rem), 0 100%)' }}>
+                <div className="relative z-10 bg-[#528295] px-10 pb-32 pt-20 text-center text-white" id="Aboutus" style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 3.5rem), 0 100%)' }}>
                     <h2 className="text-4xl font-bold mb-4 drop-shadow-md">Join Our Community!</h2>
                     <div className="mb-8 text-xl font-medium">Sign up to DreamscapeWorld for Extra Offers and benefits!</div>
                     <div className="flex justify-center max-w-md mx-auto">

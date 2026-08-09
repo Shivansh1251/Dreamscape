@@ -30,7 +30,8 @@ export const config = {
     },
 
     pexels: {
-        apiKey: process.env.pexels_api_key || "",
+        // PEXELS_API_KEY is preferred; retain the original name for existing .env files.
+        apiKey: process.env.PEXELS_API_KEY || process.env.PEXELS_ACCESS_KEY || process.env.pexels_api_key || process.env.pexels_access_key || "",
     },
 
     cors: {
