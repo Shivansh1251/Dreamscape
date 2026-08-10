@@ -15,6 +15,13 @@ const defaultGuide = (place: string): DestinationGuide => ({
 });
 
 const guides: Record<string, DestinationGuide> = {
+    jaipur: {
+        famousFor: ['Amber Fort above the Aravalli hills', 'The honeycomb windows of Hawa Mahal', 'Jantar Mantar, Jaipur\'s UNESCO-listed observatory'],
+        culture: 'Walk the Pink City, watch artisans at work in Johari Bazaar, and make time for Rajasthani folk music or a cultural performance at a heritage venue.',
+        food: ['Dal baati churma', 'Pyaaz kachori with chai', 'Laal maas and traditional Rajasthani thali'],
+        restaurants: ['Book a heritage-hotel dinner', 'Try a busy local kachori shop for breakfast', 'Choose a rooftop restaurant for views of the old city'],
+        nightlife: 'Jaipur evenings are best for heritage rooftops, folk performances, cosy cocktail bars, and an unhurried walk through the lit-up Pink City.',
+    },
     spain: {
         famousFor: ['Flamenco, fiestas, and late-night energy', 'Gaudí architecture and Mediterranean coastlines', 'Tapas culture, markets, and long shared meals'],
         culture: 'Catch a flamenco performance, a neighbourhood festival, or an outdoor film and let the city set the rhythm for your evening.',

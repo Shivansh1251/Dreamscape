@@ -1,22 +1,38 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { LoaderCircle, Search } from 'lucide-react';
+import { CarFront, Hotel, LoaderCircle, PlaneTakeoff, Search } from 'lucide-react';
 import { PageLayout } from '../components/PageLayout';
 import { DeferredGlobe } from '../components/DeferredGlobe';
 import { TravelJournal } from '../components/TravelJournal';
+import { apiUrl } from '../lib/api';
 
 export function Home() {
     const navigate = useNavigate();
     const [location, setLocation] = useState('Spain');
     const [isSearching, setIsSearching] = useState(false);
+    const [communityEmail, setCommunityEmail] = useState('');
+    const [communityStatus, setCommunityStatus] = useState('');
 
     const openDestination = () => {
         const destination = location.trim();
         if (!destination || isSearching) return;
         setIsSearching(true);
         window.setTimeout(() => {
-            navigate(destination.toLowerCase() === 'spain' ? '/spain' : `/destination/${encodeURIComponent(destination)}`);
+            navigate(`/destination/${encodeURIComponent(destination)}`);
         }, 700);
+    };
+
+    const subscribeCommunity = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setCommunityStatus('');
+        try {
+            const response = await fetch(apiUrl('/api/community/subscribe'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: communityEmail }) });
+            const data = await response.json() as { message?: string; error?: string };
+            if (!response.ok) throw new Error(data.error || 'Unable to subscribe');
+            localStorage.setItem('dreamscapeCommunityEmail', communityEmail);
+            setCommunityStatus(data.message || 'You are on the list!');
+            setCommunityEmail('');
+        } catch (error) { setCommunityStatus(error instanceof Error ? error.message : 'Unable to subscribe'); }
     };
 
     // Search Bar to inject into PageLayout
@@ -65,7 +81,7 @@ export function Home() {
                 {/* ── Places Grid ── */}
                 <div className="py-12 px-4 max-w-7xl mx-auto">
                     <div className="flex flex-row justify-around gap-6 flex-wrap items-center">
-                        <Link to="/spain" className="no-underline group">
+                        <Link to="/destination/spain" className="no-underline group">
                             <div className="w-[260px] bg-white rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.1)] p-4 text-center hover:-translate-y-2 transition duration-300">
                                 <video width="200" height="200" src="https://media.istockphoto.com/id/465600686/video/people-in-the-city-center-of-madrid.mp4?s=mp4-640x640-is&k=20&c=HpjT2EYQ7qP9gtskw4-OfPjlZlwF6d9-y1y8zHV4Brg=" autoPlay loop muted playsInline preload="none" className="rounded-xl mx-auto object-cover group-hover:scale-105 transition" />
                                 <div className="mt-4">
@@ -137,12 +153,12 @@ export function Home() {
                 </div>
 
                 {/* ── Where to ── */}
-                <div className="flex flex-row justify-center gap-6 my-10 hidden md:flex">
-                    <a href="https://www.booking.com/"><button className="bg-[#05203c] text-white font-bold h-[50px] w-[200px] rounded-xl hover:bg-[#1a385b] transition">Comparison</button></a>
-                    <a href="https://www.airbnb.co.in/india/stays"><button className="bg-[#05203c] text-white font-bold h-[50px] w-[200px] rounded-xl hover:bg-[#1a385b] transition">Airbnb</button></a>
-                    <a href="https://www.uber.com/in/en/"><button className="bg-[#05203c] text-white font-bold h-[50px] w-[200px] rounded-xl hover:bg-[#1a385b] transition">Car hire</button></a>
-                    <Link to="/travel-plans"><button className="bg-[#05203c] text-white font-bold h-[50px] w-[200px] rounded-xl hover:bg-[#1a385b] transition">Flights</button></Link>
-                </div>
+                <section className="mx-auto my-12 grid max-w-6xl gap-4 px-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <a href="https://www.google.com/travel/hotels" target="_blank" rel="noreferrer" className="group rounded-2xl bg-[#05203c] p-5 text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#12385c]"><Hotel className="mb-6 text-cyan-300" size={27} /><h3 className="text-xl font-black">Comparison</h3><p className="mt-2 text-sm text-white/70">Compare hotel options and prices.</p></a>
+                    <a href="https://www.airbnb.co.in/india/stays" target="_blank" rel="noreferrer" className="group rounded-2xl bg-[#05203c] p-5 text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#12385c]"><Hotel className="mb-6 text-rose-300" size={27} /><h3 className="text-xl font-black">Airbnb</h3><p className="mt-2 text-sm text-white/70">Find stays with local character.</p></a>
+                    <a href="https://www.uber.com/in/en/" target="_blank" rel="noreferrer" className="group rounded-2xl bg-[#05203c] p-5 text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#12385c]"><CarFront className="mb-6 text-amber-300" size={27} /><h3 className="text-xl font-black">Car hire</h3><p className="mt-2 text-sm text-white/70">Plan simple travel around town.</p></a>
+                    <Link to="/travel-plans" className="group rounded-2xl bg-[#05203c] p-5 text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#12385c]"><PlaneTakeoff className="mb-6 text-violet-300" size={27} /><h3 className="text-xl font-black">Flights</h3><p className="mt-2 text-sm text-white/70">Check airports and flight details.</p></Link>
+                </section>
 
                 {/* ── Roamies ── */}
                 <div className="bg-[linear-gradient(145deg,black_50%,rgb(63,128,128)_50%)] py-20 px-10 flex flex-col md:flex-row items-center justify-around overflow-hidden text-white" id="Roamie">
@@ -155,7 +171,7 @@ export function Home() {
                     </div>
                     <div className="flex-1 flex justify-center gap-4 flex-col">
                         <div className="flex gap-4">
-                            <img className="w-1/2 h-[170px] md:h-[220px] rounded-2xl object-cover shadow-lg hover:scale-105 transition" src="https://dailywildlifephoto.nathab.com/photography-guide/wp-content/uploads/2016/05/alaska-1-940x627.jpg" alt="Alaksa" />
+                            <img className="w-1/2 h-[170px] md:h-[220px] rounded-2xl object-cover shadow-lg hover:scale-105 transition" src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=900&q=80" alt="Alaska mountains" />
                             <img className="w-1/2 h-[170px] md:h-[220px] rounded-2xl object-cover shadow-lg hover:scale-105 transition" src="https://cdn.clippingpath.in/wp-content/uploads/2018/11/adult-blur-camera-368893.jpg" alt="Camera" />
                         </div>
                         <div className="flex gap-4">
@@ -176,11 +192,12 @@ export function Home() {
                     <h2 className="text-4xl font-bold mb-4 drop-shadow-md">Join Our Community!</h2>
                     <div className="mb-8 text-xl font-medium">Sign up to DreamscapeWorld for Extra Offers and benefits!</div>
                     <div className="flex justify-center max-w-md mx-auto">
-                        <form className="flex w-full overflow-hidden rounded-xl shadow-2xl bg-white border border-transparent focus-within:border-blue-500 transition">
-                            <input className="flex-1 px-5 py-4 text-black outline-none font-medium text-lg" type="email" placeholder="Your email address" required />
+                        <form onSubmit={subscribeCommunity} className="flex w-full overflow-hidden rounded-xl shadow-2xl bg-white border border-transparent focus-within:border-blue-500 transition">
+                            <input value={communityEmail} onChange={(event) => setCommunityEmail(event.target.value)} className="flex-1 px-5 py-4 text-black outline-none font-medium text-lg" type="email" placeholder="Your email address" required />
                             <button className="bg-black text-white px-8 py-4 font-bold text-xl hover:bg-gray-800 transition">→</button>
                         </form>
                     </div>
+                    {communityStatus && <p className="mx-auto mt-4 max-w-md rounded-xl bg-white/15 px-4 py-3 font-bold">{communityStatus}</p>}
                     <div className="text-sm max-w-xl mx-auto mt-8 text-gray-100 opacity-80">
                         Just so you know, we’ll be able to see if you receive and open our emails to help us monitor the success of our campaigns.
                     </div>

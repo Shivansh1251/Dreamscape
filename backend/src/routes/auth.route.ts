@@ -14,7 +14,7 @@ router.get("/google",
             // Mock authentication for demonstration
             req.login({ id: "mock_user", firstName: "Test", lastName: "User" } as Express.User, (err) => {
                 if (err) return next(err);
-                return res.redirect("/Dashboard.html");
+                return res.redirect(`${config.frontendUrl}/dashboard`);
             });
         }
     }
@@ -23,10 +23,10 @@ router.get("/google",
 // Google Callback Route
 router.get(
     "/google/callback",
-    passport.authenticate("google", { failureRedirect: "/Log_in.html?error=auth_failed" }),
+    passport.authenticate("google", { failureRedirect: `${config.frontendUrl}/login?error=auth_failed` }),
     (req, res) => {
         // Successful authentication
-        res.redirect("/Dashboard.html");
+        res.redirect(`${config.frontendUrl}/dashboard`);
     }
 );
 

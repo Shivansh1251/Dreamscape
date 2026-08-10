@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { X } from 'lucide-react';
+import { apiUrl } from '../lib/api';
 
 type AuthMode = 'login' | 'signup';
 
@@ -70,7 +71,7 @@ export function AuthModal({ initialMode = 'login', onClose, onSuccess, standalon
                 <p className="mt-1 text-sm sm:text-base">{mode === 'login' ? 'Log in to your account' : "Let's get you started! Please enter your details."}</p>
             </div>
             <div className="px-6 py-5 sm:px-8">
-                <a href="http://localhost:3000/api/auth/google" className="mx-auto flex h-12 w-full max-w-[220px] items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white text-base font-semibold shadow-sm transition hover:bg-gray-50" aria-label="Continue with Google"><span className="text-xl font-bold text-[#4285f4]">G</span> Continue with Google</a>
+                <a href={apiUrl('/api/auth/google')} className="mx-auto flex h-12 w-full max-w-[220px] items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white text-base font-semibold shadow-sm transition hover:bg-gray-50" aria-label="Continue with Google"><svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.55-.2-2.27H12v4.3h6.45a5.51 5.51 0 0 1-2.39 3.62v2.79h3.87c2.26-2.08 3.56-5.14 3.56-8.44Z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.94-2.91l-3.87-2.79c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.79-2.11-6.74-4.95H1.27v2.88A12 12 0 0 0 12 24Z"/><path fill="#FBBC05" d="M5.26 14.5A7.2 7.2 0 0 1 4.88 12c0-.87.15-1.71.38-2.5V6.62H1.27A12 12 0 0 0 0 12c0 1.94.46 3.78 1.27 5.38l3.99-2.88Z"/><path fill="#EA4335" d="M12 4.55c1.76 0 3.35.61 4.6 1.81l3.45-3.45C17.95.94 15.24 0 12 0A12 12 0 0 0 1.27 6.62L5.26 9.5C6.21 6.66 8.87 4.55 12 4.55Z"/></svg> Continue with Google</a>
                 <div className="my-5 flex items-center gap-3 text-center text-sm text-gray-500"><hr className="flex-1" />or<hr className="flex-1" /></div>
 
                 <p className="mb-4 text-center text-base font-medium">{mode === 'login' ? 'Log in with your email address' : 'Sign up with your email address'}</p>

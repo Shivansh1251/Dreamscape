@@ -6,6 +6,7 @@ import {
     Hotel, Star, ArrowLeft, Home, Sparkles
 } from 'lucide-react';
 import { Footer } from '../components/Footer';
+import { apiUrl } from '../lib/api';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 type Status = 'idle' | 'loading' | 'success' | 'error';
@@ -15,7 +16,7 @@ const EMPTY: ResultState = { status: 'idle', text: '' };
 
 // ── Helper: post to backend ─────────────────────────────────────────────────
 async function callApi(endpoint: string, body: object): Promise<string> {
-    const res = await fetch(`/api/ai/${endpoint}`, {
+    const res = await fetch(apiUrl(`/api/ai/${endpoint}`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

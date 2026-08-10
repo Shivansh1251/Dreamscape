@@ -30,14 +30,14 @@ export function PageLayout({ children, videoSrc, videoOverlayText, headerContent
 
                 {/* Video Overlay Text (Center) */}
                 {videoOverlayText && (
-                    <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-[300px] pt-24 pb-10">
+                    <div className="relative z-10 flex h-full min-h-[420px] flex-col items-center justify-center px-4 pb-12 pt-52">
                         {videoOverlayText}
                     </div>
                 )}
 
                 {/* Search Bar / Header Content (Bottom overlapping) */}
                 {headerContent && (
-                    <div className="relative z-20 flex justify-center w-full px-4" style={{ marginTop: videoOverlayText ? '0' : '150px' }}>
+                    <div className="relative z-20 flex w-full justify-center px-4" style={{ marginTop: videoOverlayText ? '0' : '190px' }}>
                         {headerContent}
                     </div>
                 )}

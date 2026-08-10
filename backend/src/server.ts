@@ -4,7 +4,6 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import path from "path";
 
 import { config } from "./config";
 import { logger } from "./logger";
@@ -13,6 +12,8 @@ import { connectDB } from "./config/db";
 import passport from "./config/passport";
 import authRoutes from "./routes/auth.route";
 import mediaRoute from "./routes/media.route";
+import placesRoute from "./routes/places.route";
+import communityRoute from "./routes/community.route";
 
 // Connect to MongoDB
 connectDB();
@@ -60,6 +61,7 @@ app.use(
         saveUninitialized: false,
         cookie: {
             secure: config.nodeEnv === "production",
+            sameSite: config.nodeEnv === "production" ? "none" : "lax",
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         }
@@ -70,9 +72,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Serve static frontend files
-app.use(express.static(path.join(__dirname, "../../")));
-
 // Health check
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
@@ -82,6 +81,8 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", routes);
 app.use("/api/media", mediaRoute);
+app.use("/api/places", placesRoute);
+app.use("/api/community", communityRoute);
 
 // 404 Handler
 app.use((req, res) => {
@@ -94,9 +95,10 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
     res.status(500).json({ error: "Internal Server Error" });
 });
 
-// Start Server
-app.listen(config.port, () => {
-    logger.info(
-        `Dreamscapes Backend running in ${config.nodeEnv} mode on port ${config.port}`
-    );
-});
+if (require.main === module) {
+    app.listen(config.port, () => {
+        logger.info(`Dreamscapes Backend running in ${config.nodeEnv} mode on port ${config.port}`);
+    });
+}
+
+export default app;

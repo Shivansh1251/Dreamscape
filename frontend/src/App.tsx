@@ -4,7 +4,6 @@ import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { AiCopilot } from './pages/AiCopilot';
-import { Spain } from './pages/Spain';
 import { Roamies } from './pages/Roamies';
 import { TravelPlans } from './pages/TravelPlans';
 import { Destination } from './pages/Destination';
@@ -25,7 +24,7 @@ export function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/ai-copilot" element={<AiCopilot />} />
-                <Route path="/spain" element={<Spain />} />
+                <Route path="/spain" element={<Navigate to="/destination/spain" replace />} />
                 <Route path="/roamies" element={<Roamies />} />
                 <Route path="/travel-plans" element={<TravelPlans />} />
                 <Route path="/destination/:name" element={<Destination />} />

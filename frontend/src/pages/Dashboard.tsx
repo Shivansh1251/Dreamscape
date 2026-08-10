@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Settings, LogOut, LayoutDashboard, Bot, Plane, Users, Bell } from 'lucide-react';
-import { Footer } from '../components/Footer';
+import { User, Settings, LogOut, LayoutDashboard, Bot, Plane, Users, Bell, BadgePercent, Ticket, GraduationCap, Sparkles } from 'lucide-react';
+import { apiUrl } from '../lib/api';
 
 interface UserProfile {
     firstName: string;
@@ -27,7 +27,7 @@ export function Dashboard() {
         setActivityLog(logs);
 
         // 1. Try backend session first
-        fetch('/api/auth/me')
+        fetch(apiUrl('/api/auth/me'), { credentials: 'include' })
             .then(r => r.json())
             .then(data => {
                 if (data.success && data.user) {
@@ -61,7 +61,7 @@ export function Dashboard() {
 
     async function handleLogout() {
         if (!confirm('Are you sure you want to log out?')) return;
-        try { await fetch('/api/auth/logout'); } catch { /* ignored */ }
+        try { await fetch(apiUrl('/api/auth/logout'), { credentials: 'include' }); } catch { /* ignored */ }
         localStorage.removeItem('currentUser');
         navigate('/login');
     }
@@ -91,35 +91,36 @@ export function Dashboard() {
     ];
 
     return (
-        <div className="flex flex-col h-screen bg-gray-950 text-white overflow-hidden">
+        <div className="flex h-screen overflow-hidden bg-[#eef7ff] text-slate-900">
             <div className="flex flex-1 overflow-hidden">
                 {/* ── Sidebar ── */}
-                <aside className="w-64 bg-gray-900 flex flex-col border-r border-gray-800 shrink-0">
-                    <div className="p-5 border-b border-gray-800">
+                <aside className="flex w-64 shrink-0 flex-col border-r border-white/30 bg-[linear-gradient(160deg,#102c68_0%,#522b86_55%,#e14f83_120%)] text-white shadow-2xl">
+                    <div className="border-b border-white/15 p-5">
                         <Link to="/"><img src="/Imgaes/Logo.png" alt="Dreamscapes" className="h-10" /></Link>
                     </div>
                     <nav className="flex-1 p-4 space-y-1">
                         {sidebarItems.map(item => (
                             <button key={item.key} onClick={() => setSection(item.key)}
-                                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition ${section === item.key ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}>
+                                className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold transition ${section === item.key ? 'bg-white text-indigo-800 shadow-lg' : 'text-white/70 hover:bg-white/15 hover:text-white'}`}>
                                 {item.icon} {item.label}
                             </button>
                         ))}
                     </nav>
-                    <div className="p-4 border-t border-gray-800">
+                    <div className="border-t border-white/15 p-4">
                         <button onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-red-400 hover:bg-red-900/30 transition">
+                            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold text-rose-100 transition hover:bg-white/15">
                             <LogOut size={18} /> Log Out
                         </button>
                     </div>
                 </aside>
 
                 {/* ── Main content ── */}
-                <main className="flex-1 overflow-y-auto p-8">
+                <main className="flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_right,_#d7f5ff,_#f7f4ff_42%,_#fff4ea)] p-5 md:p-8">
 
                     {/* Dashboard Home */}
                     {section === 'dashboard' && (
                         <div>
+                            <div className="mb-8 rounded-[2rem] bg-[linear-gradient(110deg,#1b3f8b,#6d3da8_55%,#e25385)] p-7 text-white shadow-xl"><p className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-white/75"><Sparkles size={16} /> Your travel space</p><p className="text-white/80">Your next journey is waiting for a little sparkle.</p></div>
                             <h1 className="text-3xl font-bold mb-2">Welcome back, {user.firstName}! 👋</h1>
                             <p className="text-gray-400 mb-8">Here's what's going on with your travels.</p>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -128,16 +129,17 @@ export function Dashboard() {
                                     { label: 'AI Copilot Uses', value: '12', icon: <Bot size={24} /> },
                                     { label: 'Roamie Connections', value: '5', icon: <Users size={24} /> },
                                 ].map(c => (
-                                    <div key={c.label} className="bg-gray-800 rounded-xl p-6 flex items-center gap-4">
-                                        <div className="text-blue-400">{c.icon}</div>
+                                    <div key={c.label} className="flex items-center gap-4 rounded-3xl border border-white bg-white/80 p-6 shadow-sm">
+                                        <div className="rounded-2xl bg-gradient-to-br from-cyan-100 to-violet-100 p-3 text-indigo-700">{c.icon}</div>
                                         <div>
                                             <p className="text-2xl font-bold">{c.value}</p>
-                                            <p className="text-gray-400 text-sm">{c.label}</p>
+                                            <p className="text-sm text-slate-500">{c.label}</p>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            <div className="bg-gray-800 rounded-xl p-6">
+                            <div className="mb-8 rounded-3xl border border-white bg-white/80 p-6 shadow-sm"><div className="mb-5 flex items-center gap-2"><BadgePercent className="text-fuchsia-600" /><h2 className="text-xl font-black">Your travel offers</h2></div><div className="grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-700 p-5 text-white"><Ticket className="mb-5" /><p className="text-2xl font-black">20% off</p><p className="mt-1 text-sm text-white/85">Welcome voucher</p><code className="mt-4 inline-block rounded-lg bg-white/20 px-3 py-2 font-bold">DREAM20</code></div><div className="rounded-2xl bg-gradient-to-br from-fuchsia-500 to-rose-600 p-5 text-white"><GraduationCap className="mb-5" /><p className="text-2xl font-black">Up to 50% off</p><p className="mt-1 text-sm text-white/85">Student travel deal</p><button type="button" className="mt-4 rounded-lg bg-white/20 px-3 py-2 text-sm font-bold hover:bg-white/30">Verify student status</button></div><div className="rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 p-5 text-white"><Sparkles className="mb-5" /><p className="text-2xl font-black">Member perks</p><p className="mt-1 text-sm text-white/85">Vouchers unlock at checkout</p><button type="button" className="mt-4 rounded-lg bg-white/20 px-3 py-2 text-sm font-bold hover:bg-white/30">View vouchers</button></div></div><p className="mt-4 text-xs text-slate-500">Offers are shown to signed-in members. Student offers need verification, and final availability depends on the booking provider.</p></div>
+                            <div className="rounded-3xl border border-white bg-white/80 p-6 shadow-sm">
                                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><Bell size={18} /> Activity Log</h2>
                                 {activityLog.length === 0
                                     ? <p className="text-gray-500">No activity yet.</p>
@@ -238,7 +240,6 @@ export function Dashboard() {
 
                 </main>
             </div>
-            <Footer />
         </div>
     );
 }

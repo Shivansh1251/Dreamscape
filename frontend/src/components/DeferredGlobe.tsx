@@ -19,5 +19,5 @@ export function DeferredGlobe() {
         return () => observer.disconnect();
     }, []);
 
-    return <div ref={containerRef} className="min-h-[600px] bg-[#edf7fa]">{shouldLoad && <Suspense fallback={<div className="min-h-[600px] bg-[#edf7fa]" />}><Globe /></Suspense>}</div>;
+    return <div ref={containerRef} className="min-h-[520px] bg-[#edf7fa]">{shouldLoad && <Suspense fallback={<div className="min-h-[520px] bg-[#edf7fa]" />}><Globe /></Suspense>}</div>;
 }
