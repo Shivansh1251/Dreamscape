@@ -1,65 +1,107 @@
 # Dreamscape
 
-Dreamscape is a travel planning web application that allows users to explore destinations, book accommodations, and manage their travel plans. The application provides a user-friendly interface to search for destinations, view travel information, and interact with other travelers.
+<p align="center">
+  <img src="./Imgaes/Logo.png" alt="Dreamscape logo" width="220">
+</p>
 
-## Table of Contents
+<p align="center">
+  Plan better trips, discover inspiring destinations, and keep every travel idea in one place.
+</p>
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [File Structure](#file-structure)
-- [Contributing](#contributing)
-- [License](#license)
+<p align="center">
+  <a href="https://github.com/Shivansh1251/Dreamscape">Repository</a>
+  ·
+  <a href="https://github.com/Shivansh1251/Dreamscape/issues">Report an issue</a>
+</p>
+
+## Preview
+
+![Dreamscape travel preview](./frontend/public/Imgaes/ss_dreamscape.png)
+
+## About
+
+Dreamscape is a full-stack travel planning application for exploring destinations, organizing trips, and getting travel recommendations. The project includes a React/Vite frontend and an Express/TypeScript backend with authentication, travel utilities, and AI-powered services.
 
 ## Features
 
-- Search for travel destinations
-- View detailed travel information for various locations
-- Book accommodations and manage travel plans
-- User authentication and profile management
-- Responsive design for mobile and desktop
+- Explore destinations and detailed travel information
+- Build and manage personalized travel plans
+- Compare hotels and find nearby places
+- Get itinerary, packing, food, weather, and safety recommendations
+- Use AI-powered travel assistance and trip summaries
+- Save favorite destinations and manage a user profile
+- Responsive experience for desktop and mobile screens
 
-## Installation
+## Tech stack
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/your-username/dreamscape.git
-    ```
-2. Navigate to the project directory:
-    ```sh
-    cd dreamscape
-    ```
-3. Open the project in Visual Studio Code:
-    ```sh
-    code .
-    ```
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS
+- **Backend:** Node.js, Express, TypeScript
+- **Services:** MongoDB, Passport authentication, OpenAI, weather integrations
+- **Deployment:** Vercel configuration is included for both applications
 
-## Usage
+## Getting started
 
-1. Open [index.html](http://_vscodecontentref_/1) in your web browser to start the application.
-2. Use the search bar to find travel destinations.
-3. View detailed information about each destination.
-4. Book accommodations and manage your travel plans.
-5. Log in or register to access personalized features.
+### Prerequisites
 
-## File Structure
+- Node.js 18 or newer
+- npm
+- MongoDB, if you want to run the backend locally
 
-- [Dashboard.html](http://_vscodecontentref_/2): User dashboard page
-- [index.html](http://_vscodecontentref_/3): Main landing page
-- [Log_in.html](http://_vscodecontentref_/4): Login and registration page
-- [roam.css](http://_vscodecontentref_/5): CSS for Roamies page
-- [Roamies.html](http://_vscodecontentref_/6): Roamies travel information page
-- [roamies.js](http://_vscodecontentref_/7): JavaScript for Roamies page
-- [script.js](http://_vscodecontentref_/8): Main JavaScript file for user authentication
-- [spain.css](http://_vscodecontentref_/9): CSS for Spain travel page
-- [Spain.html](http://_vscodecontentref_/10): Spain travel information page
-- [style.css](http://_vscodecontentref_/11): Main CSS file for the application
-- [Travel_plans.html](http://_vscodecontentref_/12): Travel plans and flight information page
+### Installation
+
+Clone the repository and install dependencies for both applications:
+
+```sh
+git clone https://github.com/Shivansh1251/Dreamscape.git
+cd Dreamscape
+
+cd frontend
+npm install
+
+cd ../backend
+npm install
+```
+
+### Running locally
+
+Start the backend in one terminal:
+
+```sh
+cd backend
+npm run dev
+```
+
+Start the frontend in a second terminal:
+
+```sh
+cd frontend
+npm run dev
+```
+
+Open the local URL printed by Vite in your browser.
+
+> Configure the backend environment variables before starting the API. See [DEPLOY_VERCEL.md](./DEPLOY_VERCEL.md) for deployment-related configuration.
+
+## Project structure
+
+```text
+.
+├── frontend/    # React/Vite client application
+├── backend/     # Express/TypeScript API
+├── legacy/      # Earlier static implementation
+├── Imgaes/      # Shared branding and travel imagery
+└── DEPLOY_VERCEL.md
+```
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+Contributions are welcome. Open an issue to discuss a change or submit a pull request with a clear description of the improvement.
+
+## Connect with me
+
+- **GitHub:** [@Shivansh1251](https://github.com/Shivansh1251)
+- **Project discussions:** [Open an issue in Dreamscape](https://github.com/Shivansh1251/Dreamscape/issues)
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](./LICENSE).
