@@ -19,10 +19,32 @@ export function getOpenAIClient(): OpenAI {
     return _client;
 }
 
-function getMockResponse(systemPrompt: string): string {
+function getMockResponse(systemPrompt: string, userPrompt = ""): string {
     if (systemPrompt.includes("budgetBreakdown")) {
+        const destination = userPrompt.match(/trip to (.+?) for \d+ traveler/i)?.[1]?.trim() || "Mock City";
+        const requestedDays = Math.min(Math.max(Number(userPrompt.match(/Plan a (\d+)-day trip/i)?.[1] || 1), 1), 30);
+        if (requestedDays > 1) {
+            const days = Array.from({ length: requestedDays }, (_, index) => ({
+                day: index + 1,
+                date: new Date(Date.now() + index * 86400000).toISOString().slice(0, 10),
+                title: index === 0 ? "Arrive and get oriented" : index === requestedDays - 1 ? "A gentle final day" : "Local highlights and hidden corners",
+                morning: { time: "9:00 AM", activity: "Start with a relaxed local breakfast", location: `${destination} old quarter`, tip: "Ask a local for a favourite nearby spot." },
+                afternoon: { time: "2:00 PM", activity: "Explore a signature neighbourhood and one hidden gem", location: `${destination} city centre`, tip: "Leave buffer time between stops." },
+                evening: { time: "7:00 PM", activity: "Watch the sunset, then enjoy regional dinner", location: `${destination} main square`, tip: "Reserve popular restaurants ahead." },
+                meals: { breakfast: "Local cafe", lunch: "Market or casual bistro", dinner: "Regional restaurant" },
+                estimatedDayCost: "₹2,000",
+            }));
+            return JSON.stringify({
+                destination,
+                summary: `A balanced ${requestedDays}-day plan for ${destination}, with room for local food, memorable sights and unhurried exploration.`,
+                budgetBreakdown: { accommodation: "₹10,000", food: "₹5,000", transport: "₹2,000", activities: "₹3,000", misc: "₹1,000", total: "₹21,000" },
+                days,
+                generalTips: ["Book key experiences in advance", "Carry a small amount of local cash", "Keep one flexible block each day"],
+                bestTimeToVisit: "October to March",
+            });
+        }
         return JSON.stringify({
-            destination: "Mock City",
+            destination,
             summary: "A beautiful mock journey.",
             budgetBreakdown: { accommodation: "₹10,000", food: "₹5,000", transport: "₹2,000", activities: "₹3,000", misc: "₹1,000", total: "₹21,000" },
             days: [{ day: 1, date: "2026-08-01", title: "Arrival", morning: { time: "10AM", activity: "Check in", location: "Hotel", tip: "Relax" }, afternoon: { time: "2PM", activity: "Walk", location: "Park", tip: "Take water" }, evening: { time: "7PM", activity: "Dinner", location: "Cafe", tip: "Try local food" }, meals: { breakfast: "-", lunch: "Cafe", dinner: "Restaurant" }, estimatedDayCost: "₹2000" }],
@@ -131,7 +153,7 @@ export async function chatCompletion(
     opts: { temperature?: number; maxTokens?: number } = {}
 ): Promise<string> {
     if (!config.openai.apiKey || config.openai.apiKey === "your_openai_api_key_here") {
-        return getMockResponse(systemPrompt);
+        return getMockResponse(systemPrompt, userPrompt);
     }
 
     const client = getOpenAIClient();

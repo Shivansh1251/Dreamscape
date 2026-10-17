@@ -1,20 +1,54 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { UserCheck, UserPlus } from 'lucide-react';
 import { PageLayout } from '../components/PageLayout';
+import { RoamieConnection, connectRoamie, disconnectRoamie, getConnections, onAppDataChange } from '../lib/appData';
+import { SphereImageGrid, SphereImage } from '../components/ui/img-sphere';
+
+const ROAMIE_PROFILES: Array<Omit<RoamieConnection, 'connectedAt'>> = [
+    { id: 'maya-goa', name: 'Maya Shah', handle: '@mayawanders', city: 'Mumbai', interests: ['Food', 'Beaches', 'Photos'], bio: 'Slow mornings, local markets, and never saying no to a beach sunset.', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80' },
+    { id: 'arjun-delhi', name: 'Arjun Mehta', handle: '@arjunontheroad', city: 'Delhi', interests: ['Culture', 'Hiking', 'Coffee'], bio: 'Always looking for the next trail and a great café at the end of it.', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80' },
+    { id: 'sofia-bcn', name: 'Sofia Costa', handle: '@sofiagoes', city: 'Barcelona', interests: ['Art', 'Nightlife', 'Food'], bio: 'Museum days, live music nights, and sharing the best table in town.', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=80' },
+];
 
 export function Roamies() {
     const [activeTab, setActiveTab] = useState('asia');
+    const [connections, setConnections] = useState<RoamieConnection[]>(getConnections);
+
+    useEffect(() => onAppDataChange(() => setConnections(getConnections())), []);
+
+    const isConnected = (id: string) => connections.some(connection => connection.id === id);
+    const toggleConnection = (roamie: Omit<RoamieConnection, 'connectedAt'>) => {
+        if (isConnected(roamie.id)) disconnectRoamie(roamie.id);
+        else connectRoamie(roamie);
+    };
+
+    const roamieSphereImages: SphereImage[] = [
+        { id: 'maya', src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80', alt: 'Maya, traveller', title: 'Maya', description: 'Always up for a sunset walk.' },
+        { id: 'arjun', src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80', alt: 'Arjun, traveller', title: 'Arjun', description: 'Chasing trails and great coffee.' },
+        { id: 'sofia', src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80', alt: 'Sofia, traveller', title: 'Sofia', description: 'Museums by day, live music by night.' },
+        { id: 'traveller-one', src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Alex' },
+        { id: 'traveller-two', src: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Nina' },
+        { id: 'traveller-three', src: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Leo' },
+        { id: 'traveller-four', src: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Aisha' },
+        { id: 'traveller-five', src: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Ella' },
+        { id: 'traveller-six', src: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Sam' },
+        { id: 'traveller-seven', src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Riya' },
+        { id: 'traveller-eight', src: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Daniel' },
+        { id: 'traveller-nine', src: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Zoe' },
+        { id: 'traveller-ten', src: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Priya' },
+        { id: 'traveller-eleven', src: 'https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=300&q=80', alt: 'Traveller portrait', title: 'Noah' },
+    ];
 
     return (
         <PageLayout showFooter={true}>
-            <div className="font-sans antialiased overflow-x-hidden relative bg-black">
+            <div className="font-sans antialiased overflow-x-hidden relative bg-[#5350F1]">
                 {/* ── Background Image Layer ── */}
                 <div className="fixed inset-0 z-0 bg-[url('/Imgaes/dive.jpg')] bg-cover bg-center brightness-[0.6] select-none" />
 
                 {/* ── Hero Section ── */}
-                <div className="relative z-10 mx-auto flex min-h-[560px] w-full max-w-5xl flex-col items-center justify-center gap-6 px-5 pb-16 pt-28 text-center text-white sm:px-8">
-                    <p className="rounded-full bg-white/15 px-4 py-2 text-sm font-bold uppercase tracking-[0.2em] backdrop-blur-md">Small-group adventures</p>
+                <div className="relative z-10 mx-auto flex min-h-[560px] w-full max-w-none flex-col items-center justify-center gap-6 px-5 pb-24 pt-28 text-center text-white sm:px-8" style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 3.5rem), 0 100%)' }}>
                     <h1 className="font-black text-5xl drop-shadow-xl sm:text-6xl">Dreamscape Roamies</h1>
-                    <p className="max-w-3xl font-black text-4xl leading-tight drop-shadow-xl md:text-6xl">Are you ready for an adventure?</p>
+                    <p className="max-w-none whitespace-normal font-black text-3xl leading-tight drop-shadow-xl sm:text-5xl md:whitespace-nowrap md:text-6xl">Are you ready for an adventure?</p>
                     <span className="max-w-xl text-xl font-medium drop-shadow-lg sm:text-2xl">Explore epic places with new faces, local guides, and a ready-made crew.</span>
                     <a href="#lesgo" className="mt-4 inline-block mx-auto">
                         <button className="h-[46px] px-8 rounded-xl font-bold border-none text-white bg-[#E0008E] hover:bg-[#c3007b] hover:scale-105 transition shadow-[0_2px_16px_rgba(83,80,241,0.5)]">
@@ -24,15 +58,28 @@ export function Roamies() {
                 </div>
 
                 {/* ── Content ── */}
-                <div className="relative z-10 w-full pt-10">
+                <section className="relative z-20 mx-auto -mt-8 w-[min(1120px,calc(100%_-_2rem))] rounded-[2rem] bg-white p-6 text-slate-900 shadow-2xl sm:p-8">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div><p className="text-sm font-black uppercase tracking-[0.18em] text-[#5350F1]">Meet your crew</p><h2 className="mt-1 text-3xl font-black">Connect with Roamies</h2><p className="mt-2 max-w-2xl text-slate-600">Choose travelers whose style fits your next adventure. Your connections are saved to your dashboard.</p></div>
+                        <span className="rounded-full bg-[#5350F1]/10 px-4 py-2 text-sm font-black text-[#5350F1]">{connections.length} connection{connections.length === 1 ? '' : 's'}</span>
+                    </div>
+                    <div className="mt-6 grid gap-4 md:grid-cols-3">
+                        {ROAMIE_PROFILES.map(roamie => {
+                            const connected = isConnected(roamie.id);
+                            return <article key={roamie.id} className="rounded-2xl border border-slate-200 p-4"><div className="flex items-center gap-3"><img src={roamie.avatar} alt="" className="h-12 w-12 rounded-full object-cover" /><div><h3 className="font-black">{roamie.name}</h3><p className="text-sm text-slate-500">{roamie.handle} · {roamie.city}</p></div></div><p className="mt-3 text-sm leading-6 text-slate-600">{roamie.bio}</p><p className="mt-3 text-xs font-bold uppercase tracking-wide text-[#5350F1]">{roamie.interests.join(' · ')}</p><button onClick={() => toggleConnection(roamie)} className={`mt-4 inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-black transition ${connected ? 'bg-emerald-100 text-emerald-700 hover:bg-rose-100 hover:text-rose-700' : 'bg-[#5350F1] text-white hover:bg-[#3f3cce]'}`}>{connected ? <><UserCheck size={16} /> Connected</> : <><UserPlus size={16} /> Connect</>}</button></article>;
+                        })}
+                    </div>
+                </section>
+
+                <div className="relative z-10 mt-8 w-full bg-[url('/Imgaes/dive.jpg')] bg-cover bg-center pt-6">
                     <div className="absolute left-0 right-0 z-10 hidden w-full bg-[#c4ff4c] px-10 py-14 text-center text-lg font-bold text-[#2b4c06] md:block"
                         style={{ clipPath: 'polygon(0.09rem 100%, 100% 0, 100% 100%, 0 100%)' }}>
                         Travel with a friendly crew, stay in sociable hostels, and make every stop feel like a story worth sharing.
                     </div>
 
-                    <div className="relative z-20 w-full bg-[#5350F1] px-5 py-12 sm:px-8 md:p-20"
+                    <div className="relative z-20 w-full bg-[#5350F1] px-5 pb-16 pt-12 sm:px-8 md:px-20 md:pb-20 md:pt-12"
                         style={{ clipPath: 'polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%)' }}>
-                        <div className="flex flex-col text-white my-10 max-w-7xl mx-auto">
+                        <div className="mx-auto my-4 flex max-w-7xl flex-col text-white md:my-6">
 
                             <div className="mx-auto mt-8 grid max-w-6xl gap-10 md:grid-cols-2 md:gap-16">
                                 <div className="flex flex-col flex-1 gap-6">
@@ -71,8 +118,10 @@ export function Roamies() {
                         </div>
                     </div>
 
+                    <div className="relative z-20 h-14 w-full bg-[#5350F1]" aria-hidden="true" />
+
                     {/* ── Go Part ── */}
-                    <div id="lesgo" className="relative z-30 bg-[#0d0f1a] text-white w-full px-[5%] md:px-[12%] pb-20 pt-[100px]"
+                    <div id="lesgo" className="relative z-30 -mt-14 bg-[#0d0f1a] text-white w-full px-[5%] pb-20 pt-[100px] md:px-[12%]"
                         style={{ clipPath: 'polygon(0 3.5rem, 100% 0, 100% calc(100% - 3.5rem), 0 100%)' }}>
                         <div className="text-center max-w-4xl mx-auto">
                             <h1 className="font-black text-5xl md:text-6xl mb-6">Where's your adventure?</h1>
@@ -169,7 +218,7 @@ export function Roamies() {
                     </div>
 
                     {/* ── End blue bg ── */}
-                    <div className="bg-[#5350F1] w-full pt-[50px] pb-10" style={{ clipPath: 'polygon(1 3.5rem, 100% 0, 100% 100%, 0 100%)', marginTop: '-50px', zIndex: 2, position: 'relative' }}>
+                    <div className="bg-[#5350F1] w-full pt-[50px] pb-10" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', marginTop: '-50px', zIndex: 2, position: 'relative' }}>
                     </div>
 
                     {/* ── Included in All ── */}
@@ -211,6 +260,8 @@ export function Roamies() {
                             </div>
                         </div>
                     </div>
+
+                    <section className="relative z-10 overflow-hidden bg-[#082b42] px-5 py-10 text-center text-white sm:px-8"><div className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/10 blur-3xl" /><h2 className="relative text-3xl font-black sm:text-4xl">Connect with your next travel crew</h2><p className="relative mx-auto mt-2 max-w-xl text-slate-300">Meet curious people who are ready to share the journey.</p><SphereImageGrid images={roamieSphereImages} containerSize={500} sphereRadius={170} className="relative mt-4" /></section>
 
                 </div>
             </div>

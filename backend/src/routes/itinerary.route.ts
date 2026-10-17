@@ -14,6 +14,10 @@ const ItinerarySchema = z.object({
     interests: z.array(z.string()).optional(),    // ["beaches", "history", "food"]
     travelStyle: z.enum(["budget", "mid-range", "luxury"]).default("mid-range"),
     startDate: z.string().optional(),             // ISO date
+    companions: z.string().max(80).optional(),
+    accommodation: z.string().max(120).optional(),
+    dietaryRestrictions: z.string().max(160).optional(),
+    physicalAbility: z.string().max(160).optional(),
 });
 
 /**
@@ -27,7 +31,7 @@ router.post("/", async (req: Request, res: Response) => {
             return res.status(400).json({ error: parsed.error.flatten() });
         }
 
-        const { destination, days, budget, travelers, interests, travelStyle, startDate } =
+        const { destination, days, budget, travelers, interests, travelStyle, startDate, companions, accommodation, dietaryRestrictions, physicalAbility } =
             parsed.data;
 
         const interestStr = interests?.length ? interests.join(", ") : "general sightseeing";
@@ -57,18 +61,26 @@ Always respond in valid JSON matching this schema:
 
         const userPrompt = `Plan a ${days}-day trip to ${destination} for ${travelers} traveler(s) with a total budget of ${budget}.
 Travel style: ${travelStyle}. Primary interests: ${interestStr}.
+${companions ? `Travelling with: ${companions}.` : ""}
+${accommodation ? `Accommodation preference: ${accommodation}.` : ""}
 ${startDate ? `Start date: ${startDate}.` : ""}
-Include local hidden gems, not just tourist traps.`;
+${dietaryRestrictions ? `Dietary requirements: ${dietaryRestrictions}.` : ""}
+${physicalAbility ? `Activity considerations: ${physicalAbility}.` : ""}
+Keep each day geographically coherent, include realistic travel time and costs, and include local hidden gems rather than only tourist traps.`;
 
         logger.info(`Generating itinerary for ${destination} (${days} days)`);
         const result = await chatCompletion(systemPrompt, userPrompt, {
             temperature: 0.7,
-            maxTokens: 3000,
+            maxTokens: Math.min(8000, 1800 + days * 450),
         });
 
-        // Strip markdown fences if present
-        const json = result.replace(/^```json\s*|```\s*$/g, "").trim();
-        const itinerary = JSON.parse(json);
+        // Models occasionally wrap JSON in markdown or add a short preamble.
+        const fenced = result.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+        const json = (fenced?.[1] || result).trim();
+        const start = json.indexOf("{");
+        const end = json.lastIndexOf("}");
+        if (start < 0 || end <= start) throw new Error("AI returned an invalid itinerary format");
+        const itinerary = JSON.parse(json.slice(start, end + 1));
 
         return res.json({ success: true, data: itinerary });
     } catch (err: any) {

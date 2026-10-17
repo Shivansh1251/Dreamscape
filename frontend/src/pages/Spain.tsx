@@ -56,6 +56,7 @@ export function Spain() {
     return (
         <PageLayout
             videoSrc="https://videos.pexels.com/video-files/14367734/14367734-uhd_2560_1440_30fps.mp4"
+            videoWebmSrc="/videos/spain.webm"
             videoOverlayText={videoTitle}
             headerContent={searchForm}
         >

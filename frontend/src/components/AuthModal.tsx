@@ -62,12 +62,12 @@ export function AuthModal({ initialMode = 'login', onClose, onSuccess, standalon
     }
 
     const card = (
-        <div className="relative w-full max-w-[440px] overflow-hidden rounded-2xl bg-white text-[#2f3542] shadow-2xl">
+        <div className="relative w-full max-w-[520px] overflow-hidden rounded-2xl bg-white text-[#2f3542] shadow-2xl">
             <div className="relative bg-[#ffe4c4] px-5 py-6 text-center">
                 <button type="button" onClick={close} aria-label="Close authentication dialog" className="absolute right-5 top-4 text-3xl leading-none text-[#6f6b67] hover:text-black">
                     <X size={28} />
                 </button>
-                <h2 className="text-3xl font-bold sm:text-4xl">{mode === 'login' ? 'Welcome back' : 'Create an account'}</h2>
+                <h2 className="text-2xl font-bold sm:text-3xl">{mode === 'login' ? 'Welcome back' : 'Create an account'}</h2>
                 <p className="mt-1 text-sm sm:text-base">{mode === 'login' ? 'Log in to your account' : "Let's get you started! Please enter your details."}</p>
             </div>
             <div className="px-6 py-5 sm:px-8">

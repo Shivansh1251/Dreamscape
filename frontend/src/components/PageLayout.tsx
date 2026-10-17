@@ -1,17 +1,29 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
 interface PageLayoutProps {
     children: ReactNode;
     videoSrc?: string;
+    videoWebmSrc?: string;
     videoOverlayText?: ReactNode;
     headerContent?: ReactNode;
     showFooter?: boolean;
     connectedFooter?: boolean;
 }
 
-export function PageLayout({ children, videoSrc, videoOverlayText, headerContent, showFooter = true, connectedFooter = false }: PageLayoutProps) {
+export function PageLayout({ children, videoSrc, videoWebmSrc, videoOverlayText, headerContent, showFooter = true, connectedFooter = false }: PageLayoutProps) {
+    const [loadHeroVideo, setLoadHeroVideo] = useState(false);
+
+    useEffect(() => {
+        if (!videoSrc || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const load = () => setLoadHeroVideo(true);
+        const idleTimer = window.setTimeout(load, 700);
+        return () => {
+            window.clearTimeout(idleTimer);
+        };
+    }, [videoSrc]);
+
     return (
         <div className="relative min-h-screen font-sans">
             {/* ── Dynamic Hero Header ── */}
@@ -19,8 +31,11 @@ export function PageLayout({ children, videoSrc, videoOverlayText, headerContent
                 style={{ minHeight: videoSrc ? '500px' : 'auto' }}>
 
                 {/* Background Video */}
-                {videoSrc && (
-                    <video key={videoSrc} src={videoSrc} className="absolute top-0 left-0 z-0 h-[125%] w-full object-cover" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+                {videoSrc && loadHeroVideo && (
+                    <video key={videoSrc} className="absolute top-0 left-0 z-0 h-[125%] w-full object-cover" autoPlay muted loop playsInline preload="none" aria-hidden="true">
+                        {videoWebmSrc && <source src={videoWebmSrc} type="video/webm" />}
+                        <source src={videoSrc} type="video/mp4" />
+                    </video>
                 )}
 
                 {/* Navbar */}

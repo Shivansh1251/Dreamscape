@@ -1,245 +1,221 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { User, Settings, LogOut, LayoutDashboard, Bot, Plane, Users, Bell, BadgePercent, Ticket, GraduationCap, Sparkles } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+    ArrowRight, Bot, CheckCircle2, Compass, LayoutDashboard, LogOut,
+    MessageSquare, Pencil, Plane, Plus, Settings, Sparkles, Trash2, User, Users,
+} from 'lucide-react';
 import { apiUrl } from '../lib/api';
-
-interface UserProfile {
-    firstName: string;
-    lastName: string;
-    email: string;
-    profilePicture?: string;
-}
+import {
+    AppSettings, RoamieConnection, SavedProfile, TripPlan, deleteTrip, disconnectRoamie,
+    getActivity, getConnections, getProfile, getSettings, getTrips, onAppDataChange,
+    saveProfile, saveSettings, updateTrip,
+} from '../lib/appData';
 
 type Section = 'dashboard' | 'profile' | 'settings' | 'ai' | 'trips' | 'roamies';
 
+const sections: Section[] = ['dashboard', 'profile', 'settings', 'ai', 'trips', 'roamies'];
+
+function sectionFrom(value: string | null): Section {
+    return value && sections.includes(value as Section) ? value as Section : 'dashboard';
+}
+
+function displayDate(value: string) {
+    return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(new Date(value));
+}
+
+function profileFromLogin(login: string): SavedProfile {
+    const username = login.includes('@') ? login.split('@')[0] : login;
+    return { firstName: username || 'Traveler', lastName: '', email: login || 'traveler@dreamscapes.app' };
+}
+
 export function Dashboard() {
     const navigate = useNavigate();
-    const [section, setSection] = useState<Section>('dashboard');
-    const [user, setUser] = useState<UserProfile | null>(null);
-    const [activityLog, setActivityLog] = useState<string[]>([]);
-    const [editMode, setEditMode] = useState(false);
-    const [editName, setEditName] = useState('');
-    const [editLast, setEditLast] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const section = sectionFrom(searchParams.get('section'));
+    const [user, setUser] = useState<SavedProfile | null>(null);
+    const [trips, setTrips] = useState<TripPlan[]>([]);
+    const [connections, setConnections] = useState<RoamieConnection[]>([]);
+    const [activity, setActivity] = useState<string[]>([]);
+    const [settings, setSettings] = useState<AppSettings>(getSettings);
+    const [editingProfile, setEditingProfile] = useState(false);
+    const [profileDraft, setProfileDraft] = useState<SavedProfile | null>(null);
+    const [notice, setNotice] = useState('');
 
-    // ── Load user ────────────────────────────────────────────────────────
+    const refreshData = useCallback(() => {
+        setTrips(getTrips());
+        setConnections(getConnections());
+        setActivity(getActivity());
+        setSettings(getSettings());
+    }, []);
+
     useEffect(() => {
-        const logs = JSON.parse(localStorage.getItem('activityLogs') || '[]');
-        setActivityLog(logs);
+        refreshData();
+        return onAppDataChange(refreshData);
+    }, [refreshData]);
 
-        // 1. Try backend session first
-        fetch(apiUrl('/api/auth/me'), { credentials: 'include' })
-            .then(r => r.json())
-            .then(data => {
-                if (data.success && data.user) {
-                    setUser(data.user);
-                    logActivity('Signed in via Google');
-                } else {
-                    // 2. Fall back to localStorage
-                    const local = localStorage.getItem('currentUser');
-                    if (local) {
-                        setUser({ firstName: local, lastName: '', email: local });
-                    } else {
-                        navigate('/login');
-                    }
+    useEffect(() => {
+        let active = true;
+        const localLogin = localStorage.getItem('currentUser') || '';
+
+        async function loadUser() {
+            try {
+                const response = await fetch(apiUrl('/api/auth/me'), { credentials: 'include' });
+                const data = await response.json();
+                if (data.success && data.user && active) {
+                    setUser(getProfile({
+                        firstName: data.user.firstName || 'Traveler',
+                        lastName: data.user.lastName || '',
+                        email: data.user.email || localLogin || 'traveler@dreamscapes.app',
+                        profilePicture: data.user.profilePicture,
+                    }));
+                    return;
                 }
-            })
-            .catch(() => {
-                const local = localStorage.getItem('currentUser');
-                if (local) setUser({ firstName: local, lastName: '', email: local });
-                else navigate('/login');
-            });
+            } catch {
+                // Local account mode is a supported fallback while the API is unavailable.
+            }
+
+            if (!active) return;
+            if (localLogin) setUser(getProfile(profileFromLogin(localLogin)));
+            else navigate('/login');
+        }
+
+        void loadUser();
+        return () => { active = false; };
     }, [navigate]);
 
-    function logActivity(msg: string) {
-        const entry = `${new Date().toLocaleString()} — ${msg}`;
-        setActivityLog(prev => {
-            const next = [entry, ...prev].slice(0, 20);
-            localStorage.setItem('activityLogs', JSON.stringify(next));
-            return next;
-        });
-    }
+    const setSection = (next: Section) => setSearchParams(next === 'dashboard' ? {} : { section: next });
+    const plannedTrips = trips.filter(trip => trip.status === 'planned');
+    const plannedDays = plannedTrips.reduce((sum, trip) => sum + trip.days, 0);
+    const nextTrip = plannedTrips[0];
 
-    async function handleLogout() {
-        if (!confirm('Are you sure you want to log out?')) return;
-        try { await fetch(apiUrl('/api/auth/logout'), { credentials: 'include' }); } catch { /* ignored */ }
+    const stats = useMemo(() => [
+        { label: 'Travel plans', value: trips.length, icon: <Plane size={22} />, go: () => setSection('trips') },
+        { label: 'Days planned', value: plannedDays, icon: <Compass size={22} />, go: () => setSection('trips') },
+        { label: 'Roamie connections', value: connections.length, icon: <Users size={22} />, go: () => setSection('roamies') },
+    ], [trips.length, plannedDays, connections.length]);
+
+    const beginProfileEdit = () => {
+        if (!user) return;
+        setProfileDraft(user);
+        setEditingProfile(true);
+    };
+
+    const saveProfileChanges = () => {
+        if (!profileDraft) return;
+        const cleaned = {
+            ...profileDraft,
+            firstName: profileDraft.firstName.trim() || 'Traveler',
+            lastName: profileDraft.lastName.trim(),
+            email: profileDraft.email.trim() || user?.email || 'traveler@dreamscapes.app',
+            profilePicture: profileDraft.profilePicture?.trim() || undefined,
+        };
+        saveProfile(cleaned);
+        setUser(cleaned);
+        setEditingProfile(false);
+        setNotice('Profile saved.');
+    };
+
+    const saveAccountSettings = () => {
+        saveSettings(settings);
+        setNotice('Settings saved.');
+    };
+
+    const handleLogout = async () => {
+        if (!window.confirm('Log out of Dreamscapes?')) return;
+        try { await fetch(apiUrl('/api/auth/logout'), { credentials: 'include' }); } catch { /* local mode has no server session */ }
         localStorage.removeItem('currentUser');
         navigate('/login');
-    }
+    };
 
-    function saveProfile() {
-        if (user) setUser({ ...user, firstName: editName, lastName: editLast });
-        logActivity('Updated profile name');
-        setEditMode(false);
-    }
+    if (!user) return <div className="flex min-h-screen items-center justify-center bg-slate-950 text-lg font-bold text-white">Loading your travel space…</div>;
 
-    if (!user) {
-        return (
-            <div className="flex items-center justify-center h-screen bg-gray-950 text-white text-2xl">
-                Loading…
-            </div>
-        );
-    }
-
-    // ── Sidebar items ────────────────────────────────────────────────────
-    const sidebarItems: { key: Section; label: string; icon: JSX.Element }[] = [
-        { key: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
-        { key: 'profile', label: 'Profile', icon: <User size={18} /> },
-        { key: 'settings', label: 'Settings', icon: <Settings size={18} /> },
-        { key: 'ai', label: 'AI Copilot', icon: <Bot size={18} /> },
+    const sidebarItems: Array<{ key: Section; label: string; icon: JSX.Element }> = [
+        { key: 'dashboard', label: 'Overview', icon: <LayoutDashboard size={18} /> },
         { key: 'trips', label: 'Travel Plans', icon: <Plane size={18} /> },
         { key: 'roamies', label: 'Roamies', icon: <Users size={18} /> },
+        { key: 'ai', label: 'AI Tools', icon: <Bot size={18} /> },
+        { key: 'profile', label: 'Profile', icon: <User size={18} /> },
+        { key: 'settings', label: 'Settings', icon: <Settings size={18} /> },
     ];
 
     return (
-        <div className="flex h-screen overflow-hidden bg-[#eef7ff] text-slate-900">
-            <div className="flex flex-1 overflow-hidden">
-                {/* ── Sidebar ── */}
-                <aside className="flex w-64 shrink-0 flex-col border-r border-white/30 bg-[linear-gradient(160deg,#102c68_0%,#522b86_55%,#e14f83_120%)] text-white shadow-2xl">
-                    <div className="border-b border-white/15 p-5">
-                        <Link to="/"><img src="/Imgaes/Logo.png" alt="Dreamscapes" className="h-10" /></Link>
-                    </div>
-                    <nav className="flex-1 p-4 space-y-1">
-                        {sidebarItems.map(item => (
-                            <button key={item.key} onClick={() => setSection(item.key)}
-                                className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold transition ${section === item.key ? 'bg-white text-indigo-800 shadow-lg' : 'text-white/70 hover:bg-white/15 hover:text-white'}`}>
-                                {item.icon} {item.label}
-                            </button>
-                        ))}
-                    </nav>
-                    <div className="border-t border-white/15 p-4">
-                        <button onClick={handleLogout}
-                            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold text-rose-100 transition hover:bg-white/15">
-                            <LogOut size={18} /> Log Out
+        <div className="min-h-screen bg-slate-100 text-slate-900 md:pl-64">
+            <aside className="flex shrink-0 flex-col bg-slate-950 text-white md:fixed md:inset-y-0 md:left-0 md:z-40 md:h-screen md:w-64">
+                <div className="flex items-center justify-between border-b border-white/10 p-4 md:block md:p-5">
+                    <Link to="/" aria-label="Go to Dreamscapes home"><img src="/Imgaes/Logo.png" alt="Dreamscapes" className="h-9 w-auto" /></Link>
+                    <Link to="/" className="text-xs font-bold text-cyan-300 md:hidden">Explore</Link>
+                </div>
+                <nav className="flex gap-1 overflow-x-auto p-3 md:block md:space-y-1 md:overflow-visible md:p-4">
+                    {sidebarItems.map(item => (
+                        <button key={item.key} onClick={() => setSection(item.key)}
+                            className={`flex shrink-0 items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold transition md:w-full md:px-4 ${section === item.key ? 'bg-cyan-400 text-slate-950' : 'text-slate-300 hover:bg-white/10 hover:text-white'}`}>
+                            {item.icon}<span>{item.label}</span>
                         </button>
+                    ))}
+                </nav>
+                <div className="hidden mt-auto border-t border-white/10 p-4 md:block">
+                    <button onClick={handleLogout} className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-white/10 hover:text-white"><LogOut size={18} /> Log out</button>
+                </div>
+            </aside>
+
+            <main className="min-w-0 flex-1 p-4 sm:p-6 md:p-9">
+                <div className="mx-auto max-w-6xl">
+                    <div className="mb-7 flex flex-wrap items-center justify-between gap-4">
+                        <div><p className="text-sm font-black uppercase tracking-[0.18em] text-cyan-700">Your Dreamscapes account</p><h1 className="mt-1 text-3xl font-black text-slate-950 sm:text-4xl">Welcome back, {user.firstName}.</h1></div>
+                        <Link to="/" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:border-cyan-500 hover:text-cyan-700"><Compass size={16} /> Explore more places</Link>
                     </div>
-                </aside>
 
-                {/* ── Main content ── */}
-                <main className="flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_right,_#d7f5ff,_#f7f4ff_42%,_#fff4ea)] p-5 md:p-8">
+                    {notice && <div className="mb-5 flex items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-800"><span>{notice}</span><button onClick={() => setNotice('')} aria-label="Dismiss message">×</button></div>}
 
-                    {/* Dashboard Home */}
-                    {section === 'dashboard' && (
-                        <div>
-                            <div className="mb-8 rounded-[2rem] bg-[linear-gradient(110deg,#1b3f8b,#6d3da8_55%,#e25385)] p-7 text-white shadow-xl"><p className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-white/75"><Sparkles size={16} /> Your travel space</p><p className="text-white/80">Your next journey is waiting for a little sparkle.</p></div>
-                            <h1 className="text-3xl font-bold mb-2">Welcome back, {user.firstName}! 👋</h1>
-                            <p className="text-gray-400 mb-8">Here's what's going on with your travels.</p>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                                {[
-                                    { label: 'Trips Planned', value: '3', icon: <Plane size={24} /> },
-                                    { label: 'AI Copilot Uses', value: '12', icon: <Bot size={24} /> },
-                                    { label: 'Roamie Connections', value: '5', icon: <Users size={24} /> },
-                                ].map(c => (
-                                    <div key={c.label} className="flex items-center gap-4 rounded-3xl border border-white bg-white/80 p-6 shadow-sm">
-                                        <div className="rounded-2xl bg-gradient-to-br from-cyan-100 to-violet-100 p-3 text-indigo-700">{c.icon}</div>
-                                        <div>
-                                            <p className="text-2xl font-bold">{c.value}</p>
-                                            <p className="text-sm text-slate-500">{c.label}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="mb-8 rounded-3xl border border-white bg-white/80 p-6 shadow-sm"><div className="mb-5 flex items-center gap-2"><BadgePercent className="text-fuchsia-600" /><h2 className="text-xl font-black">Your travel offers</h2></div><div className="grid gap-4 md:grid-cols-3"><div className="rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-700 p-5 text-white"><Ticket className="mb-5" /><p className="text-2xl font-black">20% off</p><p className="mt-1 text-sm text-white/85">Welcome voucher</p><code className="mt-4 inline-block rounded-lg bg-white/20 px-3 py-2 font-bold">DREAM20</code></div><div className="rounded-2xl bg-gradient-to-br from-fuchsia-500 to-rose-600 p-5 text-white"><GraduationCap className="mb-5" /><p className="text-2xl font-black">Up to 50% off</p><p className="mt-1 text-sm text-white/85">Student travel deal</p><button type="button" className="mt-4 rounded-lg bg-white/20 px-3 py-2 text-sm font-bold hover:bg-white/30">Verify student status</button></div><div className="rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 p-5 text-white"><Sparkles className="mb-5" /><p className="text-2xl font-black">Member perks</p><p className="mt-1 text-sm text-white/85">Vouchers unlock at checkout</p><button type="button" className="mt-4 rounded-lg bg-white/20 px-3 py-2 text-sm font-bold hover:bg-white/30">View vouchers</button></div></div><p className="mt-4 text-xs text-slate-500">Offers are shown to signed-in members. Student offers need verification, and final availability depends on the booking provider.</p></div>
-                            <div className="rounded-3xl border border-white bg-white/80 p-6 shadow-sm">
-                                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><Bell size={18} /> Activity Log</h2>
-                                {activityLog.length === 0
-                                    ? <p className="text-gray-500">No activity yet.</p>
-                                    : <ul className="space-y-2">
-                                        {activityLog.map((a, i) => (
-                                            <li key={i} className="text-sm text-gray-400 border-b border-gray-700 pb-2">{a}</li>
-                                        ))}
-                                    </ul>}
-                            </div>
-                        </div>
-                    )}
+                    {section === 'dashboard' && <>
+                        <section className="mb-7 rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950 p-6 text-white shadow-xl sm:p-8"><p className="flex items-center gap-2 text-sm font-bold text-cyan-200"><Sparkles size={16} /> Your live travel snapshot</p><p className="mt-3 max-w-2xl text-lg leading-8 text-slate-200">Every number below comes from the plans you create and the Roamies you connect with. Nothing is pre-filled.</p>{nextTrip ? <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white/10 p-4"><span><strong>Next plan:</strong> {nextTrip.destination} · {nextTrip.days} days</span><button onClick={() => setSection('trips')} className="rounded-lg bg-cyan-400 px-3 py-2 text-sm font-black text-slate-950">View plan</button></div> : <Link to="/trip-planner" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-4 py-3 font-black text-slate-950">Create your first trip <ArrowRight size={17} /></Link>}</section>
 
-                    {/* Profile */}
-                    {section === 'profile' && (
-                        <div>
-                            <h1 className="text-3xl font-bold mb-8">Your Profile</h1>
-                            <div className="bg-gray-800 rounded-xl p-8 max-w-lg">
-                                <div className="flex items-center gap-6 mb-8">
-                                    {user.profilePicture
-                                        ? <img src={user.profilePicture} className="w-20 h-20 rounded-full" alt="avatar" />
-                                        : <div className="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center text-3xl font-bold">
-                                            {user.firstName[0]}
-                                        </div>}
-                                    <div>
-                                        <p className="text-xl font-semibold">{user.firstName} {user.lastName}</p>
-                                        <p className="text-gray-400">{user.email}</p>
-                                    </div>
-                                </div>
-                                {editMode ? (
-                                    <div className="space-y-4">
-                                        <input value={editName} onChange={e => setEditName(e.target.value)}
-                                            placeholder="First Name"
-                                            className="w-full bg-gray-700 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400" />
-                                        <input value={editLast} onChange={e => setEditLast(e.target.value)}
-                                            placeholder="Last Name"
-                                            className="w-full bg-gray-700 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400" />
-                                        <div className="flex gap-4">
-                                            <button onClick={saveProfile}
-                                                className="flex-1 bg-blue-600 hover:bg-blue-700 rounded-lg py-2 font-semibold transition">Save</button>
-                                            <button onClick={() => setEditMode(false)}
-                                                className="flex-1 bg-gray-600 hover:bg-gray-500 rounded-lg py-2 transition">Cancel</button>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <button onClick={() => { setEditName(user.firstName); setEditLast(user.lastName); setEditMode(true); }}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 rounded-lg py-2 font-semibold transition">
-                                        Edit Profile
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                        <section className="mb-7 grid gap-4 sm:grid-cols-3">{stats.map(stat => <button key={stat.label} onClick={stat.go} className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-md"><span className="rounded-xl bg-cyan-50 p-3 text-cyan-700">{stat.icon}</span><span><strong className="block text-2xl font-black">{stat.value}</strong><span className="text-sm font-semibold text-slate-500">{stat.label}</span></span></button>)}</section>
 
-                    {/* Settings */}
-                    {section === 'settings' && (
-                        <div>
-                            <h1 className="text-3xl font-bold mb-8">Settings</h1>
-                            <div className="bg-gray-800 rounded-xl p-8 max-w-lg space-y-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">Email Notifications</label>
-                                    <div className="flex items-center gap-3">
-                                        <input type="checkbox" id="notif" defaultChecked className="w-4 h-4 accent-blue-500" />
-                                        <label htmlFor="notif" className="text-gray-400">Receive trip updates via email</label>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">Theme</label>
-                                    <select className="w-full bg-gray-700 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400 text-white">
-                                        <option>Dark (Default)</option>
-                                        <option>Light</option>
-                                    </select>
-                                </div>
-                                <button className="w-full bg-blue-600 hover:bg-blue-700 rounded-lg py-2 font-semibold transition">
-                                    Save Settings
-                                </button>
-                            </div>
-                        </div>
-                    )}
+                        <section className="grid gap-6 lg:grid-cols-2">
+                            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="mb-5 flex items-center justify-between"><h2 className="font-black text-slate-950">Recent travel plans</h2><button onClick={() => setSection('trips')} className="text-sm font-bold text-cyan-700">View all</button></div>{trips.length ? <div className="space-y-3">{trips.slice(0, 3).map(trip => <button key={trip.id} onClick={() => setSection('trips')} className="flex w-full items-center justify-between rounded-2xl bg-slate-50 p-4 text-left transition hover:bg-cyan-50"><span><strong className="block">{trip.destination}</strong><span className="text-sm text-slate-500">{trip.days} days · {trip.travelers} traveler{trip.travelers === 1 ? '' : 's'}</span></span><span className={`rounded-full px-2.5 py-1 text-xs font-bold ${trip.status === 'completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-cyan-100 text-cyan-700'}`}>{trip.status}</span></button>)}</div> : <EmptyState text="No travel plans yet." action="Plan a trip" onClick={() => navigate('/trip-planner')} />}</div>
+                            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="mb-5 flex items-center justify-between"><h2 className="font-black text-slate-950">Roamie connections</h2><button onClick={() => setSection('roamies')} className="text-sm font-bold text-cyan-700">Manage</button></div>{connections.length ? <div className="space-y-3">{connections.slice(0, 3).map(connection => <button key={connection.id} onClick={() => setSection('roamies')} className="flex w-full items-center gap-3 rounded-2xl bg-slate-50 p-3 text-left transition hover:bg-cyan-50"><img src={connection.avatar} alt="" className="h-11 w-11 rounded-full object-cover" /><span><strong className="block">{connection.name}</strong><span className="text-sm text-slate-500">{connection.city}</span></span></button>)}</div> : <EmptyState text="You have no Roamie connections yet." action="Find Roamies" onClick={() => navigate('/roamies')} />}</div>
+                        </section>
 
-                    {/* AI Copilot redirect card */}
-                    {section === 'ai' && (
-                        <div>
-                            <h1 className="text-3xl font-bold mb-4">AI Copilot</h1>
-                            <p className="text-gray-400 mb-6">Access all 13 AI travel features.</p>
-                            <Link to="/ai-copilot"
-                                className="inline-block bg-blue-600 hover:bg-blue-700 rounded-xl px-8 py-4 font-semibold transition text-lg">
-                                Open AI Copilot →
-                            </Link>
-                        </div>
-                    )}
+                        <section className="mt-7 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><h2 className="mb-4 font-black text-slate-950">Recent activity</h2>{activity.length ? <ul className="space-y-3">{activity.slice(0, 6).map((entry, index) => <li key={`${entry}-${index}`} className="border-b border-slate-100 pb-3 text-sm text-slate-600 last:border-0 last:pb-0">{entry}</li>)}</ul> : <p className="text-sm text-slate-500">Your actions—creating trips, connecting with Roamies, and editing settings—will appear here.</p>}</section>
+                    </>}
 
-                    {/* Placeholder sections */}
-                    {(section === 'trips' || section === 'roamies') && (
-                        <div className="text-gray-400 text-xl mt-20 text-center">
-                            🚧 {section === 'trips' ? 'Travel Plans' : 'Roamies'} section coming soon!
-                        </div>
-                    )}
+                    {section === 'trips' && <section><div className="mb-6 flex flex-wrap items-end justify-between gap-4"><div><h2 className="text-2xl font-black text-slate-950">Travel Plans</h2><p className="mt-1 text-slate-600">Your saved DreamBot itineraries. Count: {trips.length}</p></div><Link to="/trip-planner" className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-slate-800"><Plus size={17} /> Plan a trip</Link></div>{trips.length ? <div className="grid gap-5 lg:grid-cols-2">{trips.map(trip => <TripCard key={trip.id} trip={trip} onDelete={() => deleteTrip(trip.id)} onToggle={() => updateTrip(trip.id, { status: trip.status === 'planned' ? 'completed' : 'planned' })} onOpen={() => navigate(`/destination/${encodeURIComponent(trip.destination)}`)} />)}</div> : <EmptyPanel title="No saved travel plans" description="Generate an itinerary with DreamBot and it will appear here automatically." action="Start planning" onClick={() => navigate('/trip-planner')} />}</section>}
 
-                </main>
-            </div>
+                    {section === 'roamies' && <section><div className="mb-6 flex flex-wrap items-end justify-between gap-4"><div><h2 className="text-2xl font-black text-slate-950">Roamie connections</h2><p className="mt-1 text-slate-600">People you have chosen to connect with. Count: {connections.length}</p></div><Link to="/roamies" className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white transition hover:bg-slate-800"><Users size={17} /> Discover Roamies</Link></div>{connections.length ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{connections.map(connection => <ConnectionCard key={connection.id} connection={connection} onDisconnect={() => disconnectRoamie(connection.id)} />)}</div> : <EmptyPanel title="No connections yet" description="Visit Roamies to connect with travelers who share your interests." action="Find Roamies" onClick={() => navigate('/roamies')} />}</section>}
+
+                    {section === 'ai' && <section><h2 className="text-2xl font-black text-slate-950">AI travel tools</h2><p className="mt-1 text-slate-600">Use DreamBot to make plans that are saved directly to your dashboard.</p><div className="mt-6 grid gap-5 md:grid-cols-2"><Link to="/trip-planner" className="rounded-3xl border-2 border-cyan-400 bg-cyan-50 p-6 transition hover:-translate-y-0.5 hover:shadow-md"><MessageSquare className="mb-5 text-cyan-700" /><h3 className="text-xl font-black">DreamBot trip planner</h3><p className="mt-2 text-sm leading-6 text-slate-600">Create a personal itinerary, then manage the saved plan here.</p><span className="mt-5 inline-block font-bold text-cyan-700">Plan a trip →</span></Link><Link to="/ai-copilot" className="rounded-3xl border border-slate-200 bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-md"><Bot className="mb-5 text-slate-700" /><h3 className="text-xl font-black">AI Copilot</h3><p className="mt-2 text-sm leading-6 text-slate-600">Open the rest of the travel-assistance tools.</p><span className="mt-5 inline-block font-bold text-slate-700">Open tools →</span></Link></div></section>}
+
+                    {section === 'profile' && <section className="max-w-2xl"><div className="mb-6 flex items-center justify-between"><div><h2 className="text-2xl font-black text-slate-950">Your profile</h2><p className="mt-1 text-slate-600">Changes are saved to your Dreamscapes account on this browser.</p></div>{!editingProfile && <button onClick={beginProfileEdit} className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-black text-white"><Pencil size={15} /> Edit</button>}</div><div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">{editingProfile && profileDraft ? <div className="space-y-4"><Field label="First name" value={profileDraft.firstName} onChange={value => setProfileDraft({ ...profileDraft, firstName: value })} /><Field label="Last name" value={profileDraft.lastName} onChange={value => setProfileDraft({ ...profileDraft, lastName: value })} /><Field label="Email" type="email" value={profileDraft.email} onChange={value => setProfileDraft({ ...profileDraft, email: value })} /><Field label="Profile image URL (optional)" value={profileDraft.profilePicture || ''} onChange={value => setProfileDraft({ ...profileDraft, profilePicture: value })} /><div className="flex flex-wrap gap-3 pt-2"><button onClick={saveProfileChanges} className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">Save profile</button><button onClick={() => setEditingProfile(false)} className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">Cancel</button></div></div> : <div className="flex flex-col gap-5 sm:flex-row sm:items-center"><Avatar profile={user} /><div><h3 className="text-xl font-black">{user.firstName} {user.lastName}</h3><p className="mt-1 text-slate-600">{user.email}</p><p className="mt-4 text-sm text-slate-500">{trips.length} saved plan{trips.length === 1 ? '' : 's'} · {connections.length} connection{connections.length === 1 ? '' : 's'}</p></div></div>}</div></section>}
+
+                    {section === 'settings' && <section className="max-w-2xl"><h2 className="text-2xl font-black text-slate-950">Settings</h2><p className="mt-1 text-slate-600">Choose how Dreamscapes supports your travel planning.</p><div className="mt-6 space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><Toggle label="Email notifications" description="Receive updates about your saved trips." checked={settings.emailNotifications} onChange={checked => setSettings({ ...settings, emailNotifications: checked })} /><Toggle label="Trip reminders" description="Keep reminders enabled for upcoming plans." checked={settings.tripReminders} onChange={checked => setSettings({ ...settings, tripReminders: checked })} /><Field label="Home city (optional)" value={settings.homeCity} onChange={value => setSettings({ ...settings, homeCity: value })} placeholder="e.g. Delhi" /><button onClick={saveAccountSettings} className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">Save settings</button></div></section>}
+                </div>
+            </main>
         </div>
     );
 }
+
+function EmptyState({ text, action, onClick }: { text: string; action: string; onClick: () => void }) {
+    return <div className="rounded-2xl border border-dashed border-slate-300 p-5 text-sm text-slate-500"><p>{text}</p><button onClick={onClick} className="mt-3 font-bold text-cyan-700">{action} →</button></div>;
+}
+
+function EmptyPanel({ title, description, action, onClick }: { title: string; description: string; action: string; onClick: () => void }) {
+    return <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center shadow-sm"><Compass className="mx-auto mb-4 text-cyan-700" /><h3 className="text-xl font-black">{title}</h3><p className="mx-auto mt-2 max-w-md text-slate-600">{description}</p><button onClick={onClick} className="mt-5 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">{action}</button></div>;
+}
+
+function TripCard({ trip, onDelete, onToggle, onOpen }: { trip: TripPlan; onDelete: () => void; onToggle: () => void; onOpen: () => void }) {
+    const [showItinerary, setShowItinerary] = useState(false);
+    return <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="flex items-start justify-between gap-4"><div><span className={`rounded-full px-2.5 py-1 text-xs font-bold ${trip.status === 'completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-cyan-100 text-cyan-700'}`}>{trip.status}</span><h3 className="mt-3 text-2xl font-black text-slate-950">{trip.destination}</h3><p className="mt-1 text-sm text-slate-500">Created {displayDate(trip.createdAt)}</p></div><Plane className="text-cyan-700" /></div><div className="mt-5 grid grid-cols-2 gap-3 text-sm"><Info label="Duration" value={`${trip.days} days`} /><Info label="Travelers" value={String(trip.travelers)} /><Info label="Style" value={trip.travelStyle} /><Info label="Budget" value={trip.itinerary?.budgetBreakdown?.total || trip.budget} /></div>{trip.interests.length > 0 && <p className="mt-4 text-sm text-slate-600"><strong>Interests:</strong> {trip.interests.join(', ')}</p>}{trip.itinerary?.summary && <p className="mt-4 text-sm leading-6 text-slate-600">{trip.itinerary.summary}</p>}{showItinerary && <div className="mt-4 rounded-2xl bg-slate-50 p-4"><p className="text-sm font-black text-slate-800">Saved itinerary</p>{trip.itinerary?.days?.length ? <ol className="mt-3 space-y-2">{trip.itinerary.days.map(day => <li key={day.day} className="text-sm text-slate-600"><strong>Day {day.day}:</strong> {day.title}</li>)}</ol> : <p className="mt-2 text-sm text-slate-500">This plan was saved without day-by-day details.</p>}</div>}<div className="mt-6 flex flex-wrap gap-2"><button onClick={onOpen} className="rounded-lg bg-slate-950 px-3 py-2 text-sm font-bold text-white">Explore destination</button><button onClick={() => setShowItinerary(!showItinerary)} className="rounded-lg border border-cyan-200 bg-cyan-50 px-3 py-2 text-sm font-bold text-cyan-700">{showItinerary ? 'Hide itinerary' : 'View itinerary'}</button><button onClick={onToggle} className="inline-flex items-center gap-1 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-bold text-emerald-700"><CheckCircle2 size={14} />{trip.status === 'planned' ? 'Mark complete' : 'Reopen'}</button><button onClick={onDelete} className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-bold text-rose-700"><Trash2 size={14} /> Delete</button></div></article>;
+}
+
+function ConnectionCard({ connection, onDisconnect }: { connection: RoamieConnection; onDisconnect: () => void }) {
+    return <article className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"><div className="flex items-center gap-3"><img src={connection.avatar} alt="" className="h-14 w-14 rounded-full object-cover" /><div><h3 className="font-black text-slate-950">{connection.name}</h3><p className="text-sm text-slate-500">{connection.handle} · {connection.city}</p></div></div><p className="mt-4 text-sm leading-6 text-slate-600">{connection.bio}</p><p className="mt-4 text-xs font-bold uppercase tracking-wide text-cyan-700">{connection.interests.join(' · ')}</p><button onClick={onDisconnect} className="mt-5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-bold text-slate-700">Disconnect</button></article>;
+}
+
+function Info({ label, value }: { label: string; value: string }) { return <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs font-bold uppercase tracking-wide text-slate-400">{label}</p><p className="mt-1 truncate font-bold capitalize text-slate-700">{value}</p></div>; }
+
+function Field({ label, value, onChange, type = 'text', placeholder }: { label: string; value: string; onChange: (value: string) => void; type?: string; placeholder?: string }) { return <label className="block text-sm font-bold text-slate-700">{label}<input type={type} value={value} placeholder={placeholder} onChange={event => onChange(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 font-medium text-slate-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100" /></label>; }
+
+function Toggle({ label, description, checked, onChange }: { label: string; description: string; checked: boolean; onChange: (checked: boolean) => void }) { return <label className="flex cursor-pointer items-start justify-between gap-4"><span><span className="block font-bold text-slate-800">{label}</span><span className="mt-1 block text-sm text-slate-500">{description}</span></span><input type="checkbox" checked={checked} onChange={event => onChange(event.target.checked)} className="mt-1 h-5 w-5 accent-cyan-700" /></label>; }
+
+function Avatar({ profile }: { profile: SavedProfile }) { return profile.profilePicture ? <img src={profile.profilePicture} alt="Your profile" className="h-20 w-20 rounded-full object-cover" /> : <div className="flex h-20 w-20 items-center justify-center rounded-full bg-cyan-100 text-2xl font-black text-cyan-800">{profile.firstName.slice(0, 1).toUpperCase()}</div>; }

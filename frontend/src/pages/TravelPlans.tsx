@@ -76,6 +76,7 @@ export function TravelPlans() {
     return (
         <PageLayout
             videoSrc="https://videos.pexels.com/video-files/4525107/4525107-uhd_2560_1440_24fps.mp4"
+            videoWebmSrc="/videos/hero.webm"
             videoOverlayText={heroContent}
             showFooter={true}
         >

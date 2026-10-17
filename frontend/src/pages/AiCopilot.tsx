@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import {
     Map, CloudSun, Users, ShoppingBag, FileText, Receipt,
     UtensilsCrossed, Camera, ClipboardList, Route, Shield,
-    Hotel, Star, ArrowLeft, Home, Sparkles
+    Hotel, Star, ArrowLeft, Home, Sparkles, MessageSquare
 } from 'lucide-react';
-import { Footer } from '../components/Footer';
 import { apiUrl } from '../lib/api';
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -30,9 +29,9 @@ async function callApi(endpoint: string, body: object): Promise<string> {
 function ResultBox({ r }: { r: ResultState }) {
     if (r.status === 'idle') return null;
     const colours = {
-        loading: 'bg-[rgba(108,99,255,.08)] border-[rgba(108,99,255,.2)] text-[#6c63ff]',
-        success: 'bg-[rgba(67,233,123,.08)] border-[rgba(67,233,123,.2)] text-[#43e97b]',
-        error: 'bg-[rgba(255,107,107,.08)] border-[rgba(255,107,107,.2)] text-[#ff6b6b]',
+        loading: 'border-slate-200 bg-slate-50 text-slate-600',
+        success: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+        error: 'border-rose-200 bg-rose-50 text-rose-700',
     };
     const labels = { loading: '⏳ Thinking…', success: '✅ Done', error: '❌ Error' };
     return (
@@ -40,8 +39,8 @@ function ResultBox({ r }: { r: ResultState }) {
             <div className={`px-4 py-3 text-[13px] font-semibold border-b ${colours[r.status]}`}>
                 {labels[r.status]}
             </div>
-            <div className="bg-[rgba(0,0,0,.2)] p-4">
-                <pre className="text-[12.5px] leading-7 whitespace-pre-wrap break-words text-[#b0b8d4] font-mono">
+            <div className="bg-white p-4">
+                <pre className="text-[12.5px] leading-7 whitespace-pre-wrap break-words text-slate-700 font-mono">
                     {r.text}
                 </pre>
             </div>
@@ -53,12 +52,12 @@ function ResultBox({ r }: { r: ResultState }) {
 function AiCard({ id, icon, iconClass, title, desc, children }:
     { id: string; icon: React.ReactNode; iconClass: string; title: string; desc: string; children: React.ReactNode }) {
     return (
-        <div id={id} className="bg-[#1c2038] border border-white/[.06] rounded-2xl overflow-hidden hover:shadow-[0_8px_32px_rgba(108,99,255,.12)] transition-shadow">
-            <div className="px-7 py-5 flex items-center gap-4 border-b border-white/[.06]">
+        <div id={id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+            <div className="flex items-center gap-4 border-b border-slate-100 px-7 py-5">
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${iconClass}`}>{icon}</div>
                 <div>
-                    <h3 className="text-[16px] font-bold text-[#e8eaf6]">{title}</h3>
-                    <p className="text-[13px] text-[#8a93b2] mt-0.5">{desc}</p>
+                    <h3 className="text-[16px] font-bold text-slate-900">{title}</h3>
+                    <p className="mt-0.5 text-[13px] text-slate-500">{desc}</p>
                 </div>
             </div>
             <div className="p-7">{children}</div>
@@ -67,9 +66,9 @@ function AiCard({ id, icon, iconClass, title, desc, children }:
 }
 
 // ── Input / Select helpers ──────────────────────────────────────────────────
-const inp = "bg-[#141726] border border-white/[.06] rounded-lg text-[#e8eaf6] text-sm px-4 py-2.5 outline-none focus:border-[#6c63ff] transition flex-1 min-w-[140px]";
+const inp = "min-w-[140px] flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-slate-500";
 const selCls = `${inp} cursor-pointer`;
-const btn = "inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#6c63ff] hover:bg-[#574fd6] text-white text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed";
+const btn = "inline-flex items-center gap-2 rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50";
 
 // ── Main page ───────────────────────────────────────────────────────────────
 export function AiCopilot() {
@@ -107,19 +106,24 @@ export function AiCopilot() {
     }
 
     return (
-        <div className="flex flex-col min-h-screen" style={{ fontFamily: "'Inter',sans-serif", background: '#0d0f1a', color: '#e8eaf6' }}>
+        <div className="flex min-h-screen flex-col bg-slate-100 text-slate-900" style={{ fontFamily: "'Inter',sans-serif" }}>
             <div className="flex flex-1">
 
                 {/* ── Sidebar ── */}
-                <nav className="w-[280px] bg-[#141726] border-r border-white/[.06] flex flex-col sticky top-0 h-screen overflow-y-auto shrink-0 hidden lg:flex">
-                    <div className="px-6 py-7 border-b border-white/[.06]">
-                        <h1 className="text-[22px] font-black text-[#6c63ff]">✈ Dreamscapes</h1>
-                        <p className="text-[12px] text-[#8a93b2] mt-0.5">AI Travel Copilot</p>
+                <nav className="sticky top-0 hidden h-screen w-[280px] shrink-0 flex-col overflow-y-auto border-r border-slate-800 bg-slate-900 lg:flex">
+                    <div className="border-b border-slate-800 px-6 py-7">
+                        <h1 className="text-[22px] font-black text-white">Dreamscapes</h1>
+                        <p className="mt-0.5 text-[12px] text-slate-400">AI Travel Copilot</p>
                     </div>
-                    <div className="flex items-center gap-2 mx-6 my-4 px-4 py-2.5 rounded-lg text-sm text-[#43e97b] bg-[rgba(67,233,123,.09)] border border-[rgba(67,233,123,.2)]">
-                        <span className="w-2 h-2 rounded-full bg-[#43e97b] animate-pulse" /> Connected to backend
+                    <div className="mx-6 my-4 flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm text-slate-300">
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" /> Connected to backend
                     </div>
                     <div className="flex-1 p-3 space-y-0.5">
+                        {/* ── Trip Planner Chat (featured) ── */}
+                        <Link to="/trip-planner"
+                            className="mb-2 flex w-full items-center gap-3 rounded-xl bg-slate-700 px-3.5 py-3 text-[14px] font-bold text-white transition hover:bg-slate-600">
+                            <MessageSquare size={16} /> 💬 Trip Planner Chat
+                        </Link>
                         {[
                             ['itinerary', 'Itinerary Generator'],
                             ['weather', 'Weather Modifications'],
@@ -136,16 +140,16 @@ export function AiCopilot() {
                             ['review', 'Review Analysis'],
                         ].map(([id, label]) => (
                             <a key={id} href={`#${id}`}
-                                className="flex items-center gap-3 w-full px-3.5 py-2.5 rounded-lg text-[14px] text-[#8a93b2] hover:bg-[rgba(108,99,255,.15)] hover:text-[#6c63ff] transition font-medium">
+                                className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-[14px] font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">
                                 {label}
                             </a>
                         ))}
                     </div>
-                    <div className="p-3 border-t border-white/[.06] space-y-0.5">
-                        <Link to="/dashboard" className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[14px] text-[#8a93b2] hover:bg-white/5 hover:text-white transition">
+                    <div className="space-y-0.5 border-t border-slate-800 p-3">
+                        <Link to="/dashboard" className="flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-[14px] text-slate-400 transition hover:bg-slate-800 hover:text-white">
                             <ArrowLeft size={16} /> Dashboard
                         </Link>
-                        <Link to="/" className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[14px] text-[#8a93b2] hover:bg-white/5 hover:text-white transition">
+                        <Link to="/" className="flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-[14px] text-slate-400 transition hover:bg-slate-800 hover:text-white">
                             <Home size={16} /> Home
                         </Link>
                     </div>
@@ -154,27 +158,49 @@ export function AiCopilot() {
                 {/* ── Main ── */}
                 <div className="flex-1 overflow-x-hidden">
                     {/* Header */}
-                    <div className="px-10 py-7 border-b border-white/[.06] flex items-center justify-between bg-[#141726] sticky top-0 z-10">
+                    <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-10 py-7">
                         <div>
-                            <h2 className="text-[20px] font-bold flex items-center gap-2">
-                                <Sparkles size={18} className="text-[#6c63ff]" /> AI Travel Copilot
+                            <h2 className="flex items-center gap-2 text-[20px] font-bold">
+                                <Sparkles size={18} className="text-slate-600" /> AI Travel Copilot
                             </h2>
-                            <p className="text-[14px] text-[#8a93b2] mt-0.5">Powered by OpenAI GPT-4o-mini · 13 AI features</p>
+                            <p className="mt-0.5 text-[14px] text-slate-500">Powered by OpenAI GPT-4o-mini · 14 AI features</p>
                         </div>
-                        <Link to="/dashboard" className="flex items-center gap-2 text-[13px] text-[#8a93b2] hover:text-white transition">
+                        <Link to="/dashboard" className="flex items-center gap-2 text-[13px] text-slate-500 transition hover:text-slate-900">
                             <ArrowLeft size={16} /> Dashboard
                         </Link>
+                    </div>
+
+                    {/* ── Trip Planner Chat Hero Card ── */}
+                    <div className="mx-10 mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                        <div className="px-7 py-6 flex items-center justify-between gap-6">
+                            <div className="flex items-center gap-4">
+                                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-slate-900">
+                                    <MessageSquare size={24} className="text-white" />
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <h3 className="text-[17px] font-black text-slate-900">Trip Planner Chat</h3>
+                                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600">NEW</span>
+                                    </div>
+                                    <p className="text-[13px] text-slate-500">Answer a few smart questions and get a fully personalised itinerary.</p>
+                                </div>
+                            </div>
+                            <Link to="/trip-planner"
+                                className="flex shrink-0 items-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-slate-700">
+                                <Sparkles size={15} /> Start Planning
+                            </Link>
+                        </div>
                     </div>
 
                     {/* Stats */}
                     <div className="px-10 pt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {[
-                            { val: '13', lbl: 'AI Features', col: '#6c63ff' },
+                            { val: '14', lbl: 'AI Features', col: '#6c63ff' },
                             { val: 'Live', lbl: 'Backend Status', col: '#43e97b' },
                             { val: 'Mock', lbl: 'Data Mode', col: '#f9ca24' },
                             { val: 'REST', lbl: 'API Type', col: '#ff6584' },
                         ].map(s => (
-                            <div key={s.lbl} className="bg-[#1c2038] border border-white/[.06] rounded-xl px-5 py-4">
+                            <div key={s.lbl} className="rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
                                 <div className="text-[26px] font-black" style={{ color: s.col }}>{s.val}</div>
                                 <div className="text-[12px] text-[#8a93b2] mt-0.5">{s.lbl}</div>
                             </div>
@@ -195,7 +221,7 @@ export function AiCopilot() {
                                 <input ref={itinInterests} defaultValue="beaches, food, history" placeholder="Interests (comma-sep)" className={inp} />
                                 <select ref={itinStyle} className={selCls} style={{ color: '#e8eaf6' }}>
                                     <option value="budget">Budget</option>
-                                    <option value="mid-range" selected>Mid-Range</option>
+                                    <option value="mid-range">Mid-Range</option>
                                     <option value="luxury">Luxury</option>
                                 </select>
                             </div>
@@ -423,7 +449,6 @@ export function AiCopilot() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 }

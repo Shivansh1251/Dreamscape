@@ -6,6 +6,7 @@ import { Dashboard } from './pages/Dashboard';
 import { AiCopilot } from './pages/AiCopilot';
 import { Roamies } from './pages/Roamies';
 import { TravelPlans } from './pages/TravelPlans';
+import { TripPlannerChat } from './pages/TripPlannerChat';
 import { Destination } from './pages/Destination';
 
 function ScrollToTop() {
@@ -28,6 +29,7 @@ export function App() {
                 <Route path="/roamies" element={<Roamies />} />
                 <Route path="/travel-plans" element={<TravelPlans />} />
                 <Route path="/destination/:name" element={<Destination />} />
+                <Route path="/trip-planner" element={<TripPlannerChat />} />
 
                 {/* Catch-all */}
                 <Route path="*" element={<Navigate to="/" replace />} />
