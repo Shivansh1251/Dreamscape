@@ -405,30 +405,30 @@ export function TripChatWidget() {
                     {/* Itinerary Result */}
                     {step === 'result' && itinerary && (
                         <div className="mt-2 rounded-xl overflow-hidden"
-                            style={{ border: '1px solid rgba(33,124,170,0.3)', background: 'rgba(255,255,255,0.03)' }}>
-                            <div className="px-4 py-3 border-b border-white/[.05]"
-                                style={{ background: 'rgba(33,124,170,0.1)' }}>
-                                <p className="text-sm font-bold text-white">{itinerary.destination}</p>
-                                <p className="text-[11px] mt-0.5 text-[#8aaccc]">{itinerary.summary?.slice(0, 90)}…</p>
+                            style={{ border: '1px solid #bae6fd', background: '#ffffff' }}>
+                            <div className="px-4 py-3 border-b border-sky-100"
+                                style={{ background: '#ecfeff' }}>
+                                <p className="text-sm font-bold text-slate-900">{itinerary.destination}</p>
+                                <p className="text-[11px] mt-0.5 text-slate-600">{itinerary.summary?.slice(0, 90)}…</p>
                             </div>
                             {itinerary.days?.slice(0, 3).map((day: any) => (
-                                <div key={day.day} className="px-4 py-2.5 border-b border-white/[.04]">
-                                    <p className="text-xs font-bold text-white/80">Day {day.day} — {day.title}</p>
-                                    <p className="text-[11px] text-[#6a8aaa] mt-0.5">
+                                <div key={day.day} className="px-4 py-2.5 border-b border-slate-100">
+                                    <p className="text-xs font-bold text-slate-800">Day {day.day} — {day.title}</p>
+                                    <p className="text-[11px] text-slate-600 mt-0.5">
                                         🌅 {day.morning?.activity} · ☀️ {day.afternoon?.activity} · 🌙 {day.evening?.activity}
                                     </p>
                                 </div>
                             ))}
                             <div className="px-4 py-3 flex items-center gap-3">
-                                <span className="text-xs font-bold" style={{ color: '#43c97b' }}>Total: {itinerary.budgetBreakdown?.total}</span>
+                                <span className="text-xs font-bold text-emerald-700">Total: {itinerary.budgetBreakdown?.total}</span>
                                 <Link to="/trip-planner"
                                     className="ml-auto flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-lg transition"
-                                    style={{ background: '#217caa', color: 'white' }}>
+                                    style={{ background: '#0e7490', color: 'white' }}>
                                     Full Plan <ExternalLink size={10} />
                                 </Link>
                                 <button onClick={handleRestart}
                                     className="text-[11px] font-semibold px-2.5 py-1.5 rounded-lg transition"
-                                    style={{ background: 'rgba(255,255,255,0.06)', color: '#8aaccc' }}>
+                                    style={{ background: '#f1f5f9', color: '#475569' }}>
                                     Retry
                                 </button>
                             </div>

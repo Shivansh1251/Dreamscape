@@ -32,7 +32,7 @@ export function PageLayout({ children, videoSrc, videoWebmSrc, videoOverlayText,
 
                 {/* Background Video */}
                 {videoSrc && loadHeroVideo && (
-                    <video key={videoSrc} className="absolute top-0 left-0 z-0 h-[125%] w-full object-cover" autoPlay muted loop playsInline preload="none" aria-hidden="true">
+                    <video key={videoSrc} className="absolute inset-0 z-0 h-full w-full object-cover" autoPlay muted loop playsInline preload="none" aria-hidden="true">
                         {videoWebmSrc && <source src={videoWebmSrc} type="video/webm" />}
                         <source src={videoSrc} type="video/mp4" />
                     </video>

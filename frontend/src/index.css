@@ -31,6 +31,62 @@
   overflow: hidden;
 }
 
+@keyframes clip-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes home-reveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-transition {
+  animation: clip-wipe 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-reveal {
+  animation: home-reveal 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-card img,
+.home-card video {
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-card:hover img,
+.home-card:hover video {
+  transform: scale(1.045);
+}
+
+.iris-click {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.iris-click::after {
+  position: absolute;
+  inset: 50%;
+  z-index: 2;
+  width: 1px;
+  height: 1px;
+  border-radius: 9999px;
+  background: rgba(103, 232, 249, 0.3);
+  content: "";
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.iris-click:active::after {
+  animation: iris-click 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes iris-click {
+  0% { opacity: 0.75; transform: translate(-50%, -50%) scale(0); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(360); }
+}
+
 /* Loader spinner */
 .loader {
   display: none;
@@ -56,4 +112,41 @@
 @keyframes fadeout {
   from { bottom: 30px; opacity: 1; }
   to   { bottom: 0; opacity: 0; }
+}
+
+@keyframes drawer-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes drawer-panel-in {
+  from { opacity: 0; transform: translateX(100%) scale(0.98); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes drawer-item-in {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.drawer-backdrop {
+  animation: drawer-backdrop-in 220ms ease-out both;
+}
+
+.drawer-panel {
+  animation: drawer-panel-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.drawer-menu-item {
+  animation: drawer-item-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.drawer-menu-item:nth-of-type(2) { animation-delay: 60ms; }
+.drawer-menu-item:nth-of-type(3) { animation-delay: 120ms; }
+.drawer-menu-item:nth-of-type(4) { animation-delay: 180ms; }
+
+@media (max-width: 640px) {
+  .drawer-menu-item {
+    min-height: 48px;
+  }
 }

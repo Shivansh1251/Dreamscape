@@ -404,7 +404,7 @@ export function TripPlannerChat() {
         const parts = text.split(/(\*\*[^*]+\*\*)/g);
         return parts.map((part, i) => {
             if (part.startsWith('**') && part.endsWith('**')) {
-                return <strong key={i} className="font-bold text-white">{part.slice(2, -2)}</strong>;
+                return <strong key={i} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
             }
             return <span key={i}>{part}</span>;
         });
@@ -535,8 +535,8 @@ export function TripPlannerChat() {
                             {COMPANION_OPTIONS.map(opt => (
                                 <button key={opt.id} onClick={() => handleCompanionSelect(opt.label)}
                                     className={`text-left px-5 py-4 rounded-xl border transition-all duration-200 text-sm font-medium
-                                        ${selectedCompanion === opt.label ? 'border-[#6c63ff] bg-[rgba(108,99,255,0.15)]' : 'border-white/[.07] bg-white/[.03] hover:border-[#6c63ff]/50 hover:bg-[rgba(108,99,255,0.07)]'}`}
-                                    style={{ color: selectedCompanion === opt.label ? '#c8d0e8' : '#8a93b2' }}>
+                                        ${selectedCompanion === opt.label ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 bg-white hover:border-indigo-300 hover:bg-indigo-50/50'}`}
+                                    style={{ color: selectedCompanion === opt.label ? '#3730a3' : '#475569' }}>
                                     <div className="text-lg mb-1">{opt.icon}</div>
                                     {opt.label}
                                 </button>
@@ -548,13 +548,13 @@ export function TripPlannerChat() {
                         <div className="ml-12 flex flex-col gap-3 mt-2">
                             {STYLE_OPTIONS.map(opt => (
                                 <button key={opt.id} onClick={() => handleStyleSelect(opt.id, opt.label)}
-                                    className={`text-left px-6 py-4 rounded-xl border transition-all duration-200 ${selectedStyle === opt.id ? 'border-[#6c63ff]' : 'border-white/[.07] hover:border-[#6c63ff]/50'}`}
-                                    style={{ background: selectedStyle === opt.id ? 'rgba(108,99,255,0.12)' : 'rgba(255,255,255,0.03)' }}>
+                                    className={`text-left px-6 py-4 rounded-xl border transition-all duration-200 ${selectedStyle === opt.id ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 bg-white hover:border-indigo-300 hover:bg-indigo-50/50'}`}
+                                    style={{ background: selectedStyle === opt.id ? '#eef2ff' : '#ffffff' }}>
                                     <div className="flex items-center gap-3">
                                         <div className="w-3 h-3 rounded-full" style={{ background: opt.color, boxShadow: `0 0 10px ${opt.color}60` }} />
                                         <div>
-                                            <div className="text-sm font-bold" style={{ color: '#e8eaf6' }}>{opt.label}</div>
-                                            <div className="text-xs mt-0.5" style={{ color: '#8a93b2' }}>{opt.desc}</div>
+                                            <div className="text-sm font-bold text-slate-900">{opt.label}</div>
+                                            <div className="text-xs mt-0.5 text-slate-500">{opt.desc}</div>
                                         </div>
                                     </div>
                                 </button>
@@ -568,9 +568,9 @@ export function TripPlannerChat() {
                                 {INTEREST_OPTIONS.map(opt => (
                                     <button key={opt.id} onClick={() => toggleInterest(opt.id)}
                                         className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all duration-200 ${selectedInterests.includes(opt.id)
-                                            ? 'border-[#6c63ff] text-white'
-                                            : 'border-white/[.07] text-[#8a93b2] hover:border-[#6c63ff]/40'}`}
-                                        style={selectedInterests.includes(opt.id) ? { background: 'rgba(108,99,255,0.2)' } : { background: 'rgba(255,255,255,0.03)' }}>
+                                            ? 'border-indigo-500 text-indigo-900'
+                                            : 'border-slate-200 text-slate-600 hover:border-indigo-300'}`}
+                                        style={selectedInterests.includes(opt.id) ? { background: '#eef2ff' } : { background: '#ffffff' }}>
                                         {opt.label}
                                         {selectedInterests.includes(opt.id) && <CheckCircle2 size={12} className="inline ml-1.5 text-green-400" />}
                                     </button>
@@ -587,11 +587,11 @@ export function TripPlannerChat() {
                     )}
 
                     {step === 'generating' && (
-                        <div className="ml-12 flex items-center gap-4 px-5 py-4 rounded-xl" style={{ background: 'rgba(108,99,255,0.08)', border: '1px solid rgba(108,99,255,0.2)' }}>
+                        <div className="ml-12 flex items-center gap-4 px-5 py-4 rounded-xl border border-indigo-200 bg-indigo-50">
                             <Loader2 size={20} className="text-[#6c63ff] animate-spin" />
                             <div>
-                                <div className="text-sm font-semibold text-[#e8eaf6]">Crafting your personalized itinerary…</div>
-                                <div className="text-xs mt-0.5 text-[#8a93b2]">Analysing destination data, curating hidden gems, optimising schedule</div>
+                                <div className="text-sm font-semibold text-slate-900">Crafting your personalized itinerary…</div>
+                                <div className="text-xs mt-0.5 text-slate-600">Analysing destination data, curating hidden gems, optimising schedule</div>
                             </div>
                         </div>
                     )}
@@ -603,7 +603,7 @@ export function TripPlannerChat() {
                 {step === 'result' && itinerary && (
                     <div className="mt-6 flex flex-col gap-6">
                         {/* Hero */}
-                        <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(108,99,255,0.15) 0%, rgba(67,233,123,0.08) 100%)', border: '1px solid rgba(108,99,255,0.3)' }}>
+                        <div className="rounded-2xl overflow-hidden bg-slate-900 text-slate-100 shadow-xl" style={{ border: '1px solid #312e81' }}>
                             <div className="px-8 py-6 border-b border-white/[.06]">
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #6c63ff, #43e97b)' }}>

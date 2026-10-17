@@ -15,25 +15,32 @@ function ScrollToTop() {
     return null;
 }
 
+function PageTransition({ children }: { children: React.ReactNode }) {
+    const { pathname } = useLocation();
+    return <div key={pathname} className="page-transition">{children}</div>;
+}
+
 export function App() {
     return (
         <BrowserRouter>
             <ScrollToTop />
-            <Routes>
-                {/* Note: Universal Layout wrapping and Navbar are handled internally by the pages (via <PageLayout>) */}
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/ai-copilot" element={<AiCopilot />} />
-                <Route path="/spain" element={<Navigate to="/destination/spain" replace />} />
-                <Route path="/roamies" element={<Roamies />} />
-                <Route path="/travel-plans" element={<TravelPlans />} />
-                <Route path="/destination/:name" element={<Destination />} />
-                <Route path="/trip-planner" element={<TripPlannerChat />} />
+            <PageTransition>
+                <Routes>
+                    {/* Note: Universal Layout wrapping and Navbar are handled internally by the pages (via <PageLayout>) */}
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/ai-copilot" element={<AiCopilot />} />
+                    <Route path="/spain" element={<Navigate to="/destination/spain" replace />} />
+                    <Route path="/roamies" element={<Roamies />} />
+                    <Route path="/travel-plans" element={<TravelPlans />} />
+                    <Route path="/destination/:name" element={<Destination />} />
+                    <Route path="/trip-planner" element={<TripPlannerChat />} />
 
-                {/* Catch-all */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+                    {/* Catch-all */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+            </PageTransition>
         </BrowserRouter>
     );
 }
